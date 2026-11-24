@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.8.4 · Build 13
+- PC/Tablet: Symbolleiste, Erdbeeren/Münzen und Flumm-Wolke rücken in eine gemeinsame, zentrierte Spalte
+
 ## v0.8.3 · Build 12
 - Erdbeeren und Münzen werden jetzt im Hauptmenü angezeigt
 

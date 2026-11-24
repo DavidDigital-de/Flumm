@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 <!--
 FLUMM – Prototyp · Changelog
+v0.8.4 · Build 13 – Hauptmenü auf breiten Bildschirmen zentriert.
 v0.8.3 · Build 12 – Erdbeeren und Münzen im Hauptmenü.
 v0.8.2 · Build 11 – Pause/Ergebnis mit Kacheln, Kostüme wie Gestalten mit Anprobe, Zuhause-X, Mond-Fix, Tutorial-Symbole.
 v0.8.1 · Build 10 – Einheitliche Album-Fenster, dezentere Banner, Hauptmenü-Knopf überall, Wolke statt Sprechblase.
@@ -150,9 +151,9 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 .tipbox{background:#fff;border:2.5px dashed #C9C2DE;border-radius:16px;padding:8px 12px 6px;margin:10px 0 14px;font-weight:600}
 #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translate(-50%,140%);background:#fff;border:3px solid var(--ink);border-radius:16px;padding:8px 18px 5px;font-weight:800;box-shadow:0 5px 0 var(--ink);transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .2s;opacity:0;z-index:20;pointer-events:none;white-space:nowrap}
 #toast.on{transform:translate(-50%,0);opacity:1}
-.topicons{position:absolute;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;padding:calc(env(safe-area-inset-top) + 12px) 14px 0;pointer-events:none;max-width:640px;margin:0 auto}
+.topicons{position:absolute;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;padding:calc(env(safe-area-inset-top) + 12px) 14px 0;pointer-events:none;max-width:520px;margin:0 auto}
 .topicons>*{pointer-events:auto}
-.curbar{position:absolute;top:calc(env(safe-area-inset-top) + 70px);right:14px;display:flex;gap:8px;pointer-events:none}
+.curbar{position:absolute;top:calc(env(safe-area-inset-top) + 70px);right:max(14px,calc(50% - 246px));display:flex;gap:8px;pointer-events:none}
 .curbar .chip{font-size:16px;padding:3px 10px 0}
 .curbar .chip.bump{animation:bump .3s}
 .icb{position:relative;width:48px;height:48px;border-radius:15px;border:3px solid var(--ink);background:#fff;box-shadow:0 4px 0 var(--ink);padding:0;display:grid;place-items:center;cursor:pointer;transition:transform .07s,box-shadow .07s}
@@ -544,8 +545,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.8.3', BUILD=12;
+const VERSION='0.8.4', BUILD=13;
 const CHANGELOG=[
+ ['0.8.4','13',['PC/Tablet: Symbolleiste, Erdbeeren/Münzen und Flumm-Wolke rücken in eine gemeinsame, zentrierte Spalte']],
  ['0.8.3','12',['Erdbeeren und Münzen werden jetzt im Hauptmenü angezeigt']],
  ['0.8.2','11',['Pause, Ergebnis, Game Over: großer Hauptknopf und Symbol-Kacheln wie im Hauptmenü','Kostüme und Gestalten gleich groß, Flumm darüber sichtbar – Kostüme lassen sich vor dem Kauf anprobieren','Kostüme aus dem Hauptmenü kehren ins Hauptmenü zurück','Zuhause mit ✕-Knopf','Mond in der Sternennacht repariert','Tutorial: Zustände und Stufen übersichtlich mit Symbolen']],
  ['0.8.1','10',['Alle Fenster im gleichen Album-Look mit dezenterem, kleinerem Banner','Hauptmenü-Knopf (≡) in allen Menüs, in der Pause und auf der Karte','Versionsnummer auf hellem Hintergrund gut lesbar','Flumms Zustand als schwebende Wolke statt Sprechblase']],
@@ -939,7 +941,7 @@ function menuUI(){$('mnFood').textContent='🍓 '+save.food;$('mnCoins').textCon
 function placeBubble(){const el=$('petBub');if(!$('menu').classList.contains('on')||G.mode!=='menu'||!save.hatched){el.classList.remove('show');return;}
  const p=G.plats[0];if(!p)return;const k=G.zoom*SC,fx=(B.x-G.cam.x)*k,fy=(p.y-G.cam.y)*k-2*B.r*k,h=el.offsetHeight;
  const tb=document.querySelector('#menu .tag').getBoundingClientRect().bottom;
- el.classList.add('l');el.style.left='16px';el.style.top=Math.max(tb+12,fy-h-56)+'px';
+ el.classList.add('l');el.style.left=Math.max(16,Math.min(W/2-260+16,fx-B.r*k-el.offsetWidth-40))+'px';el.style.top=Math.max(tb+12,fy-h-56)+'px';
  const w=el.offsetWidth;el.style.setProperty('--tx',Math.max(10,Math.min(w-30,fx-16-24))+'px');el.classList.add('show');}
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function wobBubble(){const el=$('petBub');el.classList.remove('wob');void el.offsetWidth;el.classList.add('wob');}
