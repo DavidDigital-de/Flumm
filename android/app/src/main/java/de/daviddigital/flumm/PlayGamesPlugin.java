@@ -7,6 +7,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.android.gms.games.GamesSignInClient;
+import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.PlayGamesSdk;
 import com.google.android.gms.games.leaderboard.Leaderboard;
@@ -70,18 +71,27 @@ public class PlayGamesPlugin extends Plugin {
         String span = call.getString("span", "daily");
         if (!ready || id == null) { call.reject("missing"); return; }
         final int ts = "weekly".equals(span) ? LeaderboardVariant.TIME_SPAN_WEEKLY : "all".equals(span) ? LeaderboardVariant.TIME_SPAN_ALL_TIME : LeaderboardVariant.TIME_SPAN_DAILY;
-        PlayGames.getLeaderboardsClient(getActivity()).loadLeaderboardMetadata(id, true)
+        PlayGames.getLeaderboardsClient(getActivity()).loadTopScores(id, ts, LeaderboardVariant.COLLECTION_PUBLIC, 1, true)
             .addOnSuccessListener(data -> {
                 long n = -1;
-                Leaderboard lb = data.get();
-                if (lb != null) {
-                    for (LeaderboardVariant v : lb.getVariants()) {
-                        if (v.getTimeSpan() == ts && v.getCollection() == LeaderboardVariant.COLLECTION_PUBLIC) { n = v.getNumRawScores(); }
+                LeaderboardsClient.LeaderboardScores sc = data.get();
+                if (sc != null) {
+                    Leaderboard lb = sc.getLeaderboard();
+                    if (lb != null) for (LeaderboardVariant v : lb.getVariants()) {
+                        if (v.getTimeSpan() == ts && v.getCollection() == LeaderboardVariant.COLLECTION_PUBLIC) { n = numScores(v); }
                     }
+                    sc.release();
                 }
                 JSObject r = new JSObject(); r.put("count", n); call.resolve(r);
             })
             .addOnFailureListener(e -> call.reject(e.getMessage()));
+    }
+
+    private static long numScores(LeaderboardVariant v) {
+        for (String m : new String[] {"getNumScores", "getNumRawScores"}) {
+            try { Object r = v.getClass().getMethod(m).invoke(v); if (r instanceof Number) return ((Number) r).longValue(); } catch (Exception ignored) {}
+        }
+        return -1;
     }
 
     private void open(Intent i) { getActivity().startActivityForResult(i, 9004); }
