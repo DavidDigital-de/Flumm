@@ -1,5 +1,13 @@
 # Changelog – FLUMM
 
+## v0.12.0 · Build 20
+- Tageslauf: Anzeige oben heißt jetzt „📅 Insel 3/5“ statt „Tag 3“
+- Neu: Tagesserie 🔥 – schaffe jeden Tag 5 Inseln im Tageslauf
+- Serienbonus: +2 Münzen je Serientag (max. +20)
+- Meilenstein-Belohnungen bis Tag 30, danach jede Woche 40 Münzen
+- Exklusiv über die Serie: Kostüm Goldkrone, Plattform Goldinsel, Hintergrund Polarlicht, Kostüm Champion
+- Neue Übersicht „Tagesserie & Belohnungen“ im Spielmodus-Menü
+
 ## v0.11.1 · Build 19
 - Tutorial erweitert: Spielziel, Herzen und Sterne
 - Tutorial zeigt alle Insel-Arten mit Bild (normal, Schieber, Aufzug, Bröckel, Feder)
