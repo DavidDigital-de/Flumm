@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.21.4 · Build 45
+- Flüssiger: weniger Rechenarbeit im Hauptmenü (Info-Klecks, Himmel) und etwas geringere Bildauflösung auf sehr scharfen Displays
+- Info-Klecks ohne Tropfen-Nupsis
+- Gesundheit sinkt früher: schon nach 2 Std. ohne Energie oder Essen, 3 Std. schlechter Laune oder 4 Std. sehr schmutzig
+
 ## v0.21.3 · Build 44
 - Das 10. Level jeder Welt ist jetzt ein Finale und 50 % länger
 

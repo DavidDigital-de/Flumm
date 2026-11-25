@@ -320,8 +320,8 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 #goMenu{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:12px;z-index:25;display:none}
 #goMenu.on{display:grid;place-items:center}
 #goMenu svg,.ibtn svg{width:26px;height:26px;display:block}
-.bubble{background:var(--blob) center/100% 100% no-repeat!important;border:0!important;box-shadow:none!important;border-radius:0!important;filter:drop-shadow(0 3px 0 rgba(58,53,88,.35))}
-.bubble.kl{white-space:normal;width:228px;padding:14px 24px 36px 22px;text-align:center}.bubble.kl b.nm{font-size:16px;display:block}.bubble.kl small{opacity:.8}.kmet{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin:5px 0 2px}.kmet span{display:flex;align-items:center;gap:3px;font-size:12px}.kmet i{flex:1;height:7px;border-radius:4px;background:rgba(58,53,88,.18);overflow:hidden;border:1.5px solid rgba(58,53,88,.55)}.kmet i u{display:block;height:100%}.kwarn{display:block;margin:3px 4px 0;font-size:11.5px;color:#B0303A;font-weight:800;line-height:1.15}
+.bubble{background:var(--blob) center/100% 100% no-repeat!important;border:0!important;box-shadow:none!important;border-radius:0!important;will-change:transform}
+.bubble.kl{white-space:normal;width:228px;padding:16px 22px 20px 22px;text-align:center}.bubble.kl b.nm{font-size:16px;display:block}.bubble.kl small{opacity:.8}.kmet{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin:5px 0 2px}.kmet span{display:flex;align-items:center;gap:3px;font-size:12px}.kmet i{flex:1;height:7px;border-radius:4px;background:rgba(58,53,88,.18);overflow:hidden;border:1.5px solid rgba(58,53,88,.55)}.kmet i u{display:block;height:100%}.kwarn{display:block;margin:3px 4px 0;font-size:11.5px;color:#B0303A;font-weight:800;line-height:1.15}
 .bubble::after{display:none!important}
 .bubble.wob{animation:fl 3.2s ease-in-out infinite,wob .6s cubic-bezier(.3,1.6,.5,1)!important}
 @keyframes fl{0%,100%{translate:0 0}50%{translate:0 -7px}}
@@ -394,7 +394,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
     <details class="hsec" open><summary>Springen</summary><div>Finger <b>gedrückt halten</b> lädt den Kraftring auf – er pendelt zwischen leer und voll. <b>Loslassen</b> = Sprung. Landest du in der <b>hellen Mitte</b> einer Insel, gibt es PERFEKT; mehrere hintereinander ergeben eine Kombo. Die <b>Zielhilfe</b> (oben links) zeigt die Flugbahn: normal, voll mit Landepunkt oder aus.</div></details>
     <details class="hsec"><summary>Inseln</summary><div><ul><li><b>Normale Insel</b> (im Look der jeweiligen Welt): ganz normal</li><li><b>Insel mit Flügeln</b>: fliegt seitlich hin und her</li><li><b>Insel mit Kristall-Antrieb</b>: fährt hoch und runter</li><li><b>Bröckel-Insel mit Rissen</b>: zerfällt 1,6 Sekunden nach der Landung</li><li><b>Insel mit pinkem Glibber-Polster</b>: Extra-Schwung für den nächsten Sprung</li><li><b>Insel mit Fahne</b>: Ziel</li><li>In Endlos und Tageslauf wechselt alle 12 Inseln die Welt – mit eigenen Inseln und eigenem Himmel: Wiese, Moorwald, Wald, Dschungel, Strand, Wüste, Eiswelt, Kristallhöhle, Gruselwald, Felsenland, Vulkan, Wolkenreich, Mond (wenig Schwerkraft), Regenbogenland. Je weiter du kommst, desto größer die Abstände und kleiner die Inseln.</li><li><b>Welt-Eigenschaften:</b> Eiswelt – Eis-Inseln sind rutschig (du schlitterst weiter und kannst runterrutschen), Schnee-Inseln nur ein bisschen · Strand &amp; Wüste – weicher Sand, Sprünge etwas kürzer · Kristallhöhle, Wolkenreich &amp; Regenbogenland – federnd, Sprünge etwas weiter · Vulkan – heiß: nach gut 2 Sekunden hüpft Flumm hoch (beim Aufladen nicht, dann blinkt er rot). Auf Eis zählt PERFEKT erst, wenn Flumm stehen bleibt.</li></ul></div></details>
     <details class="hsec"><summary>Erdbeeren &amp; Münzen</summary><div>🍓 <b>Erdbeeren</b> schweben zwischen den Inseln – sie sind Flumms Futter. Du behältst sie auch bei Game Over.<br>🪙 <b>Münzen</b> liegen auf Inseln (im Abenteuer jede nur einmal) und gibt es für neue Sterne, Rekorde und Duelle. Damit kaufst du Kostüme, Designs und Medizin.</div></details>
-    <details class="hsec"><summary>Flumm pflegen</summary><div><ul><li><b>Satt</b> sinkt langsam – füttern mit 🍓. Hungrig = weniger Sprungkraft.</li><li><b>Laune</b> – streicheln, Ball spielen, Level schaffen. Schlecht gelaunt = verweigert manchmal.</li><li><b>Energie</b> – jedes Spiel kostet etwas, schlafen füllt auf. Müde = lädt langsamer.</li><li><b>Schmutz</b> – nach Leveln Flecken, waschen macht froh.</li><li><b>Alles hängt zusammen:</b> Müde/keine Energie → Flumm bekommt schneller Hunger und schlechte Laune. Hunger → Laune sinkt schneller.</li><li><b>Gesundheit</b> sinkt, wenn etwas lange vernachlässigt wird: keine Energie (&gt;6 Std.), kein Essen (&gt;4 Std.), keine Laune (&gt;8 Std.) oder sehr schmutzig (&gt;12 Std.). Mehrere Probleme gleichzeitig = schneller.</li><li><b>Krank</b> bei Gesundheit unter 30 % – dann kann Flumm <b>nicht spielen</b>, bis er wieder fit ist (Gesundheit 60 %). Hilft: Medizin (25 🪙, sofort fit), schlafen mit vollem Bauch, füttern (+8) und streicheln (+3, alle 30 s). Gut versorgt erholt sich die Gesundheit auch von allein.</li></ul>Sterben kann Flumm nicht.</div></details>
+    <details class="hsec"><summary>Flumm pflegen</summary><div><ul><li><b>Satt</b> sinkt langsam – füttern mit 🍓. Hungrig = weniger Sprungkraft.</li><li><b>Laune</b> – streicheln, Ball spielen, Level schaffen. Schlecht gelaunt = verweigert manchmal.</li><li><b>Energie</b> – jedes Spiel kostet etwas, schlafen füllt auf. Müde = lädt langsamer.</li><li><b>Schmutz</b> – nach Leveln Flecken, waschen macht froh.</li><li><b>Alles hängt zusammen:</b> Müde/keine Energie → Flumm bekommt schneller Hunger und schlechte Laune. Hunger → Laune sinkt schneller.</li><li><b>Gesundheit</b> sinkt, wenn etwas lange vernachlässigt wird: keine Energie (&gt;2 Std.), kein Essen (&gt;2 Std.), keine Laune (&gt;3 Std.) oder sehr schmutzig (&gt;4 Std.). Mehrere Probleme gleichzeitig = schneller.</li><li><b>Krank</b> bei Gesundheit unter 30 % – dann kann Flumm <b>nicht spielen</b>, bis er wieder fit ist (Gesundheit 60 %). Hilft: Medizin (25 🪙, sofort fit), schlafen mit vollem Bauch, füttern (+8) und streicheln (+3, alle 30 s). Gut versorgt erholt sich die Gesundheit auch von allein.</li></ul>Sterben kann Flumm nicht.</div></details>
     <details class="hsec"><summary>Wachsen &amp; Pflegepunkte</summary><div>Pflegepunkte gibt es fürs Füttern (+10), Waschen (+4 je Fleck), Ball spielen (+6), Schlafen (+5), Level schaffen (+8), Streicheln (+1) und das Tagesgeschenk (+5).<ul><li><b>Flummi-Kind</b>: ab Tag 1 + 80 Pflege – Futter-Magnet</li><li><b>Teen-Flumm</b>: ab Tag 4 + 250 Pflege – +1 Herz</li><li><b>Super-Flumm</b>: ab Tag 8 + 550 Pflege – +25 % Münzen</li></ul>Danach gibt es alle 150 Pflegepunkte einen Pflegestern (+20 🪙).</div></details>
     <details class="hsec"><summary>Spielmodi</summary><div><ul><li><b>Abenteuer</b>: Weltkarte, je Level bis zu 3 Sterne (Ziel, ohne Sturz, genug PERFEKT)</li><li><b>Endlos</b>: so weit wie möglich – Rekord zählt</li><li><b>Tageslauf</b>: jeden Tag dieselbe Strecke für alle, nur 1 Leben, Bonus für den ersten Lauf. Jeder gespielte Tag zählt für deine 🔥 Serie</li><li><b>Duell</b>: siehe unten</li></ul></div></details>
     <details class="hsec"><summary>Duell</summary><div>Lauf eine Strecke mit 14 Inseln auf Zeit (jeder Sturz +3 s). Danach bekommst du einen <b>Code</b> – kopieren und per Nachricht an Freunde schicken. Sie fügen ihn unter „Code von Freund“ ein und laufen dieselbe Strecke gegen deinen <b>Geist</b>. Der Gewinner bekommt 15 🪙, und es gibt einen Revanche-Code zurück.</div></details>
@@ -596,8 +596,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.21.3', BUILD=44;
+const VERSION='0.21.4', BUILD=45;
 const CHANGELOG=[
+ ['0.21.4','45',['Flüssiger: weniger Rechenarbeit im Hauptmenü (Info-Klecks, Himmel) und etwas geringere Bildauflösung auf sehr scharfen Displays','Info-Klecks ohne Tropfen-Nupsis','Gesundheit sinkt früher: schon nach 2 Std. ohne Energie oder Essen, 3 Std. schlechter Laune oder 4 Std. sehr schmutzig']],
  ['0.21.3','44',['Das 10. Level jeder Welt ist jetzt ein Finale und 50 % länger']],
  ['0.21.2','43',['Abenteuer-Level heißen jetzt nach Welt und Nummer: Welt 1-1, Welt 1-2 … Welt 13-10 (Karte, Anzeige oben, Ergebnis)']],
  ['0.21.1','42',['Dschungel: Palmen und Laubbäume statt Tannen im Hintergrund','Bröckel-Inseln passen sich jetzt der Welt an – erkennbar an Rissen und herabfallenden Brocken']],
@@ -646,7 +647,7 @@ const CHANGELOG=[
 const $=id=>document.getElementById(id);
 const cv=$('c'), ctx=cv.getContext('2d');
 let W=0,H=0,DPR=1,SC=1,VW=460,VHe=720;
-function resize(){DPR=Math.min(window.devicePixelRatio||1,2.5);W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);SC=Math.min(H/720,W/460);VW=W/SC;VHe=H/SC;if(G&&G.mode==='map')openMap(true);}
+function resize(){try{PB.w=0;}catch(e){}DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);SC=Math.min(H/720,W/460);VW=W/SC;VHe=H/SC;if(G&&G.mode==='map')openMap(true);}
 let G=null;
 
 /* ---------- Spielstand ---------- */
@@ -675,7 +676,7 @@ const STAGES=[null,
 const ageDays=()=>Math.max(0,Math.floor((Date.now()-save.pet.born)/864e5));
 function nextStageOk(){const P=save.pet,n=STAGES[P.stage+1];return !!(n&&ageDays()>=n.day&&P.care>=n.care);}
 /* Zustandsmodell v0.10: Werte beeinflussen sich gegenseitig; lange Vernachlässigung kostet Gesundheit */
-const NEG={e:[10,6,'Energie'],s:[15,4,'Hunger'],m:[15,8,'Laune'],d:[3,12,'Schmutz']};
+const NEG={e:[10,2,'Energie'],s:[15,2,'Hunger'],m:[15,3,'Laune'],d:[3,4,'Schmutz']};
 function decay(){const now=Date.now(),P=save.pet;let h=(now-P.ts)/3.6e6;if(h<=0)return;h=Math.min(h,24*21);
  const L=P.low;
  while(h>0){const d=Math.min(h,.25);h-=d;
@@ -764,7 +765,7 @@ const TIPS={
  icSat:['🍓 Satt','Sinkt mit der Zeit (müde Flumms werden schneller hungrig). Unter 25 %: weniger Sprungkraft. Lange unter 15 % schadet der Gesundheit.'],
  icMood:['❤️ Laune','Steigt durch Streicheln, Spielen, Waschen und geschaffte Level. Unter 30 % sagt Flumm manchmal „Nö!“ und springt nicht. Lange sehr traurig schadet der Gesundheit.'],
  icEn:['⚡ Energie','Sinkt im Wachzustand und mit jedem Spiel. Unter 20 %: lädt langsamer und isst mehr. Lange ohne Energie schadet der Gesundheit – ab ins Bett!'],
- icHp:['💊 Gesundheit','Sinkt, wenn Flumm lange hungrig, erschöpft, traurig oder schmutzig ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.'],
+ icHp:['💊 Gesundheit','Sinkt, wenn Flumm länger hungrig (2 Std.), erschöpft (2 Std.), traurig (3 Std.) oder sehr schmutzig (4 Std.) ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.'],
  icGrow:['🌱 Wachsen','Pflegepunkte (füttern, waschen, spielen, schlafen, Level schaffen) plus Alter lassen Flumm wachsen: Baby → Kind → Teen → Super. Jede Stufe bringt einen Vorteil.']};
 let tipTO=0,tipLP=0,tipShown=false;
 function showTip(el,key){const t=TIPS[key];if(!t)return;const d=$('tip');d.innerHTML='<b>'+t[0]+'</b>'+t[1];d.className='';const r=el.getBoundingClientRect();d.style.left='0px';d.style.top='0px';d.classList.add('on');
@@ -1184,13 +1185,18 @@ function menuUI(){$('mnStreak').innerHTML='🔥 '+curStreak()+(streakDoneToday()
  const wt=warnTxt();
  el.innerHTML='<b class="nm">'+esc(save.petName)+(P.cstars?' ★'+P.cstars:'')+'</b><small>'+STAGES[P.stage].name+' · '+ageText()+'</small><span class="stp" style="background:'+st[1]+'">'+st[0]+'</span>'
   +'<div class="kmet">'+bar('🍓',P.sat,'#FFB84D')+bar('❤️',P.mood,'#FF6FAE')+bar('⚡',P.energy,'#5FB8F5')+bar('💊',P.hp,'#4FCB8A')+'</div>'+(wt?'<span class="kwarn">⚠ '+wt+'</span>':'');
- const blob="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' preserveAspectRatio='none'><path d='M42 8Q100 -6 158 8Q196 18 195 62Q194 104 172 118Q170 140 160 148Q150 142 152 122Q124 130 100 128Q98 148 88 154Q78 148 80 128Q34 130 14 108Q2 86 6 54Q10 16 42 8Z' fill='"+M.pal[0]+"' stroke='#3A3558' stroke-width='3.5' stroke-linejoin='round' vector-effect='non-scaling-stroke'/><ellipse cx='52' cy='30' rx='22' ry='9' fill='white' opacity='.75' transform='rotate(-14 52 30)'/><circle cx='84' cy='22' r='4' fill='white' opacity='.75'/></svg>";
+ const blob="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' preserveAspectRatio='none'><path d='M42 10Q100 -4 158 10Q196 20 195 74Q194 128 160 144Q100 160 40 144Q4 130 6 74Q8 20 42 10Z' transform='translate(0 3)' fill='rgba(58,53,88,.3)' stroke='none'/><path d='M42 8Q100 -6 158 8Q196 18 195 72Q194 126 160 142Q100 158 40 142Q4 128 6 72Q8 18 42 8Z' fill='"+M.pal[0]+"' stroke='#3A3558' stroke-width='3.5' stroke-linejoin='round' vector-effect='non-scaling-stroke'/><ellipse cx='52' cy='30' rx='22' ry='9' fill='white' opacity='.75' transform='rotate(-14 52 30)'/><circle cx='84' cy='22' r='4' fill='white' opacity='.75'/></svg>";
  el.style.setProperty('--blob','url("data:image/svg+xml,'+encodeURIComponent(blob).replace(/'/g,'%27')+'")');}
-function placeBubble(){const el=$('petBub');if(!$('menu').classList.contains('on')||G.mode!=='menu'||!save.hatched){el.classList.remove('show');return;}
- const p=G.plats[0];if(!p)return;const k=G.zoom*SC,fx=(B.x-G.cam.x)*k,fy=(p.y-G.cam.y)*k-2*B.r*k,h=el.offsetHeight;
- const tb=document.querySelector('#menu .tag').getBoundingClientRect().bottom;
- el.classList.add('l');el.style.left=Math.max(16,Math.min(W/2-260+16,fx-B.r*k-el.offsetWidth-40))+'px';el.style.top=Math.max(tb+12,fy-h-56)+'px';
- const w=el.offsetWidth;el.style.setProperty('--tx',Math.max(10,Math.min(w-30,fx-16-24))+'px');el.classList.add('show');}
+const PB={t:0,w:0,h:0,tb:0,l:-1,top:-1,on:false};
+function placeBubble(){const el=$('petBub');const want=$('menu').classList.contains('on')&&G.mode==='menu'&&save.hatched;
+ if(!want){if(PB.on){el.classList.remove('show');PB.on=false;}return;}
+ const now=performance.now();if(PB.on&&now-PB.t<250)return;PB.t=now;
+ const p=G.plats[0];if(!p)return;
+ if(!PB.on||!PB.w){PB.w=el.offsetWidth;PB.h=el.offsetHeight;PB.tb=document.querySelector('#menu .tag').getBoundingClientRect().bottom;}
+ const k=G.zoom*SC,fx=(B.x-G.cam.x)*k,fy=(p.y-G.cam.y)*k-2*B.r*k;
+ const L=Math.round(Math.max(16,Math.min(W/2-260+16,fx-B.r*k-PB.w-40))),T=Math.round(Math.max(PB.tb+12,fy-PB.h-56));
+ if(L!==PB.l||T!==PB.top){el.style.left=L+'px';el.style.top=T+'px';PB.l=L;PB.top=T;}
+ if(!PB.on){el.classList.add('l','show');PB.on=true;}}
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function wobBubble(){const el=$('petBub');el.classList.remove('wob');void el.offsetWidth;el.classList.add('wob');}
 
@@ -1386,6 +1392,7 @@ const SKY={
 const STARS=[];for(let i=0;i<70;i++)STARS.push({x:Math.random(),y:Math.random()*.65,r:.6+Math.random()*1.6,p:Math.random()*6});
 const FLAKES=[];for(let i=0;i<60;i++)FLAKES.push({x:Math.random(),y:Math.random(),r:1.5+Math.random()*2.5,v:20+Math.random()*40,p:Math.random()*6});
 function skyTheme(){if(G.mode==='menu')return G.prevBg||(save.hatched&&!$('design').classList.contains('on')?BIO[menuBio()][1]:save.bg||'day');if(G.mode==='home')return save.bg||'day';if(!G.run&&G.lvl!=null&&levelBio(G.lvl)&&G.mode!=='map')return BIO[levelBio(G.lvl)][1];if(G.run&&G.run.type!=='duel')return BIO[bioAt(G.lastIdx||0)][1];return 'day';}
+const GC={};
 function drawSky(){
  const id=SKY[skyTheme()]?skyTheme():'day';
  if(G.skyCur!==id){G.skyPrev=G.skyCur||id;G.skyCur=id;G.skyT0=G.t;}
@@ -1393,14 +1400,14 @@ function drawSky(){
  if(k<1&&G.skyPrev!==id){drawSkyP(SKY[G.skyPrev]);ctx.globalAlpha=k;drawSkyP(SKY[id],k);ctx.globalAlpha=1;}else drawSkyP(SKY[id]);
 }
 function drawSkyP(P,fa){fa=fa==null?1:fa;
- const g=ctx.createLinearGradient(0,0,0,VHe);g.addColorStop(0,P.g[0]);g.addColorStop(.6,P.g[1]);g.addColorStop(1,P.g[2]);
+ const gk=P.g.join()+VHe;let g=GC['l'+gk];if(!g){g=ctx.createLinearGradient(0,0,0,VHe);g.addColorStop(0,P.g[0]);g.addColorStop(.6,P.g[1]);g.addColorStop(1,P.g[2]);GC['l'+gk]=g;}
  ctx.fillStyle=g;ctx.fillRect(0,0,VW,VHe);
  if(P.stars){for(const st of STARS){ctx.globalAlpha=fa*(.45+.55*Math.abs(Math.sin(G.t*1.5+st.p)));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(st.x*VW,st.y*VHe,st.r,0,7);ctx.fill();}ctx.globalAlpha=fa;}
  if(P.aurora){for(let k=0;k<3;k++){const col=['80,255,170','120,200,255','190,130,255'][k];ctx.beginPath();for(let x=0;x<=VW;x+=12){const y=VHe*(.1+k*.06)+Math.sin(x*.012+G.t*.6+k*1.7)*22+Math.sin(x*.031-G.t*.4)*9;x?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.lineWidth=34-k*6;ctx.strokeStyle='rgba('+col+','+(.22+.08*Math.sin(G.t+k))+')';ctx.stroke();}}
  const sx=VW*.8,sy=VHe*P.sy;
  if(P.earth){const ex=VW*.78,ey=VHe*.16,er=46;const eg=ctx.createRadialGradient(ex-14,ey-14,6,ex,ey,er);eg.addColorStop(0,'#9FD8FF');eg.addColorStop(1,'#2F6FD6');ctx.fillStyle=eg;ctx.beginPath();ctx.arc(ex,ey,er,0,7);ctx.fill();ctx.fillStyle='#4FCB8A';ctx.beginPath();ctx.ellipse(ex-10,ey-8,16,10,.5,0,7);ctx.ellipse(ex+16,ey+12,12,7,-.4,0,7);ctx.fill();ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.ellipse(ex+4,ey-24,18,4,.2,0,7);ctx.fill();}
  if(P.moon){const mg=ctx.createRadialGradient(sx,sy,10,sx,sy,110);mg.addColorStop(0,'rgba(255,244,194,.35)');mg.addColorStop(1,'rgba(255,244,194,0)');ctx.fillStyle=mg;ctx.fillRect(sx-120,sy-120,240,240);ctx.save();ctx.beginPath();ctx.rect(sx-60,sy-60,120,120);ctx.moveTo(sx+42,sy-10);ctx.arc(sx+14,sy-10,28,0,Math.PI*2,true);ctx.clip('evenodd');ctx.fillStyle=P.moonCol||'#FFF4C2';ctx.beginPath();ctx.arc(sx,sy,32,0,7);ctx.fill();ctx.restore();}
- else if(P.sun){const sg=ctx.createRadialGradient(sx,sy,10,sx,sy,130);sg.addColorStop(0,'rgba('+P.glow+',.95)');sg.addColorStop(.3,'rgba('+P.glow+',.6)');sg.addColorStop(1,'rgba('+P.glow+',0)');ctx.fillStyle=sg;ctx.fillRect(sx-140,sy-140,280,280);ctx.fillStyle=P.sun;ctx.beginPath();ctx.arc(sx,sy,P.sy>.3?44:34,0,7);ctx.fill();}
+ else if(P.sun){const sk2=P.glow+sx+sy;let sg=GC['r'+sk2];if(!sg){sg=ctx.createRadialGradient(sx,sy,10,sx,sy,130);sg.addColorStop(0,'rgba('+P.glow+',.95)');sg.addColorStop(.3,'rgba('+P.glow+',.6)');sg.addColorStop(1,'rgba('+P.glow+',0)');GC['r'+sk2]=sg;}ctx.fillStyle=sg;ctx.fillRect(sx-140,sy-140,280,280);ctx.fillStyle=P.sun;ctx.beginPath();ctx.arc(sx,sy,P.sy>.3?44:34,0,7);ctx.fill();}
  const span=2070;
  for(const c of G.clouds){let x=((c.x-G.cam.x*.12*c.s+G.t*6*c.s)%span+span)%span-200;const y=c.y-G.cam.y*.05;cloud(ctx,x,y,c.s,P.cloud);}
  const am=P.amp||1;
