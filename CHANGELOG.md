@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.22.0 · Build 46
+- Neue Bestenlisten: PERFEKT-Landungen, Duell-Bestzeit, Erdbeeren gesammelt, Münzen gesammelt
+- Flumm zählt ab jetzt deine Gesamtwerte mit (vorher Gesammeltes wird nicht nachgezählt)
+- Neue Duell-Bestzeit wird im Ergebnis angezeigt
+
 ## v0.21.4 · Build 45
 - Flüssiger: weniger Rechenarbeit im Hauptmenü (Info-Klecks, Himmel) und etwas geringere Bildauflösung auf sehr scharfen Displays
 - Info-Klecks ohne Tropfen-Nupsis
