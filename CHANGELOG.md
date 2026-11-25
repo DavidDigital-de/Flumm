@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.19.2 · Build 39
+- Kostüme, Maskottchen, Hintergründe und Inseln kosten jetzt das Dreifache – Gekauftes bleibt natürlich erhalten
+
 ## v0.19.1 · Build 38
 - Tageslauf zeigt, wie viele Spieler weltweit heute schon gespielt haben (👥) – ab dem ersten Spieler
 - Anzeige im Spielmodus-Menü und in den Bestenlisten (benötigt Google Play Spiele)

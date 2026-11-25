@@ -596,8 +596,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.19.1', BUILD=38;
+const VERSION='0.19.2', BUILD=39;
 const CHANGELOG=[
+ ['0.19.2','39',['Kostüme, Maskottchen, Hintergründe und Inseln kosten jetzt das Dreifache – Gekauftes bleibt natürlich erhalten']],
  ['0.19.1','38',['Tageslauf zeigt, wie viele Spieler weltweit heute schon gespielt haben (👥) – ab dem ersten Spieler','Anzeige im Spielmodus-Menü und in den Bestenlisten (benötigt Google Play Spiele)']],
  ['0.19.0','37',['Zuhause: Infos zu Füttern, Waschen, Spielen, Schlafen, Medizin und Kostümen – Knopf gedrückt halten (am PC: Maus drüber)','Infos zu Satt, Laune, Energie, Gesundheit und Wachsen – einfach auf den Wert tippen']],
  ['0.18.2','36',['Klecks im Hauptmenü hat wieder seinen dunklen Rand','Mehr Platz im Klecks – Warnhinweise bleiben innerhalb']],
@@ -901,6 +902,8 @@ const MASC=[
   back(c,r,t){c.fillStyle='rgba(255,255,255,.95)';c.strokeStyle='#8FA7BF';c.lineWidth=r*.05;const y=-r*1.75;c.beginPath();c.arc(-r*.3,y,r*.25,0,7);c.arc(0,y-r*.14,r*.3,0,7);c.arc(r*.3,y,r*.24,0,7);c.fill();c.strokeStyle='#5FB8F5';c.lineWidth=r*.05;for(let i=0;i<3;i++){const ph=((t*1.6+i*.33)%1);c.globalAlpha=1-ph;c.beginPath();c.moveTo((i-1)*r*.25,y+r*.25+ph*r*.6);c.lineTo((i-1)*r*.25-r*.04,y+r*.38+ph*r*.6);c.stroke();}c.globalAlpha=1;}}
 ];
 const MBY={};MASC.forEach(m=>MBY[m.id]=m);
+/* Preise: Kaufobjekte dauerhaft teurer (×3), damit man länger sammelt */
+const PRICE_X=3,px=l=>l.forEach(x=>{if(x.price)x.price=Math.round(x.price*PRICE_X/5)*5;});px(COSTUMES);px(MASC);
 function mascCheck(){if(!save.mOwned)return;const got=MASC.filter(m=>m.ok&&!save.mOwned.includes(m.id)&&m.ok());if(!got.length)return;got.forEach(m=>save.mOwned.push(m.id));persist();
  setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎉 Neu: '+got.map(m=>m.name).join(', ')+'!');},700);}
 
@@ -1854,7 +1857,8 @@ function toggleMusic(){save.music=!save.music;persist();labels();SFX.click();if(
 $('setVer').textContent='FLUMM v'+VERSION+' · Build '+BUILD;
 /* Gestalten */
 const BGS=[{id:'day',name:'Sonnentag',price:0},{id:'sunset',name:'Abendrot',price:25},{id:'snow',name:'Winterzauber',price:35},{id:'night',name:'Sternennacht',price:35},{id:'candy',name:'Bonbonland',price:50},{id:'aurora',name:'Polarlicht',price:0,streak:14}];
-const PLS=[{id:'grass',name:'Grasinsel',price:0},{id:'stone',name:'Stein',price:15},{id:'wood',name:'Holzfloß',price:20},{id:'sand',name:'Sand',price:20},{id:'log',name:'Waldstamm',price:25},{id:'cloud',name:'Wolke',price:25},{id:'moss',name:'Moos',price:30},{id:'ice',name:'Eisscholle',price:30},{id:'shroom',name:'Pilz',price:30},{id:'desert',name:'Wüste',price:35},{id:'ruin',name:'Ruine',price:40},{id:'donut',name:'Donut',price:40},{id:'metal',name:'Metall',price:45},{id:'honey',name:'Honig',price:45},{id:'crystal',name:'Kristall',price:50},{id:'lava',name:'Lava',price:60},{id:'rainbow',name:'Regenbogen',price:75},{id:'gold',name:'Goldinsel',price:0,streak:7}];
+px(BGS);
+const PLS=[{id:'grass',name:'Grasinsel',price:0},{id:'stone',name:'Stein',price:15},{id:'wood',name:'Holzfloß',price:20},{id:'sand',name:'Sand',price:20},{id:'log',name:'Waldstamm',price:25},{id:'cloud',name:'Wolke',price:25},{id:'moss',name:'Moos',price:30},{id:'ice',name:'Eisscholle',price:30},{id:'shroom',name:'Pilz',price:30},{id:'desert',name:'Wüste',price:35},{id:'ruin',name:'Ruine',price:40},{id:'donut',name:'Donut',price:40},{id:'metal',name:'Metall',price:45},{id:'honey',name:'Honig',price:45},{id:'crystal',name:'Kristall',price:50},{id:'lava',name:'Lava',price:60},{id:'rainbow',name:'Regenbogen',price:75},{id:'gold',name:'Goldinsel',price:0,streak:7}];px(PLS);
 let dTab='bg',dSel=null;
 let dCat='bg';
 function design(){
