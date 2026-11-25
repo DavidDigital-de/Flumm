@@ -41,6 +41,7 @@ P={'grass':['#E4FF9C','#B8F06A','#8EDB45','#6CC333','#4FA327','#37801E','#25601A
 'red':['#FFB0B0','#FF6B6B','#E5484D','#B8303A','#86202A'],
 'lift':['#E6F4FF','#B9DEFF','#86C3F5','#5AA3E3','#3E82C8','#2D63A3','#20477A'],
 'gold':['#FFF8D6','#FFEA8A','#FFD84A','#F5BE22','#DB9D17','#B47C10','#82570A'],
+'snow':['#FFFFFF','#F4F9FF','#E1EDFA','#C8DAF0','#ABC3E4','#8EA9D4','#7390C0'],
 'rb':[['#FF8A8A','#FF5C5C','#E04545'],['#FFC680','#FFA23D','#E08419'],['#FFF08A','#FFE04D','#E6C21F'],['#A7F59A','#6FDB5E','#46B83A'],['#9AD6FF','#5FB8F5','#3A93D6'],['#C7A8FF','#A07BF5','#7C55D6']]}
 class C:
     def __init__(s):s.im=Image.new('RGBA',(W*K,H*K),(0,0,0,0));s.px=s.im.load();s.m=set()
@@ -351,7 +352,16 @@ def d_gold():
     for (x,y) in [(22,13),(50,10),(62,20),(34,22)]:
         for dx,dy,r in [(0,0,.9),(1.6,0,.45),(-1.6,0,.45),(0,1.6,.45),(0,-1.6,.45)]:c.dot(x+dx,y+dy,hx('#FFFFFF'),r)
     return c
-D=[('gold','Goldinsel',d_gold),('grass','Grasinsel',d_grass),('stone','Stein',d_stone),('wood','Holzfloß',d_wood),('sand','Sand',d_sand),('log','Waldstamm',d_log),
+def d_snow():
+    def F(x,y,dx,fv):
+        hang=.06+hn(math.floor(x/3),0,6)*.22
+        if fv<hang:return pick(P['snow'],2+fv*8,int(x*K),int(y*K))
+        return 0
+    def T(x,y,dx,dy):return -.8 if hn(x/1.5,y/1.5,31)>.93 else 0
+    c=island(P['snow'],P['stone'][1:],T,F,lipL=4)
+    for (x,y,r) in [(22,15,2.4),(27,16,1.6),(56,13,2.0)]:balls(c,P['snow'],[(x,y,r)])
+    return c
+D=[('snow','Schneeinsel',d_snow),('gold','Goldinsel',d_gold),('grass','Grasinsel',d_grass),('stone','Stein',d_stone),('wood','Holzfloß',d_wood),('sand','Sand',d_sand),('log','Waldstamm',d_log),
    ('cloud','Wolke',d_cloud),('moss','Moos',d_moss),('ice','Eisscholle',d_ice),('shroom','Pilz',d_shroom),('desert','Wüste',d_desert),
    ('ruin','Ruine',d_ruin),('donut','Süßigkeit',d_candy),('metal','Metall',d_metal),('honey','Honig',d_honey),('crystal','Kristall',d_crystal),
    ('lava','Lava',d_lava),('rainbow','Regenbogen',d_rainbow),('spring','Feder',d_spring),('lift','Aufzug',d_lift),('crack','Bröckel',d_crack)]

@@ -1,5 +1,13 @@
 # Changelog – FLUMM
 
+## v0.14.0 · Build 22
+- Welten haben eigene Insel-Eigenschaften
+- Eiswelt: Eis-Inseln sind rutschig – Flumm schlittert weiter und kann runterrutschen; Schnee-Inseln (neues Design) nur leicht
+- Strand & Wüste: weicher Sand macht Sprünge etwas kürzer
+- Kristallhöhle, Wolkenreich & Regenbogenland: federnde Inseln, Sprünge etwas weiter
+- Vulkan: heiße Inseln – nach gut 2 Sekunden hüpft Flumm hoch
+- Beim Weltwechsel steht dabei, was die neue Welt besonders macht
+
 ## v0.13.0 · Build 21
 - Tagesserie zählt jetzt, sobald du den Tageslauf gespielt hast – kein Inselziel mehr
 - Endlos & Tageslauf: alle 12 Inseln eine neue Welt mit eigenen Inseln und eigenem Himmel (Wiese, Strand, Wüste, Eiswelt, Kristallhöhle, Vulkan …)
