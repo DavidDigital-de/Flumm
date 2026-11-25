@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.18.0 (Build 34)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.18.1 (Build 35)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.18.0-build34`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.18.1-build35`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -73,7 +73,7 @@ Platzierungen: Video (Belohnung) für *Weiterspielen* im Endlos-Modus (1× pro L
 6. Play Console: *App-Inhalte → Werbung: Ja* und *Werbe-ID* angeben; `app-ads.txt` auf der Entwickler-Website hinterlegen.
 
 ## Bestenlisten (Google Play Spiele)
-Plugin `@idleflowgames/capacitor-play-games` (PGS v2 / GameKit). Drei Bestenlisten: Tageslauf (höher = besser, täglich), Endlos (höher = besser), Duell-Siege (höher = besser). Solange `LB_CFG` in `index.html` leer ist, zeigt die App nur lokale Rekorde.
+Eigene Brücke `PlayGamesPlugin.java` (PGS v2, play-services-games-v2 21.0.0); iOS Game Center folgt. Drei Bestenlisten: Tageslauf (höher = besser, täglich), Endlos (höher = besser), Duell-Siege (höher = besser). Solange `LB_CFG` in `index.html` leer ist, zeigt die App nur lokale Rekorde.
 
 Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht geheim):
 - SHA-1: `EA:07:65:A5:0C:6E:78:30:F3:A7:8D:AF:A5:F8:54:6A:BF:35:05:C4`

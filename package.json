@@ -1,6 +1,6 @@
 {
   "name": "flumm",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "private": true,
   "description": "FLUMM – Hüpf-Spiel mit Pflege-Wesen",
   "scripts": {
@@ -15,8 +15,7 @@
     "@capacitor/haptics": "^8.0.0",
     "@capacitor/ios": "^8.0.0",
     "@capacitor/splash-screen": "^8.0.0",
-    "@capacitor/status-bar": "^8.0.0",
-    "@idleflowgames/capacitor-play-games": "^0.3.3"
+    "@capacitor/status-bar": "^8.0.0"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",

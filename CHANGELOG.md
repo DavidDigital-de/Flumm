@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.18.1 · Build 35
+- Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens
+- Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise
+- Bestenlisten: eigene, schlanke Anbindung an Google Play Spiele (Android-Build repariert)
+
 ## v0.18.0 · Build 34
 - Neu: Bestenlisten für Tageslauf, Endlos und Duell-Siege (Spielen → 🏆 Bestenlisten)
 - Weltweit über Google Play Spiele – Ergebnisse werden nach jedem Lauf automatisch eingetragen

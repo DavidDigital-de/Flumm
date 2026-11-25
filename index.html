@@ -319,7 +319,8 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 #goMenu{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:12px;z-index:25;display:none}
 #goMenu.on{display:grid;place-items:center}
 #goMenu svg,.ibtn svg{width:26px;height:26px;display:block}
-.bubble{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 120' preserveAspectRatio='none'%3E%3Cpath d='M30 112Q6 112 6 90Q6 68 28 66Q24 38 56 34Q66 8 98 14Q118 -2 142 20Q172 14 176 46Q196 54 194 80Q194 112 166 112Z' fill='white' stroke='%233A3558' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat!important;border:none!important;box-shadow:none!important;border-radius:0!important;padding:30px 26px 14px!important;filter:drop-shadow(0 4px 0 rgba(58,53,88,.9));text-align:center!important;animation:fl 3.2s ease-in-out infinite}
+.bubble{background:var(--blob) center/100% 100% no-repeat!important;border:0!important;box-shadow:none!important;border-radius:0!important;filter:drop-shadow(0 3px 0 rgba(58,53,88,.35))}
+.bubble.kl{white-space:normal;width:206px;padding:12px 18px 30px 16px;text-align:center}.bubble.kl b.nm{font-size:16px;display:block}.bubble.kl small{opacity:.8}.kmet{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin:5px 0 2px}.kmet span{display:flex;align-items:center;gap:3px;font-size:12px}.kmet i{flex:1;height:7px;border-radius:4px;background:rgba(58,53,88,.18);overflow:hidden;border:1.5px solid rgba(58,53,88,.55)}.kmet i u{display:block;height:100%}.kwarn{display:block;margin-top:3px;font-size:11.5px;color:#B0303A;font-weight:800;line-height:1.15}
 .bubble::after{display:none!important}
 .bubble.wob{animation:fl 3.2s ease-in-out infinite,wob .6s cubic-bezier(.3,1.6,.5,1)!important}
 @keyframes fl{0%,100%{translate:0 0}50%{translate:0 -7px}}
@@ -594,8 +595,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.18.0', BUILD=34;
+const VERSION='0.18.1', BUILD=35;
 const CHANGELOG=[
+ ['0.18.1','35',['Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens','Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise','Bestenlisten: eigene, schlanke Anbindung an Google Play Spiele (Android-Build repariert)']],
  ['0.18.0','34',['Neu: Bestenlisten für Tageslauf, Endlos und Duell-Siege (Spielen → 🏆 Bestenlisten)','Weltweit über Google Play Spiele – Ergebnisse werden nach jedem Lauf automatisch eingetragen','Nach Endlos, Tageslauf und Duell direkt zur Bestenliste']],
  ['0.17.3','33',['Abenteuer Welt 1 (Wiese) nutzt jetzt auch die Standard-Grasinseln – alle Welten haben ihre eigenen Biom-Inseln','Dein Insel- und Hintergrund-Design aus „Gestalten“ gilt für dein Zuhause']],
  ['0.17.2','32',['Datenschutzerklärung online und in den Einstellungen verlinkt','Web-Version lädt keine Google-Schriften mehr (Schrift ist eingebaut)']],
@@ -724,11 +726,11 @@ setTimeout(adsInit,1500);
 
 /* ---------- Bestenlisten (Google Play Games / Game Center) ----------
    IDs aus der Play Console (Play-Spieldienste → Bestenlisten) eintragen. Solange leer: nur lokale Rekorde. */
-const LB_CFG={android:{endless:'',daily:'',duel:''},ios:{endless:'',daily:'',duel:''}};
+const LB_CFG={android:{endless:'',daily:'',duel:''},ios:{endless:'',daily:'',duel:''}}; // iOS: Game Center folgt
 const LB={ok:false,P:null,plat:'',signed:false};
 function lbId(k){const c=LB_CFG[LB.plat]||{};return c[k]||'';}
 async function lbInit(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return;const P=CP.Plugins&&CP.Plugins.PlayGames;LB.plat=CP.getPlatform();
- if(!P||!lbId('endless'))return;LB.P=P;try{await P.initialize();LB.ok=true;const r=await P.signIn({silent:true});LB.signed=!!(r&&r.signedIn);P.addListener('signInStateChanged',e=>{LB.signed=!!e.signedIn;});if(LB.signed)lbSyncAll();}catch(e){console.log('Bestenliste',e);}}
+ if(!P||!lbId('endless'))return;LB.P=P;try{await P.initialize();LB.ok=true;const r=await P.signIn({silent:true});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){console.log('Bestenliste',e);}}
 async function lbSignIn(){if(!LB.ok)return false;if(LB.signed)return true;try{const r=await LB.P.signIn({silent:false});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){}return LB.signed;}
 function lbSubmit(k,score){if(!LB.ok||!LB.signed||!lbId(k)||!(score>0))return;LB.P.submitScore({leaderboardId:lbId(k),score:Math.floor(score)}).catch(()=>{});}
 function lbSyncAll(){lbSubmit('endless',save.best||0);if(save.dayRun&&save.dayRun.d===todayStr())lbSubmit('daily',save.dayRun.best);lbSubmit('duel',save.duels&&save.duels.w||0);}
@@ -1129,7 +1131,13 @@ function homeUI(){
  musicAuto();
 }
 function ageText(){const d=ageDays();return d===0?'heute geschlüpft':d===1?'1 Tag alt':d+' Tage alt';}
-function menuUI(){$('mnStreak').innerHTML='🔥 '+curStreak()+(streakDoneToday()?' ✔':'<i class="sdot"></i>');$('mnFood').textContent='🍓 '+save.food;$('mnCoins').textContent='🪙 '+save.coins;const st=petStatus();$('petBub').innerHTML=esc(save.petName)+(save.pet.cstars?' ★'+save.pet.cstars:'')+'<small>'+STAGES[save.pet.stage].name+'</small><small>'+ageText()+'</small><span class="stp" style="background:'+st[1]+'">'+st[0]+'</span>';}
+function menuUI(){$('mnStreak').innerHTML='🔥 '+curStreak()+(streakDoneToday()?' ✔':'<i class="sdot"></i>');$('mnFood').textContent='🍓 '+save.food;$('mnCoins').textContent='🪙 '+save.coins;const st=petStatus(),P=save.pet,M=MBY[save.masc]||MBY.mint,el=$('petBub');el.classList.add('kl');
+ const bar=(ic,v,c)=>'<span>'+ic+'<i><u style="width:'+Math.round(v)+'%;background:'+(v<25?'#E5484D':c)+'"></u></i></span>';
+ const wt=warnTxt();
+ el.innerHTML='<b class="nm">'+esc(save.petName)+(P.cstars?' ★'+P.cstars:'')+'</b><small>'+STAGES[P.stage].name+' · '+ageText()+'</small><span class="stp" style="background:'+st[1]+'">'+st[0]+'</span>'
+  +'<div class="kmet">'+bar('🍓',P.sat,'#FFB84D')+bar('❤️',P.mood,'#FF6FAE')+bar('⚡',P.energy,'#5FB8F5')+bar('💊',P.hp,'#4FCB8A')+'</div>'+(wt?'<span class="kwarn">⚠ '+wt+'</span>':'');
+ const blob="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' preserveAspectRatio='none'><path d='M42 8Q100 -6 158 8Q196 18 195 62Q194 104 172 118Q170 140 160 148Q150 142 152 122Q124 130 100 128Q98 148 88 154Q78 148 80 128Q34 130 14 108Q2 86 6 54Q10 16 42 8Z' fill='"+M.pal[0]+"' stroke='%233A3558' stroke-width='3' vector-effect='non-scaling-stroke'/><ellipse cx='52' cy='30' rx='22' ry='9' fill='white' opacity='.75' transform='rotate(-14 52 30)'/><circle cx='84' cy='22' r='4' fill='white' opacity='.75'/></svg>";
+ el.style.setProperty('--blob','url("data:image/svg+xml,'+encodeURIComponent(blob).replace(/'/g,'%27')+'")');}
 function placeBubble(){const el=$('petBub');if(!$('menu').classList.contains('on')||G.mode!=='menu'||!save.hatched){el.classList.remove('show');return;}
  const p=G.plats[0];if(!p)return;const k=G.zoom*SC,fx=(B.x-G.cam.x)*k,fy=(p.y-G.cam.y)*k-2*B.r*k,h=el.offsetHeight;
  const tb=document.querySelector('#menu .tag').getBoundingClientRect().bottom;
