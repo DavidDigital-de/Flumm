@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.18.0 · Build 34
+- Neu: Bestenlisten für Tageslauf, Endlos und Duell-Siege (Spielen → 🏆 Bestenlisten)
+- Weltweit über Google Play Spiele – Ergebnisse werden nach jedem Lauf automatisch eingetragen
+- Nach Endlos, Tageslauf und Duell direkt zur Bestenliste
+
 ## v0.17.3 · Build 33
 - Abenteuer Welt 1 (Wiese) nutzt jetzt auch die Standard-Grasinseln – alle Welten haben ihre eigenen Biom-Inseln
 - Dein Insel- und Hintergrund-Design aus „Gestalten“ gilt für dein Zuhause

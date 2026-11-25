@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.17.3 (Build 33)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.18.0 (Build 34)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.17.3-build33`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.18.0-build34`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -71,3 +71,16 @@ Platzierungen: Video (Belohnung) für *Weiterspielen* im Endlos-Modus (1× pro L
 4. Anzeigenblock-IDs in `index.html` bei `ADS_CFG` eintragen und `live:true` setzen.
 5. In AdMob unter *Datenschutz & Mitteilungen* eine DSGVO-Mitteilung (Einwilligung) für die App erstellen und veröffentlichen.
 6. Play Console: *App-Inhalte → Werbung: Ja* und *Werbe-ID* angeben; `app-ads.txt` auf der Entwickler-Website hinterlegen.
+
+## Bestenlisten (Google Play Spiele)
+Plugin `@idleflowgames/capacitor-play-games` (PGS v2 / GameKit). Drei Bestenlisten: Tageslauf (höher = besser, täglich), Endlos (höher = besser), Duell-Siege (höher = besser). Solange `LB_CFG` in `index.html` leer ist, zeigt die App nur lokale Rekorde.
+
+Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht geheim):
+- SHA-1: `EA:07:65:A5:0C:6E:78:30:F3:A7:8D:AF:A5:F8:54:6A:BF:35:05:C4`
+
+### Einrichten
+1. Play Console → Flumm → *Play-Spieldienste* → *Einrichtung und Verwaltung* → Projekt erstellen.
+2. *Anmeldedaten* → Android-Anmeldedaten mit Paketname `de.daviddigital.flumm` und obigem SHA-1 (Test-APK) anlegen; für den Store zusätzlich den SHA-1 des App-Signaturschlüssels (Play Console → App-Integrität).
+3. *Bestenlisten* anlegen: „Tageslauf“, „Endlos“, „Duell-Siege“ (Format Zahl, höher ist besser).
+4. *Tester* hinzufügen (eigenes Google-Konto) und veröffentlichen.
+5. Projekt-ID (Zahl) → `android/app/src/main/res/values/games-ids.xml` + Manifest-Eintrag `com.google.android.gms.games.APP_ID`; Bestenlisten-IDs (`CgkI…`) → `LB_CFG.android` in `index.html`.
