@@ -13,7 +13,10 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 | `FLUMM-v…-unsigned.ipa` | Prüfung des iOS-Builds / Sideloading (z. B. AltStore) | keine |
 | TestFlight-Upload | iPhone-Test + App-Store-Einreichung | Apple-Secrets |
 
-Download: Actions → letzter Lauf → unten bei **Artifacts**. Wird ein Tag wie `v0.9.0` gepusht, landen die Dateien zusätzlich unter **Releases**.
+**Direkter Download der neuesten APK (auch am Handy):**
+https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
+
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.9.0-build14`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
