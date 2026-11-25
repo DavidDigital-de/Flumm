@@ -1,5 +1,11 @@
 # Changelog – FLUMM
 
+## v0.15.2 · Build 27
+- Zielhilfe berücksichtigt jetzt Sand (kürzer) und federnde Inseln (weiter)
+- Eis: PERFEKT zählt erst, wenn Flumm stehen bleibt – wer runterrutscht, bekommt keins
+- Vulkan: Hitze-Zähler startet nach dem Wiederbeleben neu
+- Vulkan: Beim Aufladen hüpft Flumm nicht mehr weg – er blinkt rot als Warnung
+
 ## v0.15.1 · Build 26
 - App läuft jetzt im Vollbild: Statusleiste (Uhr, Akku, Signal) und Navigationsleiste sind ausgeblendet – kurz vom Rand wischen holt sie zurück
 - Kürzere Meldung bei neuen Maskottchen
