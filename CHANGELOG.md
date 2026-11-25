@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.22.1 · Build 47
+- Neuer App-Build (der Upload von Build 46 ist bei GitHub fehlgeschlagen) – Inhalt wie 0.22.0
+
 ## v0.22.0 · Build 46
 - Bestenlisten Tageslauf & Endlos zeigen zu jedem Lauf: Insel, Zeit, Perfekt-Landungen, Münzen und Beeren
 - Eigene Ansicht mit Heute / Woche / Gesamt, dein Platz ist hervorgehoben
