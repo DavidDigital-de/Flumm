@@ -1,5 +1,11 @@
 # Changelog – FLUMM
 
+## v0.11.1 · Build 19
+- Tutorial erweitert: Spielziel, Herzen und Sterne
+- Tutorial zeigt alle Insel-Arten mit Bild (normal, Schieber, Aufzug, Bröckel, Feder)
+- Tutorial erklärt Erdbeeren und Münzen genauer
+- Hilfe: Insel-Beschreibungen an die neuen Grafiken angepasst
+
 ## v0.11.0 · Build 18
 - Alle 20 Plattformen neu gezeichnet: eigener Stil aus SNES-Pixel-Look und 3D-Tiefe, hochauflösend
 - Feder, Aufzug, Metall-Schieber und Bröckel-Platte im selben Stil
