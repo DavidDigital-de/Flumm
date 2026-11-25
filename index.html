@@ -485,8 +485,8 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
       <div class="st"><span class="sic" id="icSat"></span><div class="sv"><small>Satt</small><div class="meter"><i id="mSat"></i></div></div></div>
       <div class="st"><span class="sic" id="icMood"></span><div class="sv"><small>Laune</small><div class="meter"><i id="mMood"></i></div></div></div>
       <div class="st"><span class="sic" id="icEn"></span><div class="sv"><small>Energie</small><div class="meter"><i id="mEn"></i></div></div></div>
-      <div class="st"><span class="sic" id="icHp"></span><div class="sv"><small>Gesundheit</small><div class="meter"><i id="mHp"></i></div></div></div>
       <div class="st"><span class="sic" id="icGrow"></span><div class="sv"><small>Wachsen</small><div class="meter"><i id="mXp"></i></div></div></div>
+      <div class="st"><span class="sic" id="icHp"></span><div class="sv"><small>Gesundheit</small><div class="meter"><i id="mHp"></i></div></div></div>
     </div>
     <p class="small" id="pNext" style="margin:2px 0 2px"></p>
     <div class="acts">
@@ -549,8 +549,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.10.0', BUILD=15;
+const VERSION='0.10.1', BUILD=16;
 const CHANGELOG=[
+ ['0.10.1','16',['Zuhause: Gesundheit-Balken jetzt unten über die volle Breite, Wachsen daneben bei den anderen Werten']],
  ['0.10.0','15',['Neue Plattform-Grafiken: 17 Designs zum Freischalten (u. a. Stein, Moos, Kristall, Lava, Wüste, Ruine, Honig, Regenbogen)','Spezial-Plattformen mit eigenem Look: Feder, Aufzug, Metall-Schieber, bröckelnde Platte','Endlos-Modus wechselt alle 15 Plattformen das Biom','Neuer Wert Gesundheit: Lange ohne Energie, Essen, Laune oder Sauberkeit macht Flumm krank','Werte hängen zusammen: Müde → mehr Hunger und schlechtere Laune','Warnhinweis im Zuhause, wenn etwas der Gesundheit schadet','Gesund werden über Medizin oder Schlafen mit vollem Bauch','Neues App-Symbol und Startbild']],
  ['0.9.0','14',['Erste Android- und iOS-App (Capacitor)','Zurück-Taste unter Android: schließt Fenster, pausiert das Spiel, im Hauptmenü beendet sie die App','Vibration über native Haptik','Schrift Baloo 2 jetzt eingebaut – funktioniert auch offline','App-Symbol und Startbild mit Flumm']],
  ['0.8.4','13',['PC/Tablet: Symbolleiste, Erdbeeren/Münzen und Flumm-Wolke rücken in eine gemeinsame, zentrierte Spalte']],

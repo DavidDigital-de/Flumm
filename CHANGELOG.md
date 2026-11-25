@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.10.1 · Build 16
+- Zuhause: Gesundheit-Balken jetzt unten über die volle Breite, Wachsen daneben bei den anderen Werten
+
 ## v0.10.0 · Build 15
 - Neue Plattform-Grafiken: 17 Designs zum Freischalten (u. a. Stein, Moos, Kristall, Lava, Wüste, Ruine, Honig, Regenbogen)
 - Spezial-Plattformen mit eigenem Look: Feder, Aufzug, Metall-Schieber, bröckelnde Platte
