@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.14.2 · Build 24
+- Weltwechsel: Himmel blendet langsamer und weicher über (4 Sekunden)
+- Wald: Bäume stehen jetzt auf den Hügeln statt in der Luft
+- Welt-Name oben größer
+
 ## v0.14.1 · Build 23
 - Jede Welt hat jetzt ihren eigenen Himmel und Hintergrund (Nebel im Moorwald, Tannen im Wald, Meer am Strand, Dünen, Berge, Vulkan mit Glut, Wolkenmeer …)
 - Weicher Übergang beim Weltwechsel
