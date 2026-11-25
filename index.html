@@ -575,8 +575,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.15.0', BUILD=25;
+const VERSION='0.15.1', BUILD=26;
 const CHANGELOG=[
+ ['0.15.1','26',['App läuft jetzt im Vollbild: Statusleiste (Uhr, Akku, Signal) und Navigationsleiste sind ausgeblendet – kurz vom Rand wischen holt sie zurück','Kürzere Meldung bei neuen Maskottchen']],
  ['0.15.0','25',['Neu: Maskottchen – Flumm in anderen Farben (unter Kostüme ganz oben)','Mit Münzen: Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze, Frosch','Exklusiv: Glücks-Flumm (Level 5), Sternen-Flumm (Level 10), Feuer-Flumm (10 Tage Serie), Zucker-Flumm (7 Tage Login), Gold-Flumm (5 Duell-Siege), Regen-Flumm (3 Duell-Niederlagen)','Kostüme passen auf jedes Maskottchen; im Duell sieht dein Gegner dein Maskottchen']],
  ['0.14.2','24',['Weltwechsel: Himmel blendet langsamer und weicher über (4 Sekunden)','Wald: Bäume stehen jetzt auf den Hügeln statt in der Luft','Welt-Name oben größer']],
  ['0.14.1','23',['Jede Welt hat jetzt ihren eigenen Himmel und Hintergrund (Nebel im Moorwald, Tannen im Wald, Meer am Strand, Dünen, Berge, Vulkan mit Glut, Wolkenmeer …)','Weicher Übergang beim Weltwechsel','Oben in der Mitte stehen jetzt Welt und Eigenschaften']],
@@ -790,7 +791,7 @@ const MASC=[
 ];
 const MBY={};MASC.forEach(m=>MBY[m.id]=m);
 function mascCheck(){if(!save.mOwned)return;const got=MASC.filter(m=>m.ok&&!save.mOwned.includes(m.id)&&m.ok());if(!got.length)return;got.forEach(m=>save.mOwned.push(m.id));persist();
- setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎉 Neues Maskottchen: '+got.map(m=>m.name).join(', ')+'! (Kostüme → Maskottchen)');},700);}
+ setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎉 Neu: '+got.map(m=>m.name).join(', ')+'!');},700);}
 
 
 /* ---------- Level ---------- */
@@ -1648,7 +1649,7 @@ function ward(){
  const allIds=ALBUMS.flatMap(a=>a.ids);$('wCount').textContent=allIds.filter(i=>save.owned.includes(i)).length+'/'+allIds.length;
  $('wOff').style.display=save.costume==='none'?'none':'';
  const mn=MASC.filter(m=>save.mOwned.includes(m.id)).length;
- $('wgrid').innerHTML='<div class="asec"><h3>Maskottchen</h3><div class="abar"><i style="width:'+(mn/MASC.length*100)+'%"></i><em>'+mn+'/'+MASC.length+' · ✨ exklusive durch Level, Serien, Login &amp; Duelle</em></div><div class="agrid">'+MASC.map(m=>{const own=save.mOwned.includes(m.id);return jtile(m.id,m.name,own,save.masc===m.id,wardSelM===m.id&&!own,m.price||1,152,152,'Wählen',null,m.ex).replace('<button ','<button data-m="1" ');}).join('')+'</div></div>'+ALBUMS.map(al=>{const n=al.ids.filter(i=>save.owned.includes(i)).length,done=save.albumDone.includes(al.name);
+ $('wgrid').innerHTML='<div class="asec"><h3>Maskottchen</h3><div class="abar"><i style="width:'+(mn/MASC.length*100)+'%"></i><em>'+mn+'/'+MASC.length+' · ✨ = exklusiv</em></div><div class="agrid">'+MASC.map(m=>{const own=save.mOwned.includes(m.id);return jtile(m.id,m.name,own,save.masc===m.id,wardSelM===m.id&&!own,m.price||1,152,152,'Wählen',null,m.ex).replace('<button ','<button data-m="1" ');}).join('')+'</div></div>'+ALBUMS.map(al=>{const n=al.ids.filter(i=>save.owned.includes(i)).length,done=save.albumDone.includes(al.name);
   return '<div class="asec"><h3>'+al.name+'</h3><div class="abar"><i style="width:'+(n/al.ids.length*100)+'%"></i><em>'+n+'/'+al.ids.length+(done?' · Belohnung erhalten ✔':' · komplett: +'+al.reward+' 🪙')+'</em></div><div class="agrid">'+
   al.ids.map(id=>{const c=COS[id];return jtile(id,c.name,save.owned.includes(id),save.costume===id,wardSel===id&&!save.owned.includes(id),c.price,152,152,'Anziehen',c.streak);}).join('')+'</div></div>';}).join('');
  $('wgrid').querySelectorAll('.jt').forEach(btn=>{const cc=btn.querySelector('canvas').getContext('2d');cc.setTransform(2,0,0,2,0,0);
@@ -1881,7 +1882,7 @@ on('sTut',()=>{SFX.click();setupMenu();startTut();});
 applyTheme(save.bg);labels();startFlow();
 /* ---------- Native App (Capacitor) ---------- */
 (function(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return;const P=CP.Plugins||{};
- try{if(P.StatusBar){P.StatusBar.setOverlaysWebView({overlay:true});P.StatusBar.setStyle({style:'LIGHT'});}}catch(e){}
+ try{if(P.StatusBar){P.StatusBar.setOverlaysWebView({overlay:true});P.StatusBar.setStyle({style:'LIGHT'});P.StatusBar.hide();}}catch(e){}
  try{if(P.SplashScreen)setTimeout(()=>P.SplashScreen.hide(),300);}catch(e){}
  if(P.App)P.App.addListener('backButton',()=>{
   const cur=SCREENS.find(x=>$(x).classList.contains('on'));

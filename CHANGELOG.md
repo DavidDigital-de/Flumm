@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.15.1 · Build 26
+- App läuft jetzt im Vollbild: Statusleiste (Uhr, Akku, Signal) und Navigationsleiste sind ausgeblendet – kurz vom Rand wischen holt sie zurück
+- Kürzere Meldung bei neuen Maskottchen
+
 ## v0.15.0 · Build 25
 - Neu: Maskottchen – Flumm in anderen Farben (unter Kostüme ganz oben)
 - Mit Münzen: Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze, Frosch

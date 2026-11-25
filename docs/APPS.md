@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.15.0 (Build 25)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.15.1 (Build 26)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.15.0-build25`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.15.1-build26`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -55,3 +55,6 @@ Bei jeder Auslieferung: `VERSION`/`BUILD` in `index.html`, `version` in `package
 - Google Play Games (Erfolge, Bestenlisten) – braucht die IDs aus der Play Console
 - Firebase (Duelle, Freunde, Push) – braucht `google-services.json` / `GoogleService-Info.plist`
 - AdMob (Werbung) – braucht App- und Anzeigenblock-IDs
+
+## Vollbild
+Android: `MainActivity.java` blendet Status- und Navigationsleiste immersiv aus (Wischen vom Rand zeigt sie kurz). iOS: `UIStatusBarHidden` in Info.plist + `StatusBar.hide()` im Spiel.
