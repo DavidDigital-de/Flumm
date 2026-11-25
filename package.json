@@ -1,6 +1,6 @@
 {
   "name": "flumm",
-  "version": "0.21.2",
+  "version": "0.21.3",
   "private": true,
   "description": "FLUMM – Hüpf-Spiel mit Pflege-Wesen",
   "scripts": {

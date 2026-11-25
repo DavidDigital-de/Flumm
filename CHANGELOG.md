@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.21.3 · Build 44
+- Das 10. Level jeder Welt ist jetzt ein Finale und 50 % länger
+
 ## v0.21.2 · Build 43
 - Abenteuer-Level heißen jetzt nach Welt und Nummer: Welt 1-1, Welt 1-2 … Welt 13-10 (Karte, Anzeige oben, Ergebnis)
 
