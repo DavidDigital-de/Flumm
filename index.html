@@ -575,8 +575,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.16.0', BUILD=28;
+const VERSION='0.16.1', BUILD=29;
 const CHANGELOG=[
+ ['0.16.1','29',['Glibber-Polster neu: liegt jetzt als runde Glibber-Kuppel auf der Insel, Flumm sinkt sichtbar ein','Polster wackelt leicht und federt beim Absprung']],
  ['0.16.0','28',['Bewegliche Inseln neu gestaltet und an die jeweilige Welt angepasst','Seitwärts: Insel mit schlagenden Flügeln','Hoch und runter: Insel mit leuchtendem Kristall-Antrieb','Sprung-Insel: Insel mit wackelndem pinkem Glibber-Polster','Tutorial und Hilfe zeigen die neuen Inseln']],
  ['0.15.2','27',['Zielhilfe berücksichtigt jetzt Sand (kürzer) und federnde Inseln (weiter)','Eis: PERFEKT zählt erst, wenn Flumm stehen bleibt – wer runterrutscht, bekommt keins','Vulkan: Hitze-Zähler startet nach dem Wiederbeleben neu','Vulkan: Beim Aufladen hüpft Flumm nicht mehr weg – er blinkt rot als Warnung']],
  ['0.15.1','26',['App läuft jetzt im Vollbild: Statusleiste (Uhr, Akku, Signal) und Navigationsleiste sind ausgeblendet – kurz vom Rand wischen holt sie zurück','Kürzere Meldung bei neuen Maskottchen']],
@@ -1324,7 +1325,12 @@ function decoDraw(c,kind,x,y,w,t,bt,a,sid){
  else if(kind==='lift'){const S=SPR[sid];let bot=y+w*.5;if(S&&S.im.naturalWidth){const dh=w*1.06*S.im.naturalHeight/S.im.naturalWidth;bot=y+(1-S.top)*dh*.92;}
   const fh=10+Math.sin(t*25)*4;c.save();if(a!=null)c.globalAlpha=a;const g=c.createRadialGradient(x+w/2,bot+14,2,x+w/2,bot+14,22+fh);g.addColorStop(0,'rgba(220,190,255,.9)');g.addColorStop(1,'rgba(160,110,255,0)');c.fillStyle=g;c.beginPath();c.ellipse(x+w/2,bot+16,14,16+fh,0,0,7);c.fill();c.restore();
   partDraw(c,'thruster',x+w/2,bot-6,Math.max(20,w*.3),.5,0,0,false,a);}
- else if(kind==='spring'){const s=1+Math.sin(bt*30)*.25*Math.exp(-bt*6);const pw=w*.92,ph=pw*.26;c.save();if(a!=null)c.globalAlpha=a;c.translate(x+w/2,y+5);c.scale(1/s,s);const S=SPR.jelly;if(S&&S.im.complete&&S.im.naturalWidth)c.drawImage(S.im,-pw/2,-ph,pw,ph);c.restore();}
+ else if(kind==='spring'){const s=1+Math.sin(bt*30)*.3*Math.exp(-bt*6),cx=x+w/2,cy=y+1,rx=w*.4,ry=Math.max(5,w*.1),h=w*.17*s,wob=Math.sin(t*3)*1.2;
+  c.save();if(a!=null)c.globalAlpha=a;c.lineJoin='round';
+  c.beginPath();c.ellipse(cx,cy,rx,ry,0,Math.PI,0,true);c.bezierCurveTo(cx+rx+wob,cy-h*1.35,cx-rx-wob,cy-h*1.35,cx-rx,cy);c.closePath();
+  const g=c.createRadialGradient(cx-rx*.35,cy-h*.7,2,cx,cy,rx*1.1);g.addColorStop(0,'#FFE3F0');g.addColorStop(.45,'#FF8DBC');g.addColorStop(1,'#D9407A');c.fillStyle=g;c.fill();c.strokeStyle='#7A2350';c.lineWidth=2;c.stroke();
+  c.fillStyle='rgba(255,255,255,.85)';c.beginPath();c.ellipse(cx-rx*.38,cy-h*.62,rx*.22,h*.16+1,-.2,0,7);c.fill();c.beginPath();c.arc(cx-rx*.08,cy-h*.8,1.8,0,7);c.fill();
+  c.restore();}
 }
 function platSkin(p){if(p.type==='crack')return'crack';
  if(p.type==='start'&&G.mode==='menu')return G.prevPl||save.pl||'grass';
@@ -1496,6 +1502,7 @@ function render(){
  if(B.ground&&B.ground.y!=null){ctx.fillStyle='rgba(40,30,20,.25)';ctx.beginPath();ctx.ellipse(B.x,B.ground.y+1,B.r*(1.05+B.sq*.6),B.r*.28,0,0,7);ctx.fill();}
  if(G.mode==='play'&&B.ground&&B.ground.surf==='hot'&&B.heatT>SURF.hot.heat*.6){const a=(.25+.25*Math.sin(G.t*18))*Math.min(1,(B.heatT-SURF.hot.heat*.6)/(SURF.hot.heat*.4));ctx.fillStyle='rgba(255,70,40,'+a+')';ctx.beginPath();ctx.arc(B.x,B.y,B.r*1.45,0,7);ctx.fill();}
  drawFlumm(ctx,{x:B.x,y:B.y,r:B.r,sq:B.sq,air:B.ground?null:{vx:B.vx,vy:B.vy},expr:currentExpr(),lookX:B.lookX,lookY:B.lookY,blink:B.blink,cos:G.prevCos||save.costume,masc:G.prevMasc||save.masc,stage:save.pet.stage,t:G.t,sick:save.pet.sick,dirt:G.mode==='home'||G.mode==='menu'?save.pet.dirt:0});}
+ if(B.ground&&B.ground.type==='spring'&&!B.ground.broken){const p=B.ground,w=p.w,cx=p.x+w/2,cy=p.y+1+Math.sin(p.bt*28)*5*Math.exp(-p.bt*7),rx=w*.4,ry=Math.max(5,w*.1);ctx.save();ctx.globalAlpha=.55;ctx.fillStyle='#FF8DBC';ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI);ctx.closePath();ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle='#7A2350';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI);ctx.stroke();ctx.restore();}
  if(G.ball){const b=G.ball;ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.rot);const cs=['#FF6FAE','#FFE066','#5FB8F5','#fff'];for(let i=0;i<4;i++){ctx.fillStyle=cs[i];ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,11,i*Math.PI/2,(i+1)*Math.PI/2);ctx.fill();}ctx.strokeStyle='#3A3558';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,11,0,7);ctx.stroke();ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.arc(-4,-4,3,0,7);ctx.fill();ctx.restore();}
  if(G.food){const f=G.food,k=Math.min(1,f.t/f.d),x1=B.x,y1=B.y+B.r*.2;berryShape(ctx,f.x0+(x1-f.x0)*k,f.y0+(y1-f.y0)*k-Math.sin(k*Math.PI)*70,.8);}
  for(const q of G.parts){if(q.k===0&&q.g===0)continue;ctx.globalAlpha=Math.min(1,q.life/q.max*2);ctx.fillStyle=q.c;

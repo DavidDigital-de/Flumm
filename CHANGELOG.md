@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.16.1 · Build 29
+- Glibber-Polster neu: liegt jetzt als runde Glibber-Kuppel auf der Insel, Flumm sinkt sichtbar ein
+- Polster wackelt leicht und federt beim Absprung
+
 ## v0.16.0 · Build 28
 - Bewegliche Inseln neu gestaltet und an die jeweilige Welt angepasst
 - Seitwärts: Insel mit schlagenden Flügeln
