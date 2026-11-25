@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.14.1 · Build 23
+- Jede Welt hat jetzt ihren eigenen Himmel und Hintergrund (Nebel im Moorwald, Tannen im Wald, Meer am Strand, Dünen, Berge, Vulkan mit Glut, Wolkenmeer …)
+- Weicher Übergang beim Weltwechsel
+- Oben in der Mitte stehen jetzt Welt und Eigenschaften
+
 ## v0.14.0 · Build 22
 - Welten haben eigene Insel-Eigenschaften
 - Eiswelt: Eis-Inseln sind rutschig – Flumm schlittert weiter und kann runterrutschen; Schnee-Inseln (neues Design) nur leicht

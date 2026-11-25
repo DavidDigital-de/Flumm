@@ -1,7 +1,7 @@
 # FLUMM
 
 Hüpf-Spiel mit Pflege-Wesen (Tamagotchi-Prinzip) – Prototyp als Single-File-HTML.
-Version: **v0.14.0 · Build 22**
+Version: **v0.14.1 · Build 23**
 
 ## Apps
 Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: siehe [docs/APPS.md](docs/APPS.md).
