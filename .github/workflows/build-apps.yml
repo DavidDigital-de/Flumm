@@ -1,0 +1,133 @@
+name: Apps bauen (Android & iOS)
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    name: Android (APK + AAB)
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEY: ${{ secrets.FLUMM_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Abhängigkeiten
+        run: npm ci
+      - name: Web-Dateien übernehmen
+        run: |
+          mkdir -p www && cp index.html www/ && cp -r fonts www/
+          npx cap sync android
+      - name: Debug-APK bauen (zum Testen)
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+      - name: Signierte Release-Version bauen (AAB für Play Store + APK)
+        if: env.HAS_KEY == 'true'
+        working-directory: android
+        env:
+          FLUMM_KEYSTORE_PASSWORD: ${{ secrets.FLUMM_KEYSTORE_PASSWORD }}
+          FLUMM_KEY_ALIAS: ${{ secrets.FLUMM_KEY_ALIAS }}
+          FLUMM_KEY_PASSWORD: ${{ secrets.FLUMM_KEY_PASSWORD }}
+        run: |
+          echo "${{ secrets.FLUMM_KEYSTORE_BASE64 }}" | base64 --decode > "$RUNNER_TEMP/flumm.jks"
+          export FLUMM_KEYSTORE_PATH="$RUNNER_TEMP/flumm.jks"
+          ./gradlew bundleRelease assembleRelease --no-daemon
+      - name: Dateien sammeln
+        run: |
+          mkdir -p out
+          V=$(node -p "require('./package.json').version")
+          cp android/app/build/outputs/apk/debug/app-debug.apk "out/FLUMM-v$V-debug.apk"
+          if [ -f android/app/build/outputs/bundle/release/app-release.aab ]; then cp android/app/build/outputs/bundle/release/app-release.aab "out/FLUMM-v$V-release.aab"; fi
+          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then cp android/app/build/outputs/apk/release/app-release.apk "out/FLUMM-v$V-release.apk"; fi
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FLUMM-Android
+          path: out/*
+      - name: Bei Versions-Tag als Release veröffentlichen
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/*
+
+  ios:
+    name: iOS
+    runs-on: macos-latest
+    env:
+      HAS_ASC: ${{ secrets.ASC_KEY_P8_BASE64 != '' && secrets.IOS_TEAM_ID != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Neuestes Xcode wählen
+        run: |
+          XC=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          echo "Nutze $XC" && sudo xcode-select -s "$XC" && xcodebuild -version
+      - name: Abhängigkeiten
+        run: npm ci
+      - name: Web-Dateien übernehmen
+        run: |
+          mkdir -p www && cp index.html www/ && cp -r fonts www/
+          npx cap sync ios
+      - name: Unsigniertes Build (Prüfung + IPA für Sideloading)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/FLUMM-unsigned.xcarchive" archive \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+          mkdir -p out/Payload
+          cp -R "$RUNNER_TEMP/FLUMM-unsigned.xcarchive/Products/Applications/App.app" out/Payload/
+          V=$(node -p "require('./package.json').version")
+          (cd out && zip -qr "FLUMM-v$V-unsigned.ipa" Payload && rm -rf Payload)
+      - name: Signiertes Build + Upload zu TestFlight
+        if: env.HAS_ASC == 'true'
+        env:
+          TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          KEY=~/.appstoreconnect/private_keys/AuthKey_$ASC_KEY_ID.p8
+          echo "${{ secrets.ASC_KEY_P8_BASE64 }}" | base64 --decode > "$KEY"
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/FLUMM.xcarchive" archive \
+            DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic $AUTH
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>destination</key><string>upload</string>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/FLUMM.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export" $AUTH
+          echo "Build wurde an App Store Connect / TestFlight übertragen."
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FLUMM-iOS
+          path: out/*
+      - name: Bei Versions-Tag als Release veröffentlichen
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: out/*

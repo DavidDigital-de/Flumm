@@ -1,0 +1,12 @@
+{
+  "appId": "de.daviddigital.flumm",
+  "appName": "FLUMM",
+  "webDir": "www",
+  "backgroundColor": "#7CC8FF",
+  "android": { "allowMixedContent": false },
+  "ios": { "contentInset": "never", "scrollEnabled": false },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#7CC8FF", "showSpinner": false },
+    "StatusBar": { "overlaysWebView": true, "style": "LIGHT" }
+  }
+}

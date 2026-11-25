@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FLUMM</string>
+    <string name="title_activity_main">FLUMM</string>
+    <string name="package_name">de.daviddigital.flumm</string>
+    <string name="custom_url_scheme">de.daviddigital.flumm</string>
+</resources>

@@ -1,5 +1,12 @@
 # Changelog – FLUMM
 
+## v0.9.0 · Build 14
+- Erste Android- und iOS-App (Capacitor)
+- Zurück-Taste unter Android: schließt Fenster, pausiert das Spiel, im Hauptmenü beendet sie die App
+- Vibration über native Haptik
+- Schrift Baloo 2 jetzt eingebaut – funktioniert auch offline
+- App-Symbol und Startbild mit Flumm
+
 ## v0.8.4 · Build 13
 - PC/Tablet: Symbolleiste, Erdbeeren/Münzen und Flumm-Wolke rücken in eine gemeinsame, zentrierte Spalte
 

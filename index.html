@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#8FD3FF">
 <title>FLUMM</title>
+<style>@font-face{font-family:"Baloo 2";font-weight:600;font-display:swap;src:url(fonts/baloo-2-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Baloo 2";font-weight:800;font-display:swap;src:url(fonts/baloo-2-latin-800-normal.woff2) format("woff2")}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 <!--
 FLUMM – Prototyp · Changelog
+v0.9.0 · Build 14 – Android- und iOS-App, Zurück-Taste, native Haptik, Schrift offline.
 v0.8.4 · Build 13 – Hauptmenü auf breiten Bildschirmen zentriert.
 v0.8.3 · Build 12 – Erdbeeren und Münzen im Hauptmenü.
 v0.8.2 · Build 11 – Pause/Ergebnis mit Kacheln, Kostüme wie Gestalten mit Anprobe, Zuhause-X, Mond-Fix, Tutorial-Symbole.
@@ -545,8 +547,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.8.4', BUILD=13;
+const VERSION='0.9.0', BUILD=14;
 const CHANGELOG=[
+ ['0.9.0','14',['Erste Android- und iOS-App (Capacitor)','Zurück-Taste unter Android: schließt Fenster, pausiert das Spiel, im Hauptmenü beendet sie die App','Vibration über native Haptik','Schrift Baloo 2 jetzt eingebaut – funktioniert auch offline','App-Symbol und Startbild mit Flumm']],
  ['0.8.4','13',['PC/Tablet: Symbolleiste, Erdbeeren/Münzen und Flumm-Wolke rücken in eine gemeinsame, zentrierte Spalte']],
  ['0.8.3','12',['Erdbeeren und Münzen werden jetzt im Hauptmenü angezeigt']],
  ['0.8.2','11',['Pause, Ergebnis, Game Over: großer Hauptknopf und Symbol-Kacheln wie im Hauptmenü','Kostüme und Gestalten gleich groß, Flumm darüber sichtbar – Kostüme lassen sich vor dem Kauf anprobieren','Kostüme aus dem Hauptmenü kehren ins Hauptmenü zurück','Zuhause mit ✕-Knopf','Mond in der Sternennacht repariert','Tutorial: Zustände und Stufen übersichtlich mit Symbolen']],
@@ -673,7 +676,7 @@ function musicPlay(id){if(MUS.cur===id&&MUS.g)return;musicStop();if(!id||!save.m
 let musWant=null;
 function musicFor(scr){const P=save.pet;if(scr==='hud'||scr==='pause')return'game';if(scr==='lost')return'over';if(scr==='result')return null;if(scr==='home'||scr==='ward')return P.sleep?'sleep':P.sick?'sick':'happy';return'menu';}
 function musicAuto(){const cur=SCREENS.find(x=>$(x).classList.contains('on'))||'menu';musWant=musicFor(cur);musicPlay(musWant);}
-function buzz(ms){if(save.vib===false)return;try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+function buzz(ms){if(save.vib===false)return;const CP=window.Capacitor;if(CP&&CP.isNativePlatform&&CP.isNativePlatform()&&CP.Plugins&&CP.Plugins.Haptics){try{const d=Array.isArray(ms)?40:ms;CP.Plugins.Haptics.impact({style:d>=40?'HEAVY':d>=15?'MEDIUM':'LIGHT'});}catch(e){}return;}try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
 
 /* ---------- Kostüme ---------- */
 function capDraw(c,r,top,dark,band){
@@ -1695,6 +1698,24 @@ on('helpBack',()=>{SFX.click();show(helpFrom);});
 on('hTut',()=>{SFX.click();setupMenu();startTut();});
 on('sTut',()=>{SFX.click();setupMenu();startTut();});
 applyTheme(save.bg);labels();startFlow();
+/* ---------- Native App (Capacitor) ---------- */
+(function(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return;const P=CP.Plugins||{};
+ try{if(P.StatusBar){P.StatusBar.setOverlaysWebView({overlay:true});P.StatusBar.setStyle({style:'LIGHT'});}}catch(e){}
+ try{if(P.SplashScreen)setTimeout(()=>P.SplashScreen.hide(),300);}catch(e){}
+ if(P.App)P.App.addListener('backButton',()=>{
+  const cur=SCREENS.find(x=>$(x).classList.contains('on'));
+  if($('tut').classList.contains('on')){$('tutSkip').click();return;}
+  if($('sheet').classList.contains('on')){closeSheet();return;}
+  if(cur==='hud'){$('bPause').click();return;}
+  if(cur==='pause'){$('pGo').click();return;}
+  if(cur==='ward'){$('wBack').click();return;}
+  if(cur==='design'){$('dBack').click();return;}
+  if(cur==='map'){$('mBack').click();return;}
+  if(cur==='duel'){$('duBack').click();return;}
+  if(cur==='help'){$('helpBack').click();return;}
+  if(cur==='menu'||cur==='hatch'||cur==='daily'){P.App.exitApp();return;}
+  toMain();});
+})();
 let last=performance.now();
 function loop(now){let dt=(now-last)/1000;last=now;if(dt>.05)dt=.05;if(dt<0)dt=0;if(G.mode!=='pause'&&G.mode!=='map'){update(dt);render();placeBubble();}requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
