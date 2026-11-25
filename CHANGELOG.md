@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.21.1 · Build 42
+- Dschungel: Palmen und Laubbäume statt Tannen im Hintergrund
+- Bröckel-Inseln passen sich jetzt der Welt an – erkennbar an Rissen und herabfallenden Brocken
+
 ## v0.21.0 · Build 41
 - Abenteuer: drei neue Welten – Welt 11 Dschungel, Welt 12 Gruselwald, Welt 13 Mond (wenig Schwerkraft)
 - Jetzt 13 Welten mit 130 Leveln, die Weltkarte ist entsprechend länger
