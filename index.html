@@ -605,8 +605,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.22.1', BUILD=47;
+const VERSION='0.22.2', BUILD=48;
 const CHANGELOG=[
+ ['0.22.2','48',['Flüssiger Hintergrund-Übergang beim Biomwechsel (alter Himmel wird sparsam im Puffer gezeichnet statt doppelt pro Bild)']],
  ['0.22.1','47',['Neuer App-Build (der Upload von Build 46 ist bei GitHub fehlgeschlagen) – Inhalt wie 0.22.0']],
  ['0.22.0','46',['Bestenlisten Tageslauf & Endlos zeigen zu jedem Lauf: Insel, Zeit, Perfekt-Landungen, Münzen und Beeren','Eigene Ansicht mit Heute / Woche / Gesamt, dein Platz ist hervorgehoben','Ergebnis-Bildschirm zeigt Zeit, Perfekt, Münzen und Beeren des Laufs','Neue Duell-Bestzeit wird im Ergebnis angezeigt']],
  ['0.21.4','45',['Flüssiger: weniger Rechenarbeit im Hauptmenü (Info-Klecks, Himmel) und etwas geringere Bildauflösung auf sehr scharfen Displays','Info-Klecks ohne Tropfen-Nupsis','Gesundheit sinkt früher: schon nach 2 Std. ohne Energie oder Essen, 3 Std. schlechter Laune oder 4 Std. sehr schmutzig']],
@@ -656,7 +657,7 @@ const CHANGELOG=[
  ['0.1.0','1',['Erster spielbarer Prototyp mit 10 Leveln']]
 ];
 const $=id=>document.getElementById(id);
-const cv=$('c'), ctx=cv.getContext('2d');
+const cv=$('c');let ctx=cv.getContext('2d');
 let W=0,H=0,DPR=1,SC=1,VW=460,VHe=720;
 function resize(){try{PB.w=0;}catch(e){}DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);SC=Math.min(H/720,W/460);VW=W/SC;VHe=H/SC;if(G&&G.mode==='map')openMap(true);}
 let G=null;
@@ -1430,8 +1431,15 @@ function drawSky(){
  const id=SKY[skyTheme()]?skyTheme():'day';
  if(G.skyCur!==id){G.skyPrev=G.skyCur||id;G.skyCur=id;G.skyT0=G.t;}
  let k=Math.min(1,(G.t-(G.skyT0||0))/4);k=k*k*(3-2*k);
- if(k<1&&G.skyPrev!==id){drawSkyP(SKY[G.skyPrev]);ctx.globalAlpha=k;drawSkyP(SKY[id],k);ctx.globalAlpha=1;}else drawSkyP(SKY[id]);
+ if(k<1&&G.skyPrev!==id){
+  // alter Himmel: halbe Auflösung, nur jedes 3. Bild neu gezeichnet → Übergang kostet kaum mehr als ein normaler Himmel
+  const ow=Math.ceil(VW*SKO_S),oh=Math.ceil(VHe*SKO_S);
+  if(SKO.width!==ow||SKO.height!==oh){SKO.width=ow;SKO.height=oh;SKO.n=0;}
+  if(SKO.id!==G.skyPrev||!(SKO.n++%3)){SKO.id=G.skyPrev;const m=ctx;ctx=SKX;ctx.setTransform(SKO_S,0,0,SKO_S,0,0);try{drawSkyP(SKY[G.skyPrev]);}finally{ctx=m;}}
+  ctx.drawImage(SKO,0,0,VW,VHe);ctx.globalAlpha=k;drawSkyP(SKY[id],k);ctx.globalAlpha=1;
+ }else drawSkyP(SKY[id]);
 }
+const SKO=document.createElement('canvas'),SKX=SKO.getContext('2d'),SKO_S=.5;
 function drawSkyP(P,fa){fa=fa==null?1:fa;
  const gk=P.g.join()+VHe;let g=GC['l'+gk];if(!g){g=ctx.createLinearGradient(0,0,0,VHe);g.addColorStop(0,P.g[0]);g.addColorStop(.6,P.g[1]);g.addColorStop(1,P.g[2]);GC['l'+gk]=g;}
  ctx.fillStyle=g;ctx.fillRect(0,0,VW,VHe);

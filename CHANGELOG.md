@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.22.2 · Build 48
+- Flüssiger Hintergrund-Übergang beim Biomwechsel (alter Himmel wird sparsam im Puffer gezeichnet statt doppelt pro Bild)
+
 ## v0.22.1 · Build 47
 - Neuer App-Build (der Upload von Build 46 ist bei GitHub fehlgeschlagen) – Inhalt wie 0.22.0
 
