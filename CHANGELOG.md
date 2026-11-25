@@ -1,5 +1,12 @@
 # Changelog – FLUMM
 
+## v0.16.0 · Build 28
+- Bewegliche Inseln neu gestaltet und an die jeweilige Welt angepasst
+- Seitwärts: Insel mit schlagenden Flügeln
+- Hoch und runter: Insel mit leuchtendem Kristall-Antrieb
+- Sprung-Insel: Insel mit wackelndem pinkem Glibber-Polster
+- Tutorial und Hilfe zeigen die neuen Inseln
+
 ## v0.15.2 · Build 27
 - Zielhilfe berücksichtigt jetzt Sand (kürzer) und federnde Inseln (weiter)
 - Eis: PERFEKT zählt erst, wenn Flumm stehen bleibt – wer runterrutscht, bekommt keins
