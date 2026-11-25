@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.17.3 · Build 33
+- Abenteuer Welt 1 (Wiese) nutzt jetzt auch die Standard-Grasinseln – alle Welten haben ihre eigenen Biom-Inseln
+- Dein Insel- und Hintergrund-Design aus „Gestalten“ gilt für dein Zuhause
+
 ## v0.17.2 · Build 32
 - Datenschutzerklärung online und in den Einstellungen verlinkt
 - Web-Version lädt keine Google-Schriften mehr (Schrift ist eingebaut)
