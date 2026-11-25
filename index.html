@@ -320,7 +320,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 #goMenu.on{display:grid;place-items:center}
 #goMenu svg,.ibtn svg{width:26px;height:26px;display:block}
 .bubble{background:var(--blob) center/100% 100% no-repeat!important;border:0!important;box-shadow:none!important;border-radius:0!important;filter:drop-shadow(0 3px 0 rgba(58,53,88,.35))}
-.bubble.kl{white-space:normal;width:206px;padding:12px 18px 30px 16px;text-align:center}.bubble.kl b.nm{font-size:16px;display:block}.bubble.kl small{opacity:.8}.kmet{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin:5px 0 2px}.kmet span{display:flex;align-items:center;gap:3px;font-size:12px}.kmet i{flex:1;height:7px;border-radius:4px;background:rgba(58,53,88,.18);overflow:hidden;border:1.5px solid rgba(58,53,88,.55)}.kmet i u{display:block;height:100%}.kwarn{display:block;margin-top:3px;font-size:11.5px;color:#B0303A;font-weight:800;line-height:1.15}
+.bubble.kl{white-space:normal;width:228px;padding:14px 24px 36px 22px;text-align:center}.bubble.kl b.nm{font-size:16px;display:block}.bubble.kl small{opacity:.8}.kmet{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin:5px 0 2px}.kmet span{display:flex;align-items:center;gap:3px;font-size:12px}.kmet i{flex:1;height:7px;border-radius:4px;background:rgba(58,53,88,.18);overflow:hidden;border:1.5px solid rgba(58,53,88,.55)}.kmet i u{display:block;height:100%}.kwarn{display:block;margin:3px 4px 0;font-size:11.5px;color:#B0303A;font-weight:800;line-height:1.15}
 .bubble::after{display:none!important}
 .bubble.wob{animation:fl 3.2s ease-in-out infinite,wob .6s cubic-bezier(.3,1.6,.5,1)!important}
 @keyframes fl{0%,100%{translate:0 0}50%{translate:0 -7px}}
@@ -595,8 +595,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.18.1', BUILD=35;
+const VERSION='0.18.2', BUILD=36;
 const CHANGELOG=[
+ ['0.18.2','36',['Klecks im Hauptmenü hat wieder seinen dunklen Rand','Mehr Platz im Klecks – Warnhinweise bleiben innerhalb']],
  ['0.18.1','35',['Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens','Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise','Bestenlisten: eigene, schlanke Anbindung an Google Play Spiele (Android-Build repariert)']],
  ['0.18.0','34',['Neu: Bestenlisten für Tageslauf, Endlos und Duell-Siege (Spielen → 🏆 Bestenlisten)','Weltweit über Google Play Spiele – Ergebnisse werden nach jedem Lauf automatisch eingetragen','Nach Endlos, Tageslauf und Duell direkt zur Bestenliste']],
  ['0.17.3','33',['Abenteuer Welt 1 (Wiese) nutzt jetzt auch die Standard-Grasinseln – alle Welten haben ihre eigenen Biom-Inseln','Dein Insel- und Hintergrund-Design aus „Gestalten“ gilt für dein Zuhause']],
@@ -1136,7 +1137,7 @@ function menuUI(){$('mnStreak').innerHTML='🔥 '+curStreak()+(streakDoneToday()
  const wt=warnTxt();
  el.innerHTML='<b class="nm">'+esc(save.petName)+(P.cstars?' ★'+P.cstars:'')+'</b><small>'+STAGES[P.stage].name+' · '+ageText()+'</small><span class="stp" style="background:'+st[1]+'">'+st[0]+'</span>'
   +'<div class="kmet">'+bar('🍓',P.sat,'#FFB84D')+bar('❤️',P.mood,'#FF6FAE')+bar('⚡',P.energy,'#5FB8F5')+bar('💊',P.hp,'#4FCB8A')+'</div>'+(wt?'<span class="kwarn">⚠ '+wt+'</span>':'');
- const blob="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' preserveAspectRatio='none'><path d='M42 8Q100 -6 158 8Q196 18 195 62Q194 104 172 118Q170 140 160 148Q150 142 152 122Q124 130 100 128Q98 148 88 154Q78 148 80 128Q34 130 14 108Q2 86 6 54Q10 16 42 8Z' fill='"+M.pal[0]+"' stroke='%233A3558' stroke-width='3' vector-effect='non-scaling-stroke'/><ellipse cx='52' cy='30' rx='22' ry='9' fill='white' opacity='.75' transform='rotate(-14 52 30)'/><circle cx='84' cy='22' r='4' fill='white' opacity='.75'/></svg>";
+ const blob="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' preserveAspectRatio='none'><path d='M42 8Q100 -6 158 8Q196 18 195 62Q194 104 172 118Q170 140 160 148Q150 142 152 122Q124 130 100 128Q98 148 88 154Q78 148 80 128Q34 130 14 108Q2 86 6 54Q10 16 42 8Z' fill='"+M.pal[0]+"' stroke='#3A3558' stroke-width='3.5' stroke-linejoin='round' vector-effect='non-scaling-stroke'/><ellipse cx='52' cy='30' rx='22' ry='9' fill='white' opacity='.75' transform='rotate(-14 52 30)'/><circle cx='84' cy='22' r='4' fill='white' opacity='.75'/></svg>";
  el.style.setProperty('--blob','url("data:image/svg+xml,'+encodeURIComponent(blob).replace(/'/g,'%27')+'")');}
 function placeBubble(){const el=$('petBub');if(!$('menu').classList.contains('on')||G.mode!=='menu'||!save.hatched){el.classList.remove('show');return;}
  const p=G.plats[0];if(!p)return;const k=G.zoom*SC,fx=(B.x-G.cam.x)*k,fy=(p.y-G.cam.y)*k-2*B.r*k,h=el.offsetHeight;

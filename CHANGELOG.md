@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.18.2 · Build 36
+- Klecks im Hauptmenü hat wieder seinen dunklen Rand
+- Mehr Platz im Klecks – Warnhinweise bleiben innerhalb
+
 ## v0.18.1 · Build 35
 - Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens
 - Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise
