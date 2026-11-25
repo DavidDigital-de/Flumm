@@ -412,7 +412,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
   <div class="modes">
     <button class="mode m1" id="mdAdv"><span class="mi" id="miAdv"></span><span><b>Abenteuer</b><small>10 Welten · 100 Level</small></span><em id="mdAdvE"></em></button>
     <button class="mode m2" id="mdEnd"><span class="mi" id="miEnd"></span><span><b>Endlos</b><small>Wie weit kommt Flumm?</small></span><em id="mdEndE"></em></button>
-    <button class="mode m3" id="mdDay"><span class="mi" id="miDay"></span><span><b>Tageslauf</b><small>1 Leben · jeden Tag = 🔥 Serie</small></span><em id="mdDayE"></em></button>
+    <button class="mode m3" id="mdDay"><span class="mi" id="miDay"></span><span><b>Tageslauf</b><small id="mdDaySm">1 Leben · jeden Tag = 🔥 Serie</small></span><em id="mdDayE"></em></button>
     <button class="mode m4" id="mdDuel"><span class="mi" id="miDuel"></span><span><b>Duell</b><small>Fordere Freunde heraus</small></span><em id="mdDuelE"></em></button>
   </div>
   <button class="btn s w" id="mdLb" style="margin:8px auto 0;display:block">🏆 Bestenlisten</button>
@@ -596,8 +596,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.19.0', BUILD=37;
+const VERSION='0.19.1', BUILD=38;
 const CHANGELOG=[
+ ['0.19.1','38',['Tageslauf zeigt, wie viele Spieler weltweit heute schon gespielt haben (👥) – ab dem ersten Spieler','Anzeige im Spielmodus-Menü und in den Bestenlisten (benötigt Google Play Spiele)']],
  ['0.19.0','37',['Zuhause: Infos zu Füttern, Waschen, Spielen, Schlafen, Medizin und Kostümen – Knopf gedrückt halten (am PC: Maus drüber)','Infos zu Satt, Laune, Energie, Gesundheit und Wachsen – einfach auf den Wert tippen']],
  ['0.18.2','36',['Klecks im Hauptmenü hat wieder seinen dunklen Rand','Mehr Platz im Klecks – Warnhinweise bleiben innerhalb']],
  ['0.18.1','35',['Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens','Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise','Bestenlisten: eigene, schlanke Anbindung an Google Play Spiele (Android-Build repariert)']],
@@ -730,16 +731,18 @@ setTimeout(adsInit,1500);
 /* ---------- Bestenlisten (Google Play Games / Game Center) ----------
    IDs aus der Play Console (Play-Spieldienste → Bestenlisten) eintragen. Solange leer: nur lokale Rekorde. */
 const LB_CFG={android:{endless:'',daily:'',duel:''},ios:{endless:'',daily:'',duel:''}}; // iOS: Game Center folgt
-const LB={ok:false,P:null,plat:'',signed:false};
+const LB={ok:false,P:null,plat:'',signed:false,today:-1};
 function lbId(k){const c=LB_CFG[LB.plat]||{};return c[k]||'';}
 async function lbInit(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return;const P=CP.Plugins&&CP.Plugins.PlayGames;LB.plat=CP.getPlatform();
  if(!P||!lbId('endless'))return;LB.P=P;try{await P.initialize();LB.ok=true;const r=await P.signIn({silent:true});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){console.log('Bestenliste',e);}}
 async function lbSignIn(){if(!LB.ok)return false;if(LB.signed)return true;try{const r=await LB.P.signIn({silent:false});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){}return LB.signed;}
 function lbSubmit(k,score){if(!LB.ok||!LB.signed||!lbId(k)||!(score>0))return;LB.P.submitScore({leaderboardId:lbId(k),score:Math.floor(score)}).catch(()=>{});}
-function lbSyncAll(){lbSubmit('endless',save.best||0);if(save.dayRun&&save.dayRun.d===todayStr())lbSubmit('daily',save.dayRun.best);lbSubmit('duel',save.duels&&save.duels.w||0);}
+async function lbCount(){if(!LB.ok||!LB.signed||!lbId('daily')||!LB.P.getPlayerCount)return;try{const r=await LB.P.getPlayerCount({leaderboardId:lbId('daily'),span:'daily'});if(r&&r.count>=0){LB.today=r.count;try{modesUI();}catch(e){}if($('lboard').classList.contains('on'))lbUI();}}catch(e){}}
+const todayTxt=()=>LB.today>=0?'👥 '+LB.today+(LB.today===1?' Spieler':' Spieler')+' heute':'';
+function lbSyncAll(){setTimeout(lbCount,1500);lbSubmit('endless',save.best||0);if(save.dayRun&&save.dayRun.d===todayStr())lbSubmit('daily',save.dayRun.best);lbSubmit('duel',save.duels&&save.duels.w||0);}
 async function lbShow(k){if(!LB.ok){toast('Weltweite Bestenliste folgt mit Google Play Games');return;}if(!(await lbSignIn())){toast('Bitte bei Google Play Spiele anmelden');return;}try{if(k)await LB.P.showLeaderboard({leaderboardId:lbId(k)});else await LB.P.showAllLeaderboards();}catch(e){toast('Bestenliste gerade nicht erreichbar');}}
 function lbUI(){const t=todayStr(),dr=save.dayRun&&save.dayRun.d===t?save.dayRun.best:0,du=save.duels||{w:0,l:0};
- $('lbList').innerHTML=[['daily','📅','Tageslauf','Heute: '+dr+' Inseln'],['endless','♾️','Endlos','Rekord: '+(save.best||0)+' Inseln'],['duel','⚔️','Duell-Siege',du.w+' Siege · '+du.l+' Niederlagen']].map(r=>'<button class="mode lbm" data-lb="'+r[0]+'"><span class="mi" style="font-size:30px">'+r[1]+'</span><span><b>'+r[2]+'</b><small>'+r[3]+'</small></span><em>🏆</em></button>').join('');
+ $('lbList').innerHTML=[['daily','📅','Tageslauf','Heute: '+dr+' Inseln'+(LB.today>=0?' · '+todayTxt():'')],['endless','♾️','Endlos','Rekord: '+(save.best||0)+' Inseln'],['duel','⚔️','Duell-Siege',du.w+' Siege · '+du.l+' Niederlagen']].map(r=>'<button class="mode lbm" data-lb="'+r[0]+'"><span class="mi" style="font-size:30px">'+r[1]+'</span><span><b>'+r[2]+'</b><small>'+r[3]+'</small></span><em>🏆</em></button>').join('');
  $('lbNote').textContent=LB.ok?(LB.signed?'Angemeldet bei Google Play Spiele – tippe für die weltweite Liste.':'Tippe, um dich bei Google Play Spiele anzumelden.'):'Deine Rekorde. Die weltweite Bestenliste kommt mit Google Play Spiele.';}
 setTimeout(lbInit,2500);
 
@@ -1056,7 +1059,7 @@ function finishRun(done){
   if(r.ghost){const g=r.ghost,win=done&&tm<g.t;if(!save.duels)save.duels={w:0,l:0};if(win)save.duels.w++;else save.duels.l++;
    sub=win?'Du hast '+g.n+' besiegt!':'Knapp verloren gegen '+g.n;bonus=win?15:5;li.unshift(g.n+': '+fmtT(g.t)+' s');if(done)li.push('Schick deinen Revanche-Code zurück!');}
   else sub=done?'Strecke geschafft!':'Leider nicht ins Ziel gekommen';}
- if(r.type==='endless')lbSubmit('endless',score);else if(r.type==='daily')lbSubmit('daily',score);else if(r.ghost)lbSubmit('duel',save.duels.w);
+ if(r.type==='endless')lbSubmit('endless',score);else if(r.type==='daily'){lbSubmit('daily',score);setTimeout(lbCount,2500);}else if(r.ghost)lbSubmit('duel',save.duels.w);
  if(P.stage>=4)bonus=Math.round(bonus*1.25);save.coins+=bonus;G.lastGain=G.coinsGot+bonus;$('adDblR').dataset.used='';$('adCont').dataset.used=(r.type==='endless'&&!r.cont&&G.lastIdx>=5)?'':'1';
  li.push('🍓 +'+G.dropsGot+' Beeren · 🪙 +'+(G.coinsGot+bonus)+' Münzen');
  persist();
@@ -1066,7 +1069,7 @@ function finishRun(done){
 function modesUI(){const t=todayStr();
  $('mdAdvE').textContent=Object.values(save.stars).reduce((a,b)=>a+b,0)+'/'+LEVELS.length*3+' ★';
  $('mdEndE').textContent='Rekord '+(save.best||0);
- $('mdDayE').textContent='🔥 '+curStreak()+(streakDoneToday()?' ✔':'');
+ $('mdDayE').textContent='🔥 '+curStreak()+(streakDoneToday()?' ✔':'');$('mdDaySm').textContent=LB.today>=0?'1 Leben · '+todayTxt():'1 Leben · jeden Tag = 🔥 Serie';
  $('mdDuelE').textContent=save.duels?save.duels.w+' Siege':'';}
 
 /* ---------- Pflege ---------- */
@@ -1896,7 +1899,7 @@ on('bReset',()=>{if(!resetArm){resetArm=true;$('bReset').textContent='Wirklich?'
 $('ver').textContent='v'+VERSION+' · Build '+BUILD;
 $('log').innerHTML=CHANGELOG.map(c=>'<p><b>v'+c[0]+' · Build '+c[1]+'</b></p><ul>'+c[2].map(x=>'<li>'+x+'</li>').join('')+'</ul>').join('');
 const toMap=()=>{SFX.click();setupMenu();openMap();};
-const toModes=()=>{if(sickBlock())return;SFX.click();setupMenu();modesUI();show('modes');};
+const toModes=()=>{if(sickBlock())return;SFX.click();lbCount();setupMenu();modesUI();show('modes');};
 on('bPlay',toModes);
 on('mdBack',()=>{SFX.click();show('menu');});on('adDblR',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+' 🪙 extra!');$('adDblR').dataset.used='1';confetti(B.x,B.y);}));
 on('adDblL',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+' 🪙 extra!');$('adDblL').dataset.used='1';confetti(B.x,B.y);}));

@@ -9,6 +9,8 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.android.gms.games.GamesSignInClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.PlayGamesSdk;
+import com.google.android.gms.games.leaderboard.Leaderboard;
+import com.google.android.gms.games.leaderboard.LeaderboardVariant;
 
 /** Kleine eigene Brücke zu Google Play Spiele (PGS v2): Anmeldung und Bestenlisten. */
 @CapacitorPlugin(name = "PlayGames")
@@ -59,6 +61,27 @@ public class PlayGamesPlugin extends Plugin {
         PlayGames.getLeaderboardsClient(getActivity()).getAllLeaderboardsIntent()
             .addOnSuccessListener(this::open).addOnFailureListener(e -> call.reject(e.getMessage()))
             .addOnSuccessListener(i -> call.resolve());
+    }
+
+    /** Anzahl Spieler mit Ergebnis in einer Bestenliste (span: daily|weekly|all). */
+    @PluginMethod
+    public void getPlayerCount(PluginCall call) {
+        String id = call.getString("leaderboardId");
+        String span = call.getString("span", "daily");
+        if (!ready || id == null) { call.reject("missing"); return; }
+        final int ts = "weekly".equals(span) ? LeaderboardVariant.TIME_SPAN_WEEKLY : "all".equals(span) ? LeaderboardVariant.TIME_SPAN_ALL_TIME : LeaderboardVariant.TIME_SPAN_DAILY;
+        PlayGames.getLeaderboardsClient(getActivity()).loadLeaderboardMetadata(id, true)
+            .addOnSuccessListener(data -> {
+                long n = -1;
+                Leaderboard lb = data.get();
+                if (lb != null) {
+                    for (LeaderboardVariant v : lb.getVariants()) {
+                        if (v.getTimeSpan() == ts && v.getCollection() == LeaderboardVariant.COLLECTION_PUBLIC) { n = v.getNumRawScores(); }
+                    }
+                }
+                JSObject r = new JSObject(); r.put("count", n); call.resolve(r);
+            })
+            .addOnFailureListener(e -> call.reject(e.getMessage()));
     }
 
     private void open(Intent i) { getActivity().startActivityForResult(i, 9004); }

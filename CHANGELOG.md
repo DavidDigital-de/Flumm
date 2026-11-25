@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.19.1 · Build 38
+- Tageslauf zeigt, wie viele Spieler weltweit heute schon gespielt haben (👥) – ab dem ersten Spieler
+- Anzeige im Spielmodus-Menü und in den Bestenlisten (benötigt Google Play Spiele)
+
 ## v0.19.0 · Build 37
 - Zuhause: Infos zu Füttern, Waschen, Spielen, Schlafen, Medizin und Kostümen – Knopf gedrückt halten (am PC: Maus drüber)
 - Infos zu Satt, Laune, Energie, Gesundheit und Wachsen – einfach auf den Wert tippen
