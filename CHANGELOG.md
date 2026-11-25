@@ -1,5 +1,15 @@
 # Changelog – FLUMM
 
+## v0.10.0 · Build 15
+- Neue Plattform-Grafiken: 17 Designs zum Freischalten (u. a. Stein, Moos, Kristall, Lava, Wüste, Ruine, Honig, Regenbogen)
+- Spezial-Plattformen mit eigenem Look: Feder, Aufzug, Metall-Schieber, bröckelnde Platte
+- Endlos-Modus wechselt alle 15 Plattformen das Biom
+- Neuer Wert Gesundheit: Lange ohne Energie, Essen, Laune oder Sauberkeit macht Flumm krank
+- Werte hängen zusammen: Müde → mehr Hunger und schlechtere Laune
+- Warnhinweis im Zuhause, wenn etwas der Gesundheit schadet
+- Gesund werden über Medizin oder Schlafen mit vollem Bauch
+- Neues App-Symbol und Startbild
+
 ## v0.9.0 · Build 14
 - Erste Android- und iOS-App (Capacitor)
 - Zurück-Taste unter Android: schließt Fenster, pausiert das Spiel, im Hauptmenü beendet sie die App
