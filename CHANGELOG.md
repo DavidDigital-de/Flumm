@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.21.0 · Build 41
+- Abenteuer: drei neue Welten – Welt 11 Dschungel, Welt 12 Gruselwald, Welt 13 Mond (wenig Schwerkraft)
+- Jetzt 13 Welten mit 130 Leveln, die Weltkarte ist entsprechend länger
+
 ## v0.20.0 · Build 40
 - Neues Design für Pilz-, Regenbogen-, Stein-, Holzfloß-, Baumstamm- (vorher Waldstamm) und Ruinen-Insel
 - Drei neue Welten in Endlos und Tageslauf: Dschungel, Gruselwald und Mond (wenig Schwerkraft – Sprünge weiter)

@@ -1,7 +1,7 @@
 # FLUMM
 
 Hüpf-Spiel mit Pflege-Wesen (Tamagotchi-Prinzip) – Prototyp als Single-File-HTML.
-Version: **v0.20.0 · Build 40**
+Version: **v0.21.0 · Build 41**
 
 ## Apps
 Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: siehe [docs/APPS.md](docs/APPS.md).
@@ -12,7 +12,7 @@ Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: sieh
 
 ## Inhalt
 - Sprungmechanik (halten = aufladen, loslassen = springen), PERFEKT-Kombos
-- Abenteuer-Weltkarte (10 Welten, 100 Level), Endlos und Tageslauf mit wechselnden Welten (eigene Insel-Eigenschaften wie rutschiges Eis) und steigender Schwierigkeit, Duell per Code mit Geist
+- Abenteuer-Weltkarte (13 Welten, 130 Level), Endlos und Tageslauf mit wechselnden Welten (eigene Insel-Eigenschaften wie rutschiges Eis) und steigender Schwierigkeit, Duell per Code mit Geist
 - Flumm pflegen: Satt, Laune, Energie, Gesundheit, Schmutz – Werte beeinflussen sich, lange Vernachlässigung macht krank; Wachstum nach Alter + Pflege
 - Erdbeeren (Futter) und Münzen (Kostüme, Designs, Medizin)
 - Maskottchen (Farbvarianten, teils exklusiv), Kostüm-Album, Gestalten (Hintergründe, 17 Plattform-Designs im eigenen SNES-3D-Stil), Endlos-Biome, Tagesgeschenk, Tagesserie mit exklusiven Belohnungen, Tutorial, Hilfe, Musik

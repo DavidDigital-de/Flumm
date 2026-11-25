@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.20.0 (Build 40)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.21.0 (Build 41)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.20.0-build40`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.21.0-build41`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
