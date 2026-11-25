@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.10.2 · Build 17
+- Flumm, Haus und Futterschale stehen jetzt sichtbar auf der Plattform statt an der Hinterkante
+- Weiche Schatten unter Flumm, Haus und Schale
+
 ## v0.10.1 · Build 16
 - Zuhause: Gesundheit-Balken jetzt unten über die volle Breite, Wachsen daneben bei den anderen Werten
 
