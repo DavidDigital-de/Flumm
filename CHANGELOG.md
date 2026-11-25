@@ -1,5 +1,11 @@
 # Changelog – FLUMM
 
+## v0.15.0 · Build 25
+- Neu: Maskottchen – Flumm in anderen Farben (unter Kostüme ganz oben)
+- Mit Münzen: Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze, Frosch
+- Exklusiv: Glücks-Flumm (Level 5), Sternen-Flumm (Level 10), Feuer-Flumm (10 Tage Serie), Zucker-Flumm (7 Tage Login), Gold-Flumm (5 Duell-Siege), Regen-Flumm (3 Duell-Niederlagen)
+- Kostüme passen auf jedes Maskottchen; im Duell sieht dein Gegner dein Maskottchen
+
 ## v0.14.2 · Build 24
 - Weltwechsel: Himmel blendet langsamer und weicher über (4 Sekunden)
 - Wald: Bäume stehen jetzt auf den Hügeln statt in der Luft
