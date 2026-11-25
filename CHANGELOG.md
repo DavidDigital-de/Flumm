@@ -1,5 +1,11 @@
 # Changelog – FLUMM
 
+## v0.11.0 · Build 18
+- Alle 20 Plattformen neu gezeichnet: eigener Stil aus SNES-Pixel-Look und 3D-Tiefe, hochauflösend
+- Feder, Aufzug, Metall-Schieber und Bröckel-Platte im selben Stil
+- Erster Start: Flumm schaut nicht mehr aus dem Ei – erst beim Schlüpfen sichtbar
+- Erster Start: FLUMM-Logo oben auf dem Ei-Bildschirm
+
 ## v0.10.2 · Build 17
 - Flumm, Haus und Futterschale stehen jetzt sichtbar auf der Plattform statt an der Hinterkante
 - Weiche Schatten unter Flumm, Haus und Schale
