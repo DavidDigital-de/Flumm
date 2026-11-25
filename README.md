@@ -1,7 +1,7 @@
 # FLUMM
 
 Hüpf-Spiel mit Pflege-Wesen (Tamagotchi-Prinzip) – Prototyp als Single-File-HTML.
-Version: **v0.17.0 · Build 30**
+Version: **v0.17.1 · Build 31**
 
 ## Apps
 Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: siehe [docs/APPS.md](docs/APPS.md).
@@ -19,7 +19,7 @@ Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: sieh
 
 ## Nächste Schritte
 - Firebase (Duelle, Freunde, Push) und Google Play Games (Erfolge, Bestenlisten)
-- AdMob: echte Anzeigen-IDs eintragen (siehe docs/APPS.md)
+- AdMob iOS: eigene IDs eintragen (Android ist live)
 
 Spielstand liegt lokal im Browser (localStorage).
 

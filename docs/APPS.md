@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.17.0 (Build 30)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.17.1 (Build 31)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.17.0-build30`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.17.1-build31`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -60,7 +60,7 @@ Bei jeder Auslieferung: `VERSION`/`BUILD` in `index.html`, `version` in `package
 Android: `MainActivity.java` blendet Status- und Navigationsleiste immersiv aus (Wischen vom Rand zeigt sie kurz). iOS: `UIStatusBarHidden` in Info.plist + `StatusBar.hide()` im Spiel.
 
 ## Werbung (AdMob)
-Eingebunden über `@capacitor-community/admob` (8.4.2). Aktuell laufen **Google-Testanzeigen**.
+Eingebunden über `@capacitor-community/admob` (8.4.2). **Android live** (App-ID ca-app-pub-8873350241195536~6331311803, Mit Prämie „Rettung“ …/8454912264, Interstitial „Zwischen Runden“ …/1729721819). iOS noch Testanzeigen.
 
 Platzierungen: Video (Belohnung) für *Weiterspielen* im Endlos-Modus (1× pro Lauf, ab Insel 5), *Münzen ×2* nach Spielen und *Gratis-Medizin*. Werbepause (Interstitial) nach jedem 3. Spiel, höchstens alle 150 s. Kein Banner. Datenschutz-Abfrage (UMP) beim Start, iOS-Tracking-Abfrage (ATT), änderbar in den Einstellungen.
 

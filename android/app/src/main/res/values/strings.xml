@@ -4,6 +4,6 @@
     <string name="title_activity_main">Flumm</string>
     <string name="package_name">de.daviddigital.flumm</string>
     <string name="custom_url_scheme">de.daviddigital.flumm</string>
-    <!-- AdMob App-ID: aktuell Google-Test-ID, vor Veröffentlichung durch eigene ersetzen -->
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <!-- AdMob App-ID „Flumm“ (Android) -->
+    <string name="admob_app_id">ca-app-pub-8873350241195536~6331311803</string>
 </resources>

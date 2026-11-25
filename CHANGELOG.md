@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.17.1 · Build 31
+- Android: echte Werbung über AdMob aktiv (App „Flumm“, Anzeigenblöcke „Rettung“ und „Zwischen Runden“)
+- iOS zeigt weiterhin Testanzeigen
+
 ## v0.17.0 · Build 30
 - Abenteuer: 10 Welten mit 100 Leveln – jede Welt mit eigenen Inseln, Himmel und Eigenschaften
 - Weltkarte zeigt alle Welten; die nächste liegt im Nebel, bis die vorige geschafft ist

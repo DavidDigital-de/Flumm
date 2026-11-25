@@ -586,8 +586,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.17.0', BUILD=30;
+const VERSION='0.17.1', BUILD=31;
 const CHANGELOG=[
+ ['0.17.1','31',['Android: echte Werbung über AdMob aktiv (App „Flumm“, Anzeigenblöcke „Rettung“ und „Zwischen Runden“)','iOS zeigt weiterhin Testanzeigen']],
  ['0.17.0','30',['Abenteuer: 10 Welten mit 100 Leveln – jede Welt mit eigenen Inseln, Himmel und Eigenschaften','Weltkarte zeigt alle Welten; die nächste liegt im Nebel, bis die vorige geschafft ist','Hauptmenü: Welten wechseln alle 10 Sekunden im Kreis','Tagesserie hat eine eigene Schaltfläche im Hauptmenü (🔥)','Schlafendes Flumm kann nicht spielen – erst aufwecken','App heißt jetzt „Flumm“','Werbung über AdMob (zunächst Testanzeigen): Video für Weiterspielen, Münzen ×2 und Gratis-Medizin, ab und zu eine Werbepause nach Spielen','Datenschutz-Abfrage für Werbung beim Start, änderbar in den Einstellungen']],
  ['0.16.1','29',['Glibber-Polster neu: liegt jetzt als runde Glibber-Kuppel auf der Insel, Flumm sinkt sichtbar ein','Polster wackelt leicht und federt beim Absprung']],
  ['0.16.0','28',['Bewegliche Inseln neu gestaltet und an die jeweilige Welt angepasst','Seitwärts: Insel mit schlagenden Flügeln','Hoch und runter: Insel mit leuchtendem Kristall-Antrieb','Sprung-Insel: Insel mit wackelndem pinkem Glibber-Polster','Tutorial und Hilfe zeigen die neuen Inseln']],
@@ -685,8 +686,8 @@ decay();
 /* ---------- Werbung (AdMob) ----------
    live:false = Google-Testanzeigen. Für echte Werbung: live:true und die Anzeigenblock-IDs aus AdMob eintragen
    (App-ID steht zusätzlich in android/.../strings.xml und ios/App/App/Info.plist). */
-const ADS_CFG={live:false,
- android:{inter:'',reward:''},
+const ADS_CFG={live:true,
+ android:{inter:'ca-app-pub-8873350241195536/1729721819',reward:'ca-app-pub-8873350241195536/8454912264'},
  ios:{inter:'',reward:''}};
 const ADT={android:{inter:'ca-app-pub-3940256099942544/1033173712',reward:'ca-app-pub-3940256099942544/5224354917'},ios:{inter:'ca-app-pub-3940256099942544/4411468910',reward:'ca-app-pub-3940256099942544/1712485313'}};
 const ADS={ok:false,A:null,plat:'',games:0,last:Date.now(),interReady:false,rewReady:false,busy:false};
