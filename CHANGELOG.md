@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.21.2 · Build 43
+- Abenteuer-Level heißen jetzt nach Welt und Nummer: Welt 1-1, Welt 1-2 … Welt 13-10 (Karte, Anzeige oben, Ergebnis)
+
 ## v0.21.1 · Build 42
 - Dschungel: Palmen und Laubbäume statt Tannen im Hintergrund
 - Bröckel-Inseln passen sich jetzt der Welt an – erkennbar an Rissen und herabfallenden Brocken

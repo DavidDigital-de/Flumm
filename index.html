@@ -120,7 +120,7 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 .node{position:absolute;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;border:3px solid var(--ink);background:radial-gradient(circle at 35% 30%,#FFF0A8,#FFC93C 55%,#E59E1A);box-shadow:0 5px 0 var(--ink);font:inherit;font-weight:800;font-size:25px;line-height:1;color:#fff;padding:3px 0 0;cursor:pointer;
  text-shadow:2px 0 var(--ink),-2px 0 var(--ink),0 2px var(--ink),0 -2px var(--ink),2px 2px var(--ink),-2px 2px var(--ink),0 4px var(--ink);transition:transform .07s,box-shadow .07s}
 .node:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
-.node.cur{background:radial-gradient(circle at 35% 30%,#FFC2DC,#FF6FAE 55%,#D94B8C)}
+.node .nl{font-size:17px;letter-spacing:-.5px}.node.cur{background:radial-gradient(circle at 35% 30%,#FFC2DC,#FF6FAE 55%,#D94B8C)}
 .node.cur::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:4px solid #fff;animation:ring 1.4s ease-out infinite;pointer-events:none}
 @keyframes ring{0%{transform:scale(.8);opacity:.95}100%{transform:scale(1.35);opacity:0}}
 .node.lock{background:radial-gradient(circle at 35% 30%,#F2EFFA,#CFC8E3 60%,#ADA5C8);font-size:20px;cursor:default}
@@ -400,7 +400,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
     <details class="hsec"><summary>Duell</summary><div>Lauf eine Strecke mit 14 Inseln auf Zeit (jeder Sturz +3 s). Danach bekommst du einen <b>Code</b> – kopieren und per Nachricht an Freunde schicken. Sie fügen ihn unter „Code von Freund“ ein und laufen dieselbe Strecke gegen deinen <b>Geist</b>. Der Gewinner bekommt 15 🪙, und es gibt einen Revanche-Code zurück.</div></details>
     <details class="hsec"><summary>Bestenlisten</summary><div>Unter <b>Spielen → 🏆 Bestenlisten</b> findest du drei Listen: <b>Tageslauf</b> (alle spielen dieselbe Strecke – wer kommt heute am weitesten?), <b>Endlos</b> (dein Rekord) und <b>Duell-Siege</b>. Die weltweiten Listen laufen über Google Play Spiele; dafür meldest du dich einmal mit deinem Google-Profil an.</div></details>
     <details class="hsec"><summary>Werbung</summary><div>Flumm ist kostenlos und finanziert sich über Werbung. Freiwillig kannst du ein kurzes <b>Video</b> ansehen: im Endlos-Modus einmal pro Lauf <b>weiterspielen</b> (+1 Herz), nach einem Spiel die <b>Münzen verdoppeln</b> oder einem kranken Flumm <b>Gratis-Medizin</b> geben. Ab und zu kommt nach einem Spiel eine kurze Werbepause (höchstens alle 2½ Minuten). Deine Datenschutz-Auswahl kannst du in den Einstellungen ändern.</div></details>
-    <details class="hsec"><summary>Maskottchen</summary><div>Unter <b>Kostüme</b> findest du ganz oben die Maskottchen – Flumm in anderen Farben. Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze und Frosch kaufst du mit Münzen. <b>Exklusiv</b> gibt es: Glücks-Flumm (Level 5 geschafft), Sternen-Flumm (Level 10), Feuer-Flumm (10 Tage Tagesserie), Zucker-Flumm (7 Tage in Folge eingeloggt), Gold-Flumm (5 Duelle gewonnen) und Regen-Flumm (3 Duelle verloren – als Trost). Kostüme passen auf jedes Maskottchen.</div></details>
+    <details class="hsec"><summary>Maskottchen</summary><div>Unter <b>Kostüme</b> findest du ganz oben die Maskottchen – Flumm in anderen Farben. Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze und Frosch kaufst du mit Münzen. <b>Exklusiv</b> gibt es: Glücks-Flumm (Welt 1-5 geschafft), Sternen-Flumm (Welt 1-10), Feuer-Flumm (10 Tage Tagesserie), Zucker-Flumm (7 Tage in Folge eingeloggt), Gold-Flumm (5 Duelle gewonnen) und Regen-Flumm (3 Duelle verloren – als Trost). Kostüme passen auf jedes Maskottchen.</div></details>
     <details class="hsec"><summary>Tagesserie 🔥</summary><div>Spiele jeden Tag einmal den <b>Tageslauf</b> – dann zählt der Tag für deine Serie. Jeder Serientag bringt extra Münzen (+2 je Tag, max. +20). Meilensteine: Tag 2: 15 🪙 · Tag 3: Kostüm <b>Goldkrone</b> · Tag 5: 30 🪙 + 5 🍓 · Tag 7: Plattform <b>Goldinsel</b> · Tag 10: 50 🪙 · Tag 14: Hintergrund <b>Polarlicht</b> · Tag 21: 80 🪙 + 10 🍓 · Tag 30: Kostüm <b>Champion</b>, danach jede Woche 40 🪙. Diese Belohnungen gibt es nur über die Serie. Lässt du einen Tag aus, beginnt die Serie von vorn – freigeschaltete Belohnungen bleiben.</div></details>
     <details class="hsec"><summary>Tagesgeschenk</summary><div>Komm jeden Tag vorbei: 7 Tage in Folge mit wachsenden Geschenken. Lässt du einen Tag aus, beginnt die Serie von vorn.</div></details>
   </div>
@@ -596,8 +596,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.21.1', BUILD=42;
+const VERSION='0.21.2', BUILD=43;
 const CHANGELOG=[
+ ['0.21.2','43',['Abenteuer-Level heißen jetzt nach Welt und Nummer: Welt 1-1, Welt 1-2 … Welt 13-10 (Karte, Anzeige oben, Ergebnis)']],
  ['0.21.1','42',['Dschungel: Palmen und Laubbäume statt Tannen im Hintergrund','Bröckel-Inseln passen sich jetzt der Welt an – erkennbar an Rissen und herabfallenden Brocken']],
  ['0.21.0','41',['Abenteuer: drei neue Welten – Welt 11 Dschungel, Welt 12 Gruselwald, Welt 13 Mond (wenig Schwerkraft)','Jetzt 13 Welten mit 130 Leveln, die Weltkarte ist entsprechend länger']],
  ['0.20.0','40',['Neues Design für Pilz-, Regenbogen-, Stein-, Holzfloß-, Baumstamm- (vorher Waldstamm) und Ruinen-Insel','Drei neue Welten in Endlos und Tageslauf: Dschungel, Gruselwald und Mond (wenig Schwerkraft – Sprünge weiter)','Passende neue Hintergründe und Inseln in „Gestalten“: Dschungel, Gruselnacht, Mondlandschaft']],
@@ -891,9 +892,9 @@ const MASC=[
   front(c,r){c.strokeStyle='rgba(60,40,30,.6)';c.lineWidth=r*.04;for(const s of[-1,1])for(const d of[-.06,.06]){c.beginPath();c.moveTo(s*r*.5,r*.24+d*r);c.lineTo(s*r*.92,r*.18+d*r*2.2);c.stroke();}}},
  {id:'frog',name:'Frosch',price:90,pal:['#E0FFB8','#8EDB45','#4FA327'],lid:'#7CC93A',ant:'#3F8F22',
   front(c,r){c.fillStyle='rgba(60,130,30,.35)';for(const d of[[-.6,.45,.1],[.55,.55,.08],[.1,.7,.07],[-.25,-.62,.07],[.62,-.3,.06]]){c.beginPath();c.arc(d[0]*r,d[1]*r,d[2]*r,0,7);c.fill();}}},
- {id:'clover',name:'Glücks-Flumm',ex:'Abenteuer: Level 5 geschafft',ok:()=>(save.stars[4]||0)>0,pal:['#D9FFD2','#6FD86A','#2E9E3A'],lid:'#5CC75A',ant:'#2E9E3A',
+ {id:'clover',name:'Glücks-Flumm',ex:'Abenteuer: Welt 1-5 geschafft',ok:()=>(save.stars[4]||0)>0,pal:['#D9FFD2','#6FD86A','#2E9E3A'],lid:'#5CC75A',ant:'#2E9E3A',
   front(c,r){c.save();c.translate(r*.5,-r*.62);c.fillStyle='#2E9E3A';for(let i=0;i<4;i++){c.save();c.rotate(i*Math.PI/2+.4);c.beginPath();c.arc(0,-r*.13,r*.12,0,7);c.fill();c.restore();}c.restore();}},
- {id:'starry',name:'Sternen-Flumm',ex:'Abenteuer: Level 10 geschafft',ok:()=>(save.stars[9]||0)>0,pal:['#D2D6FF','#6672E8','#26307F'],lid:'#5560D6',ant:'#26307F',
+ {id:'starry',name:'Sternen-Flumm',ex:'Abenteuer: Welt 1-10 geschafft',ok:()=>(save.stars[9]||0)>0,pal:['#D2D6FF','#6672E8','#26307F'],lid:'#5560D6',ant:'#26307F',
   front(c,r,t){for(const d of[[-.55,.3,.1],[.4,.5,.08],[.2,-.5,.07],[-.2,.62,.06],[.62,0,.07]]){star(c,d[0]*r,d[1]*r,d[2]*r*(1+.25*Math.sin(t*3+d[0]*9)),'#FFF4B8');}}},
  {id:'fire',name:'Feuer-Flumm',ex:'Tagesserie: 10 Tage',ok:()=>(save.streak&&save.streak.best||0)>=10,pal:['#FFE0B0','#FF8A3D','#D9431A'],lid:'#F2742E',ant:'#B8320F',
   back(c,r,t){for(const [x,h,col] of[[-.3,.55,'#FF6A1F'],[.05,.75,'#FFB23D'],[.35,.5,'#FF6A1F'],[.05,.45,'#FFE066']]){const w=Math.sin(t*9+x*7)*r*.06;c.fillStyle=col;c.beginPath();c.moveTo(x*r-r*.2,-r*.75);c.quadraticCurveTo(x*r-r*.18+w,-r*(.8+h*.6),x*r+w*2,-r*(.8+h));c.quadraticCurveTo(x*r+r*.18+w,-r*(.8+h*.6),x*r+r*.2,-r*.75);c.fill();}}},
@@ -965,6 +966,7 @@ function buildLevel(i){
  for(let k=1;k<plats.length-1;k++){if(R2()<.45){const p=plats[k];coins.push({id:k,p,ox:p.w/2+(R2()-.5)*p.w*.4,dy:0,got:false,old:false,ph:R2()*6});}}
  return{plats,drops,coins};
 }
+const lvShort=i=>(Math.floor(i/10)+1)+'-'+(i%10+1),lvName=i=>'Welt '+lvShort(i);
 const levelBio=i=>LEVELS[i]&&LEVELS[i].bio||null;
 const DROPCOUNT=LEVELS.map((L,i)=>buildLevel(i).drops.length);
 const COINCOUNT=LEVELS.map((L,i)=>buildLevel(i).coins.length);
@@ -1249,7 +1251,7 @@ function finishLevel(){
  save.pet.mood=Math.min(100,save.pet.mood+12);save.pet.care+=save.pet.sick?4:8;save.pet.dirt=Math.min(3,save.pet.dirt+1);
  const grew=checkEvolve(true);
  if(i+2>save.unlocked)save.unlocked=Math.min(LEVELS.length,i+2);persist();
- $('rTitle').textContent=(i+1)%10===0?WORLDS[Math.floor(i/10)].name+' geschafft!':'Level '+(i+1)+' geschafft!';
+ $('rTitle').textContent=(i+1)%10===0?WORLDS[Math.floor(i/10)].name+' geschafft!':lvName(i)+' geschafft!';
  const total=G.drops.length;
  $('rCrit').innerHTML=[['Ziel erreicht',c[0]],['Ohne Sturz',c[1]],[need+'× PERFEKT ('+G.perfects+')',c[2]]].map(x=>'<li class="'+(x[1]?'':'no')+'"><b>'+(x[1]?'✔':'✖')+'</b>'+x[0]+'</li>').join('')
   +(total?'<li><b>🍓</b>+'+G.dropsGot+' Beeren als Futter (von '+total+')</li>':'')
@@ -1747,11 +1749,11 @@ function buildMapNodes(){
  const w=$('mapwrap').clientWidth,s=w/MW;const cur=Math.min(save.unlocked,LEVELS.length)-1;let html='';
  for(let k=0;k<NW;k++)for(let i=0;i<10;i++){const n=k*10+i,p=nodePos(k,i);
   {const lock=n>=save.unlocked,st=save.stars[n]||0;
-   html+='<button class="node'+(lock?' lock':n===cur?' cur':'')+'" data-n="'+n+'" style="left:'+(p.x*s)+'px;top:'+(p.y*s)+'px" aria-label="Level '+(n+1)+'">'+(lock?'🔒':(n+1))+(lock?'':'<span class="nst">'+'★'.repeat(st)+'<i>'+'★'.repeat(3-st)+'</i></span>')+'</button>';}}
+   html+='<button class="node'+(lock?' lock':n===cur?' cur':'')+'" data-n="'+n+'" style="left:'+(p.x*s)+'px;top:'+(p.y*s)+'px" aria-label="'+lvName(n)+'">'+(lock?'🔒':'<b class="nl">'+lvShort(n)+'</b>')+(lock?'':'<span class="nst">'+'★'.repeat(st)+'<i>'+'★'.repeat(3-st)+'</i></span>')+'</button>';}}
  $('mapnodes').innerHTML=html;
  const uw=unlockedWorld(),fog=$('fog');fog.style.display=uw>=NW-1?'none':'';fog.style.height=((secTop(uw)+30)*s)+'px';fog.style.setProperty('--fade',(400*s)+'px');
  if(!fogDone){fogDone=true;fog.querySelector('.a').style.backgroundImage='url('+fogTex(512,7)+')';fog.querySelector('.b').style.backgroundImage='url('+fogTex(512,19)+')';}
- $('fogsigns').innerHTML=uw<NW-1?'<div class="ribbon dark" style="top:'+((secTop(uw+1)+420)*s)+'px">🔒 '+WORLDS[uw+1].name+'<small>schaffe Level '+((uw+1)*10)+'</small></div>':'';
+ $('fogsigns').innerHTML=uw<NW-1?'<div class="ribbon dark" style="top:'+((secTop(uw+1)+420)*s)+'px">🔒 '+WORLDS[uw+1].name+'<small>schaffe '+lvName((uw+1)*10-1)+'</small></div>':'';
  const cp=nodePos(Math.floor(cur/10),cur%10),fc=$('mapFlumm');fc.style.left=(cp.x*s)+'px';fc.style.top=(cp.y*s-31-66)+'px';
  const c=fc.getContext('2d');c.setTransform(2,0,0,2,0,0);c.clearRect(0,0,70,70);
  drawFlumm(c,{x:35,y:44,r:20,sq:0,air:null,expr:'happy',lookX:0,lookY:0,blink:0,cos:save.costume,masc:save.masc,stage:save.pet.stage,t:1,outline:true});
@@ -1767,7 +1769,7 @@ function openMap(keepScroll){
 let sheetLvl=0;
 function openSheet(n){
  sheetLvl=n;const st=save.stars[n]||0;
- $('sTitle').textContent='Level '+(n+1);
+ $('sTitle').textContent=lvName(n);
  $('sStars').querySelectorAll('i').forEach((el,k)=>el.classList.toggle('on',k<st));
  $('sTip').textContent=n<10?NEWS[n]+' · '+HINTS[n]:WORLDS[Math.floor(n/10)].name+' · '+BIO[levelBio(n)][2];
  $('sInfo').textContent=(DROPCOUNT[n]?'🍓 Beeren: bis zu '+DROPCOUNT[n]+' · ':'')+'🪙 Münzen gefunden: '+(save.coinGot[n]||[]).length+' von '+COINCOUNT[n];
@@ -1775,7 +1777,7 @@ function openSheet(n){
 }
 function closeSheet(){$('sheet').classList.remove('on');}
 $('mapnodes').addEventListener('click',e=>{const b=e.target.closest('.node');if(!b)return;ac();
- const n=+b.dataset.n;if(n>=save.unlocked){SFX.no();toast('Erst Level '+n+' schaffen!');shakeEl(b);return;}
+ const n=+b.dataset.n;if(n>=save.unlocked){SFX.no();toast('Erst '+lvName(n-1)+' schaffen!');shakeEl(b);return;}
  SFX.boing();openSheet(n);});
 $('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet();});
 $('mapscroll').addEventListener('scroll',updWorld,{passive:true});
@@ -1788,7 +1790,7 @@ function shakeEl(el){el.classList.remove('shakeit');void el.offsetWidth;el.class
 let toastTO=0;function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>el.classList.remove('on'),1800);}
 function bioTagUI(force){const el=$('bioTag');const lb=!G.run&&G.mode==='play'&&G.lvl!=null?levelBio(G.lvl):null;if((!G.run||G.run.type==='duel')&&!lb){el.className='';el.dataset.b='';return;}const bk=lb||bioAt(G.lastIdx||0);if(!force&&el.dataset.b===bk)return;el.dataset.b=bk;el.querySelector('b').textContent='🌍 '+BIO[bk][0];el.querySelector('small').textContent=BIO[bk][2];el.className='';void el.offsetWidth;el.className='on';}
 function hud(hit,dropBump){bioTagUI();
- $('hLvl').textContent=G.run?(G.run.type==='duel'?'⏱ '+fmtT(Math.round(G.t*100)):(G.run.type==='daily'?'📅 Insel '+G.lastIdx:'Endlos '+G.lastIdx)):'Level '+(G.lvl+1);
+ $('hLvl').textContent=G.run?(G.run.type==='duel'?'⏱ '+fmtT(Math.round(G.t*100)):(G.run.type==='daily'?'📅 Insel '+G.lastIdx:'Endlos '+G.lastIdx)):lvName(G.lvl);
  $('hHearts').innerHTML=Array.from({length:G.maxHearts},(_,k)=>'<span class="'+(k<G.hearts?'':'off')+'">♥</span>').join('');
  $('hDrops').textContent='🍓 '+G.dropsGot;$('hCoins').textContent='🪙 '+G.coinsGot;
  const el=hit?$('hHearts'):dropBump==='c'?$('hCoins'):dropBump?$('hDrops'):null;if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
