@@ -1,8 +1,9 @@
 # Changelog – FLUMM
 
 ## v0.22.0 · Build 46
-- Neue Bestenlisten: PERFEKT-Landungen, Duell-Bestzeit, Erdbeeren gesammelt, Münzen gesammelt
-- Flumm zählt ab jetzt deine Gesamtwerte mit (vorher Gesammeltes wird nicht nachgezählt)
+- Bestenlisten Tageslauf & Endlos zeigen zu jedem Lauf: Insel, Zeit, Perfekt-Landungen, Münzen und Beeren
+- Eigene Ansicht mit Heute / Woche / Gesamt, dein Platz ist hervorgehoben
+- Ergebnis-Bildschirm zeigt Zeit, Perfekt, Münzen und Beeren des Laufs
 - Neue Duell-Bestzeit wird im Ergebnis angezeigt
 
 ## v0.21.4 · Build 45

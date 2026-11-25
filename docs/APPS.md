@@ -73,7 +73,7 @@ Platzierungen: Video (Belohnung) für *Weiterspielen* im Endlos-Modus (1× pro L
 6. Play Console: *App-Inhalte → Werbung: Ja* und *Werbe-ID* angeben; `app-ads.txt` auf der Entwickler-Website hinterlegen.
 
 ## Bestenlisten (Google Play Spiele)
-Eigene Brücke `PlayGamesPlugin.java` (PGS v2, play-services-games-v2 21.0.0); iOS Game Center folgt. Sieben Bestenlisten: Tageslauf, Endlos, PERFEKT-Landungen, Erdbeeren gesammelt, Münzen gesammelt, Duell-Siege (alle Zahl, höher = besser) und Duell-Bestzeit (Format Zeit, niedriger = besser; Wert in Millisekunden). Solange `LB_CFG` in `index.html` leer ist, zeigt die App nur lokale Rekorde.
+Eigene Brücke `PlayGamesPlugin.java` (PGS v2, play-services-games-v2 21.0.0); iOS Game Center folgt. Drei Bestenlisten: Tageslauf, Endlos, Duell-Siege (Zahl, höher = besser). Tageslauf/Endlos senden einen Score-Tag `t<Sek>p<Perfekt>c<Münzen>b<Beeren>`; die App zeigt die Top 25 inkl. dieser Werte in einer eigenen Ansicht (Heute/Woche/Gesamt). Solange `LB_CFG` in `index.html` leer ist, zeigt die App nur lokale Rekorde.
 
 Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht geheim):
 - SHA-1: `EA:07:65:A5:0C:6E:78:30:F3:A7:8D:AF:A5:F8:54:6A:BF:35:05:C4`
