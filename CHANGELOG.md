@@ -1,5 +1,10 @@
 # Changelog – FLUMM
 
+## v0.20.0 · Build 40
+- Neues Design für Pilz-, Regenbogen-, Stein-, Holzfloß-, Baumstamm- (vorher Waldstamm) und Ruinen-Insel
+- Drei neue Welten in Endlos und Tageslauf: Dschungel, Gruselwald und Mond (wenig Schwerkraft – Sprünge weiter)
+- Passende neue Hintergründe und Inseln in „Gestalten“: Dschungel, Gruselnacht, Mondlandschaft
+
 ## v0.19.2 · Build 39
 - Kostüme, Maskottchen, Hintergründe und Inseln kosten jetzt das Dreifache – Gekauftes bleibt natürlich erhalten
 

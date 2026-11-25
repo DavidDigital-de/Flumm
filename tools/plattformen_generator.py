@@ -365,8 +365,156 @@ D=[('snow','Schneeinsel',d_snow),('gold','Goldinsel',d_gold),('grass','Grasinsel
    ('cloud','Wolke',d_cloud),('moss','Moos',d_moss),('ice','Eisscholle',d_ice),('shroom','Pilz',d_shroom),('desert','Wüste',d_desert),
    ('ruin','Ruine',d_ruin),('donut','Süßigkeit',d_candy),('metal','Metall',d_metal),('honey','Honig',d_honey),('crystal','Kristall',d_crystal),
    ('lava','Lava',d_lava),('rainbow','Regenbogen',d_rainbow),('spring','Feder',d_spring),('lift','Aufzug',d_lift),('crack','Bröckel',d_crack)]
+# Neue/überarbeitete Insel-Designs (werden an gen3.py angehängt, überschreiben alte Funktionen)
+P['bark2']=['#B8865A','#9A6B42','#7E5432','#654026','#4C2F1B','#352013']
+P['rings']=['#FFE9BE','#F7D59A','#EBBF7A','#D9A55E','#C08A48']
+P['cobble']=['#E9E6F2','#CFCADF','#B3AEC7','#9690AD','#787291','#5A5574','#403C55']
+P['plank']=['#F6D19A','#E7B776','#D29A58','#B57D41','#946232','#714823']
+P['jungle']=['#C8F27A','#94DD4A','#62C030','#3F9C24','#2B7A1C','#1B5614']
+P['jdirt']=['#B98A58','#9C7145','#7F5A36','#634529','#49321E']
+P['moon']=['#F2F2F6','#D9DAE2','#BDBFCC','#A0A3B4','#83879B','#676B82','#4D5168']
+P['pump']=['#FFC07A','#FF9A3D','#F27A1F','#D45F12','#A8460B']
+P['spook']=['#8A7AA8','#6E5E8E','#584874','#43355C','#302545','#201830']
+P['sgrass']=['#9C8BC2','#7E6CA8','#63528D','#4B3C72','#362A58']
+P['cotton']=['#FFFFFF','#FFF0F8','#FFE0F0','#F5C8E4','#E4ACD4','#C98CBC']
+def d_shroom():
+    def T(x,y,dx,dy):
+        for (sx,sy,r) in [(-.45,-.2,.16),(.1,-.45,.13),(.45,.1,.17),(-.1,.35,.12),(.6,-.5,.09),(-.7,.25,.1)]:
+            if ((dx-sx)/r)**2+((dy-sy)/(r*1.2))**2<=1:return pick(P['stem'],((dx-sx)/r+1)*1.3,int(x*K),int(y*K))
+        return 0
+    c=island(P['cap'],P['stem'],T,lipL=4,depth=30)
+    def gills(x,y,X,Y):
+        dx,dy,r=topell(x,y)
+        if dy>0 and abs(dx)<1:
+            ey=CY+B*math.sqrt(1-dx*dx)
+            if ey+3.5<=y<ey+6 and (x%2.2)<1.1:return pick(P['stem'],3.5,X,Y)
+    c.fill(gills)
+    for (x,y,s) in [(20,16,1.0),(58,13,.8)]:
+        def ms(xx,yy,X,Y,x=x,y=y,s=s):
+            if abs(xx-x)<1.6*s and y-1<yy<y+4*s:return pick(P['stem'],1+(xx-x+1.6*s)/(3.2*s)*2,X,Y)
+            dx=(xx-x)/(5*s);dy=(yy-(y-1))/(3.6*s)
+            if dx*dx+dy*dy<=1 and yy<=y-1+.6:return pick(P['red'],(dy+1)*1.3+max(0,dx),X,Y)
+        c.fill(ms);c.dot(x-1.6*s,y-2.8*s,hx('#FFFFFF'),.7*s)
+    return c
+def d_rainbow():
+    def T(x,y,dx,dy):
+        i=min(5,int((dx+1)/2*6));v=(dy+1)/2
+        return pick(P['rb'][i],v*1.6+(.2 if abs(((dx+1)/2*6)%1-.5)>.45 else 0),int(x*K),int(y*K))
+    c=island(P['cloud'],P['cloud'],T,lipL=2,depth=20,cel=False)
+    for (bx,by,r) in [(18,40,9),(32,46,11),(50,46,11),(64,40,9),(41,52,9)]:balls(c,P['cloud'],[(bx,by,r)])
+    for (x,y) in [(26,12),(56,20)]:
+        for dx,dy,r in [(0,0,.8),(1.4,0,.4),(-1.4,0,.4),(0,1.4,.4),(0,-1.4,.4)]:c.dot(x+dx,y+dy,hx('#FFFFFF'),r)
+    return c
+def d_stone():
+    def T(x,y,dx,dy):
+        cx=math.floor(x/7+ (math.floor(y/4)%2)*.5);cy=math.floor(y/4)
+        lx=(x/7+(math.floor(y/4)%2)*.5)%1;ly=(y/4)%1
+        if lx<.12 or ly<.18:return 2.4
+        return (hn(cx,cy,41)-.5)*1.4-(.6 if ly<.4 and lx<.5 else 0)
+    def F(x,y,dx,fv):return 1.2 if (x+math.floor(fv*5)*3)%9<.6 or (fv*25)%5<.4 else 0
+    return island(P['cobble'],P['cobble'][1:],T,F)
+def d_wood():
+    def T(x,y,dx,dy):
+        u=(x-6)%8
+        if u<.6:return 2.6
+        if u<1.2:return -.6
+        return (.8 if hn(math.floor(x/8),math.floor(y*2),51)>.9 else 0)+(hn(x*3,y,52)-.5)*.5
+    def F(x,y,dx,fv):
+        u=(x-6)%8;r=abs(u-4)/4
+        if fv<.55:return pick(P['rings'],r*3+(.5 if (r*8)%2<.4 else 0),int(x*K),int(y*K)) if r<.8 else pick(P['plank'],4,int(x*K),int(y*K))
+        return 0
+    c=island(P['plank'],P['plank'][1:],T,F,lipL=1,depth=8,cel=False)
+    for x in (18,62):
+        c.dot(x,14,hx('#C9B07A'),1.2);c.dot(x,22,hx('#C9B07A'),1.2)
+    return c
+def d_log():
+    def T(x,y,dx,dy):
+        r=math.sqrt(dx*dx+dy*dy)
+        if r>.9:return pick(P['bark2'],1+(dy+1)*.8,int(x*K),int(y*K))
+        k=math.sin(r*22+hn(math.floor(math.atan2(dy,dx)*3),0,7)*.6)
+        if abs(dx-.08)<.03 and dy>-.2:return pick(P['rings'],4,int(x*K),int(y*K))
+        return pick(P['rings'],1.4+k*.9+r*.8,int(x*K),int(y*K))
+    def F(x,y,dx,fv):return 1.3 if (x*1.3+fv*4)%5<.7 else (-.5 if (x*1.3+fv*4)%5<1.2 else 0)
+    c=island(P['rings'],P['bark2'],T,F,lipL=0,depth=26)
+    def roots(x,y,X,Y):
+        for (rx,dirn) in [(10,-1),(74,1),(26,-1),(58,1)]:
+            ty=y-30
+            if 0<ty<10:
+                cx=rx+dirn*ty*.9
+                if abs(x-cx)<2.6-ty*.18:return pick(P['bark2'],2+ty*.25+(1 if dirn>0 else 0),X,Y)
+    tuft(c,20,14,P['grass']);tuft(c,63,18,P['grass'])
+    return c
+def d_ruin():
+    def T(x,y,dx,dy):
+        if hn(x/2.5,y/2.5,61)>.8:return pick(P['moss'],2+hn(x,y)*1.5,int(x*K),int(y*K))
+        lx=(x/9)%1;ly=(y/4.5)%1
+        if lx<.08 or ly<.14:return 2.2
+        return (hn(math.floor(x/9),math.floor(y/4.5),62)-.5)*1.2
+    def F(x,y,dx,fv):
+        o=5*(math.floor(fv*5)%2)
+        if (x+o)%10<.6 or (fv*25)%5<.45:return 2.2
+        if fv<.25 and hn(math.floor(x/2),1,63)>.45:return pick(P['moss'],2+fv*8,int(x*K),int(y*K))
+        return 0
+    c=island(P['stone'][1:],P['stone'][1:],T,F)
+    for (px_,h,top) in [(18,12,True),(64,8,False)]:
+        def col(x,y,X,Y,px_=px_,h=h,top=top):
+            if px_-3.5<=x<px_+3.5 and 16-h<=y<17:
+                u=(x-px_+3.5)/7;s=abs(u-.3)*3.2+1
+                if (x-px_+3.5)%2.3<.35:s+=1
+                if top and y<16-h+1.6:s-=.6
+                return pick(P['stone'],s,X,Y)
+            if top and px_-5<=x<px_+5 and 16-h-2<=y<16-h:return pick(P['stone'],1+(x-px_+5)/10*2+(y-(16-h-2)),X,Y)
+        c.fill(col)
+    c.dot(66,6.6,hx('#9690AD'),1.4)
+    tuft(c,44,13,P['moss']);tuft(c,34,22,P['moss'])
+    return c
+def d_jungle():
+    def F(x,y,dx,fv):
+        if (x%7)<1.1 and fv<.5+hn(math.floor(x/7),3,71)*.4:return pick(P['jungle'],3+fv*2,int(x*K),int(y*K))
+        return 0
+    c=island(P['jungle'],P['jdirt'],None,F,lipL=4)
+    for (x,y,a) in [(14,15,-.6),(66,16,.6),(40,10,0)]:
+        for i in range(4):
+            def leaf(xx,yy,X,Y,x=x,y=y,a=a+(i-1.5)*.5):
+                dx=xx-x;dy=yy-y;ca,sa=math.cos(a-1.57),math.sin(a-1.57)
+                u=dx*ca+dy*sa;v=-dx*sa+dy*ca
+                if 0<u<9 and abs(v)<2.4*math.sin(min(1,u/9)*3.14):return pick(P['jungle'],1+u/9*2+(1 if v>0 else 0),X,Y)
+            c.fill(leaf)
+    for x in (30,52):c.dot(x,18,hx('#FF5C8A'),1.1);c.dot(x,18,hx('#FFE066'),.45)
+    return c
+def d_moon():
+    def T(x,y,dx,dy):
+        for (cx,cy,r) in [(28,16,5),(52,20,4),(60,13,3),(40,23,2.5),(20,22,2)]:
+            dd=math.hypot((x-cx)/r,(y-cy)/(r*.5))
+            if dd<1:return 1.2+(-.9 if (x-cx)>0 else .9)*(1-dd)+1
+            if dd<1.25:return -.7
+        return (hn(x,y,81)-.5)*.6
+    return island(P['moon'],P['moon'][1:],T)
+def d_spooky():
+    c=island(P['sgrass'],P['spook'])
+    def pumpkin(xx,yy,X,Y,x=0,y=0):return None
+    for (x,y,s) in [(22,15,1.0),(58,18,.8)]:
+        def pk(xx,yy,X,Y,x=x,y=y,s=s):
+            dx=(xx-x)/(5*s);dy=(yy-y)/(4*s)
+            if dx*dx+dy*dy<=1:
+                rib=abs(math.sin(dx*4.7))
+                return pick(P['pump'],1+(dy+1)*1.2+max(0,dx)+rib*.6,X,Y)
+            if abs(xx-x)<.8*s and y-5.6*s<yy<y-3.6*s:return pick(P['cactus'],3,X,Y)
+        c.fill(pk)
+        c.dot(x-1.6*s,y-.6*s,hx('#FFE066'),.7*s);c.dot(x+1.6*s,y-.6*s,hx('#FFE066'),.7*s);c.dot(x,y+1.6*s,hx('#FFE066'),.6*s)
+    def tree(xx,yy,X,Y):
+        if 40<=xx<42.5 and 2<=yy<16:return pick(P['spook'],4+(xx-40),X,Y)
+        for (a,b,cx2,cy2) in [(41,8,35,3),(41,6,47,1),(41,11,46,7)]:
+            L=math.hypot(cx2-a,cy2-b);t=max(0,min(1,((xx-a)*(cx2-a)+(yy-b)*(cy2-b))/L/L))
+            if math.hypot(xx-(a+t*(cx2-a)),yy-(b+t*(cy2-b)))<1.1-t*.5:return pick(P['spook'],4.5,X,Y)
+    c.fill(tree)
+    return c
+D=D+[('jungle','Dschungel',d_jungle),('moon','Mond',d_moon),('spooky','Gruselwald',d_spooky)]
+D=[(k,('Baumstamm' if k=='log' else n),(dict(shroom=d_shroom,rainbow=d_rainbow,stone=d_stone,wood=d_wood,log=d_log,ruin=d_ruin).get(k,f))) for k,n,f in D]
+
+
 # Standhöhe (logische y) je Design
-STAND={'cloud':15,'shroom':12,'rainbow':18,'log':16,'spring':3,'lift':17}
+STAND={'cloud':15,'spring':3,'lift':17}
 import os;os.makedirs('/tmp/pd/out',exist_ok=True)
 meta={}
 only=sys.argv[1:] 
