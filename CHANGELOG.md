@@ -1,5 +1,15 @@
 # Changelog – FLUMM
 
+## v0.17.0 · Build 30
+- Abenteuer: 10 Welten mit 100 Leveln – jede Welt mit eigenen Inseln, Himmel und Eigenschaften
+- Weltkarte zeigt alle Welten; die nächste liegt im Nebel, bis die vorige geschafft ist
+- Hauptmenü: Welten wechseln alle 10 Sekunden im Kreis
+- Tagesserie hat eine eigene Schaltfläche im Hauptmenü (🔥)
+- Schlafendes Flumm kann nicht spielen – erst aufwecken
+- App heißt jetzt „Flumm“
+- Werbung über AdMob (zunächst Testanzeigen): Video für Weiterspielen, Münzen ×2 und Gratis-Medizin, ab und zu eine Werbepause nach Spielen
+- Datenschutz-Abfrage für Werbung beim Start, änderbar in den Einstellungen
+
 ## v0.16.1 · Build 29
 - Glibber-Polster neu: liegt jetzt als runde Glibber-Kuppel auf der Insel, Flumm sinkt sichtbar ein
 - Polster wackelt leicht und federt beim Absprung

@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.16.1 (Build 29)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.17.0 (Build 30)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.16.1-build29`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.17.0-build30`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -58,3 +58,16 @@ Bei jeder Auslieferung: `VERSION`/`BUILD` in `index.html`, `version` in `package
 
 ## Vollbild
 Android: `MainActivity.java` blendet Status- und Navigationsleiste immersiv aus (Wischen vom Rand zeigt sie kurz). iOS: `UIStatusBarHidden` in Info.plist + `StatusBar.hide()` im Spiel.
+
+## Werbung (AdMob)
+Eingebunden über `@capacitor-community/admob` (8.4.2). Aktuell laufen **Google-Testanzeigen**.
+
+Platzierungen: Video (Belohnung) für *Weiterspielen* im Endlos-Modus (1× pro Lauf, ab Insel 5), *Münzen ×2* nach Spielen und *Gratis-Medizin*. Werbepause (Interstitial) nach jedem 3. Spiel, höchstens alle 150 s. Kein Banner. Datenschutz-Abfrage (UMP) beim Start, iOS-Tracking-Abfrage (ATT), änderbar in den Einstellungen.
+
+### Auf echte Werbung umstellen
+1. In AdMob die App „Flumm“ für Android (und iOS) anlegen → **App-ID** (`ca-app-pub-…~…`).
+2. Je Plattform zwei Anzeigenblöcke anlegen: **Interstitial** und **Mit Prämie** → IDs (`ca-app-pub-…/…`).
+3. App-ID eintragen: `android/app/src/main/res/values/strings.xml` (`admob_app_id`) und `ios/App/App/Info.plist` (`GADApplicationIdentifier`).
+4. Anzeigenblock-IDs in `index.html` bei `ADS_CFG` eintragen und `live:true` setzen.
+5. In AdMob unter *Datenschutz & Mitteilungen* eine DSGVO-Mitteilung (Einwilligung) für die App erstellen und veröffentlichen.
+6. Play Console: *App-Inhalte → Werbung: Ja* und *Werbe-ID* angeben; `app-ads.txt` auf der Entwickler-Website hinterlegen.

@@ -1,6 +1,6 @@
 {
   "name": "flumm",
-  "version": "0.16.1",
+  "version": "0.17.0",
   "private": true,
   "description": "FLUMM – Hüpf-Spiel mit Pflege-Wesen",
   "scripts": {
@@ -8,6 +8,7 @@
     "assets": "npx capacitor-assets generate --iconBackgroundColor '#7CC8FF' --splashBackgroundColor '#7CC8FF'"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^8.4.2",
     "@capacitor/android": "^8.0.0",
     "@capacitor/app": "^8.0.0",
     "@capacitor/core": "^8.0.0",
