@@ -1,5 +1,12 @@
 # Changelog – FLUMM
 
+## v0.13.0 · Build 21
+- Tagesserie zählt jetzt, sobald du den Tageslauf gespielt hast – kein Inselziel mehr
+- Endlos & Tageslauf: alle 12 Inseln eine neue Welt mit eigenen Inseln und eigenem Himmel (Wiese, Strand, Wüste, Eiswelt, Kristallhöhle, Vulkan …)
+- Endlos & Tageslauf werden mit der Zeit schwerer: größere Abstände, kleinere Inseln – bleibt aber machbar
+- Krankes Flumm kann nicht spielen, bis es wieder fit ist
+- Gesund werden: Medizin, Schlafen, Füttern (+8) und Streicheln (+3) helfen
+
 ## v0.12.0 · Build 20
 - Tageslauf: Anzeige oben heißt jetzt „📅 Insel 3/5“ statt „Tag 3“
 - Neu: Tagesserie 🔥 – schaffe jeden Tag 5 Inseln im Tageslauf
