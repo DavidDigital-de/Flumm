@@ -6,8 +6,6 @@
 <meta name="theme-color" content="#8FD3FF">
 <title>FLUMM</title>
 <style>@font-face{font-family:"Baloo 2";font-weight:600;font-display:swap;src:url(fonts/baloo-2-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Baloo 2";font-weight:800;font-display:swap;src:url(fonts/baloo-2-latin-800-normal.woff2) format("woff2")}</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 <!--
 FLUMM – Prototyp · Changelog
 v0.9.0 · Build 14 – Android- und iOS-App, Zurück-Taste, native Haptik, Schrift offline.
@@ -364,6 +362,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
   <div class="srow">Hilfe<div class="row" style="gap:8px"><button class="btn w s" id="sHelp">Lesen</button><button class="btn w s" id="sTut">Tutorial</button></div></div>
   <div class="srow" id="adPrivRow" style="display:none">Werbung &amp; Datenschutz<button class="btn w s" id="adPriv">Ändern</button></div>
   <div class="srow">Spielstand<button class="btn w s danger" id="bReset">Löschen</button></div>
+  <div class="srow">Datenschutz<a class="btn w s" href="https://daviddigital-de.github.io/flumm/datenschutz.html" target="_blank" rel="noopener" style="text-decoration:none">Lesen</a></div>
   <p class="small" id="setVer" style="margin-top:10px"></p>
   <div class="row" style="margin-top:10px"><button class="btn g s" id="setBack">Fertig</button></div>
 </div></div>
@@ -586,8 +585,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.17.1', BUILD=31;
+const VERSION='0.17.2', BUILD=32;
 const CHANGELOG=[
+ ['0.17.2','32',['Datenschutzerklärung online und in den Einstellungen verlinkt','Web-Version lädt keine Google-Schriften mehr (Schrift ist eingebaut)']],
  ['0.17.1','31',['Android: echte Werbung über AdMob aktiv (App „Flumm“, Anzeigenblöcke „Rettung“ und „Zwischen Runden“)','iOS zeigt weiterhin Testanzeigen']],
  ['0.17.0','30',['Abenteuer: 10 Welten mit 100 Leveln – jede Welt mit eigenen Inseln, Himmel und Eigenschaften','Weltkarte zeigt alle Welten; die nächste liegt im Nebel, bis die vorige geschafft ist','Hauptmenü: Welten wechseln alle 10 Sekunden im Kreis','Tagesserie hat eine eigene Schaltfläche im Hauptmenü (🔥)','Schlafendes Flumm kann nicht spielen – erst aufwecken','App heißt jetzt „Flumm“','Werbung über AdMob (zunächst Testanzeigen): Video für Weiterspielen, Münzen ×2 und Gratis-Medizin, ab und zu eine Werbepause nach Spielen','Datenschutz-Abfrage für Werbung beim Start, änderbar in den Einstellungen']],
  ['0.16.1','29',['Glibber-Polster neu: liegt jetzt als runde Glibber-Kuppel auf der Insel, Flumm sinkt sichtbar ein','Polster wackelt leicht und federt beim Absprung']],

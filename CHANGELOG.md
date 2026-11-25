@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.17.2 · Build 32
+- Datenschutzerklärung online und in den Einstellungen verlinkt
+- Web-Version lädt keine Google-Schriften mehr (Schrift ist eingebaut)
+
 ## v0.17.1 · Build 31
 - Android: echte Werbung über AdMob aktiv (App „Flumm“, Anzeigenblöcke „Rettung“ und „Zwischen Runden“)
 - iOS zeigt weiterhin Testanzeigen

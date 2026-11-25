@@ -1,7 +1,7 @@
 # FLUMM
 
 Hüpf-Spiel mit Pflege-Wesen (Tamagotchi-Prinzip) – Prototyp als Single-File-HTML.
-Version: **v0.17.1 · Build 31**
+Version: **v0.17.2 · Build 32**
 
 ## Apps
 Android- und iOS-App über Capacitor – Builds, Signatur und Store-Upload: siehe [docs/APPS.md](docs/APPS.md).
@@ -25,3 +25,6 @@ Spielstand liegt lokal im Browser (localStorage).
 
 ## Grafiken
 Die Plattformen werden mit `tools/plattformen_generator.py` (Python + Pillow) erzeugt und als WebP in `index.html` eingebettet.
+
+## Datenschutz
+https://daviddigital-de.github.io/flumm/datenschutz.html (Datei `datenschutz.html`, über GitHub Pages: Settings → Pages → Branch `main`, Ordner `/root`).
