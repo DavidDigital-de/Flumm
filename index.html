@@ -151,6 +151,7 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 @keyframes slide{from{transform:translateY(110%)}to{transform:translateY(0)}}
 #sheet .ibtn{position:absolute;top:-16px;right:-6px;border-radius:50%;background:#FF6FAE;color:#fff}
 .tipbox{background:#fff;border:2.5px dashed #C9C2DE;border-radius:16px;padding:8px 12px 6px;margin:10px 0 14px;font-weight:600}
+#tip{position:fixed;z-index:60;max-width:270px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:8px 12px 6px;font-weight:700;font-size:13.5px;line-height:1.3;text-align:left;pointer-events:none;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .18s,transform .18s}#tip.on{opacity:1;transform:none}#tip b{display:block;font-size:15px;margin-bottom:2px}#tip::after{content:'';position:absolute;left:var(--ax,50%);bottom:-11px;width:14px;height:14px;margin-left:-7px;background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg)}#tip.below::after{bottom:auto;top:-11px;transform:rotate(225deg)}
 #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translate(-50%,140%);background:#fff;border:3px solid var(--ink);border-radius:16px;padding:8px 18px 5px;font-weight:800;box-shadow:0 5px 0 var(--ink);transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .2s;opacity:0;z-index:20;pointer-events:none;white-space:nowrap}
 #toast.on{transform:translate(-50%,0);opacity:1}
 .topicons{position:absolute;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;padding:calc(env(safe-area-inset-top) + 12px) 14px 0;pointer-events:none;max-width:520px;margin:0 auto}
@@ -542,7 +543,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
       <button class="act a5" id="bMed"><span id="aMed"></span>Medizin</button>
       <button class="act a6" id="bWard"><span id="aWard"></span>Kostüme</button>
     </div>
-    <p class="small" style="margin-top:8px">Tippe Flumm an zum Streicheln</p>
+    <p class="small" style="margin-top:8px">Tippe Flumm an zum Streicheln · Halte einen Knopf oder Wert gedrückt für Infos</p>
   </div>
 </div>
 
@@ -595,8 +596,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.18.2', BUILD=36;
+const VERSION='0.19.0', BUILD=37;
 const CHANGELOG=[
+ ['0.19.0','37',['Zuhause: Infos zu Füttern, Waschen, Spielen, Schlafen, Medizin und Kostümen – Knopf gedrückt halten (am PC: Maus drüber)','Infos zu Satt, Laune, Energie, Gesundheit und Wachsen – einfach auf den Wert tippen']],
  ['0.18.2','36',['Klecks im Hauptmenü hat wieder seinen dunklen Rand','Mehr Platz im Klecks – Warnhinweise bleiben innerhalb']],
  ['0.18.1','35',['Hauptmenü: Flumms Infos stehen jetzt in einem Glibber-Klecks in der Farbe deines Maskottchens','Klecks zeigt Satt, Laune, Energie und Gesundheit als kleine Balken plus Warnhinweise','Bestenlisten: eigene, schlanke Anbindung an Google Play Spiele (Android-Build repariert)']],
  ['0.18.0','34',['Neu: Bestenlisten für Tageslauf, Endlos und Duell-Siege (Spielen → 🏆 Bestenlisten)','Weltweit über Google Play Spiele – Ergebnisse werden nach jedem Lauf automatisch eingetragen','Nach Endlos, Tageslauf und Duell direkt zur Bestenliste']],
@@ -740,6 +742,37 @@ function lbUI(){const t=todayStr(),dr=save.dayRun&&save.dayRun.d===t?save.dayRun
  $('lbList').innerHTML=[['daily','📅','Tageslauf','Heute: '+dr+' Inseln'],['endless','♾️','Endlos','Rekord: '+(save.best||0)+' Inseln'],['duel','⚔️','Duell-Siege',du.w+' Siege · '+du.l+' Niederlagen']].map(r=>'<button class="mode lbm" data-lb="'+r[0]+'"><span class="mi" style="font-size:30px">'+r[1]+'</span><span><b>'+r[2]+'</b><small>'+r[3]+'</small></span><em>🏆</em></button>').join('');
  $('lbNote').textContent=LB.ok?(LB.signed?'Angemeldet bei Google Play Spiele – tippe für die weltweite Liste.':'Tippe, um dich bei Google Play Spiele anzumelden.'):'Deine Rekorde. Die weltweite Bestenliste kommt mit Google Play Spiele.';}
 setTimeout(lbInit,2500);
+
+
+/* ---------- Tooltips im Zuhause (gedrückt halten / Maus drüber) ---------- */
+const TIPS={
+ bFeed:['🍓 Füttern','Kostet 1 Erdbeere. Satt +25, Laune +5, Pflege +10. Ist Flumm krank: Gesundheit +8. Erdbeeren sammelst du in den Leveln.'],
+ bWash:['🫧 Waschen','Entfernt die Flecken vom Spielen. Laune +8, Pflege +4 je Fleck. Lange sehr schmutzig schadet der Gesundheit.'],
+ bBall:['⚽ Spielen','Ballspiel: Laune +12, Pflege +6, kostet 8 Energie. Danach braucht Flumm 20 Minuten Pause.'],
+ bSleep:['😴 Schlafen','Energie füllt sich schnell, Hunger und Laune sinken nur halb so schnell. Mit vollem Bauch erholt sich die Gesundheit. Wer vor 20 Min. weckt, macht Flumm grummelig. Schlafend kann Flumm nicht spielen.'],
+ bMed:['💊 Medizin','Kostet 25 Münzen und macht Flumm sofort gesund (Gesundheit 80 %). Alternativ: Video ansehen, schlafen, füttern, streicheln.'],
+ bWard:['👕 Kostüme','Maskottchen und Kostüme anprobieren und kaufen.'],
+ icSat:['🍓 Satt','Sinkt mit der Zeit (müde Flumms werden schneller hungrig). Unter 25 %: weniger Sprungkraft. Lange unter 15 % schadet der Gesundheit.'],
+ icMood:['❤️ Laune','Steigt durch Streicheln, Spielen, Waschen und geschaffte Level. Unter 30 % sagt Flumm manchmal „Nö!“ und springt nicht. Lange sehr traurig schadet der Gesundheit.'],
+ icEn:['⚡ Energie','Sinkt im Wachzustand und mit jedem Spiel. Unter 20 %: lädt langsamer und isst mehr. Lange ohne Energie schadet der Gesundheit – ab ins Bett!'],
+ icHp:['💊 Gesundheit','Sinkt, wenn Flumm lange hungrig, erschöpft, traurig oder schmutzig ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.'],
+ icGrow:['🌱 Wachsen','Pflegepunkte (füttern, waschen, spielen, schlafen, Level schaffen) plus Alter lassen Flumm wachsen: Baby → Kind → Teen → Super. Jede Stufe bringt einen Vorteil.']};
+let tipTO=0,tipLP=0,tipShown=false;
+function showTip(el,key){const t=TIPS[key];if(!t)return;const d=$('tip');d.innerHTML='<b>'+t[0]+'</b>'+t[1];d.className='';const r=el.getBoundingClientRect();d.style.left='0px';d.style.top='0px';d.classList.add('on');
+ const w=d.offsetWidth,h=d.offsetHeight;let x=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2)),y=r.top-h-14,below=false;if(y<8){y=r.bottom+14;below=true;}
+ d.style.left=x+'px';d.style.top=y+'px';d.style.setProperty('--ax',(r.left+r.width/2-x)+'px');d.classList.toggle('below',below);tipShown=true;clearTimeout(tipTO);tipTO=setTimeout(hideTip,4500);}
+function hideTip(){$('tip').classList.remove('on');tipShown=false;}
+(function(){const keyOf=el=>{const b=el.closest('#home .act');if(b)return b.id;const st=el.closest('#home .st');if(st){const ic=st.querySelector('.sic');return ic&&ic.id;}return null;};
+ const home=$('home');let lpKey=null,lpEl=null,fired=false;
+ home.addEventListener('pointerdown',e=>{const k=keyOf(e.target);if(!k)return;lpKey=k;lpEl=e.target.closest('.act,.st');fired=false;clearTimeout(tipLP);
+  if(lpEl.classList.contains('st')){showTip(lpEl,k);fired=true;return;}
+  tipLP=setTimeout(()=>{fired=true;showTip(lpEl,lpKey);buzz(10);},450);});
+ const cancel=()=>clearTimeout(tipLP);home.addEventListener('pointerup',cancel);home.addEventListener('pointercancel',cancel);home.addEventListener('pointerleave',cancel);
+ home.addEventListener('click',e=>{if(fired&&e.target.closest('.act')){e.stopPropagation();e.preventDefault();fired=false;}},true);
+ home.addEventListener('contextmenu',e=>{if(keyOf(e.target))e.preventDefault();});
+ home.addEventListener('mouseover',e=>{if(e.pointerType==='touch')return;const k=keyOf(e.target);if(!k||!matchMedia('(hover:hover)').matches)return;const el=e.target.closest('.act,.st');clearTimeout(tipLP);tipLP=setTimeout(()=>showTip(el,k),350);});
+ home.addEventListener('mouseout',e=>{if(!matchMedia('(hover:hover)').matches)return;clearTimeout(tipLP);if(!e.relatedTarget||!e.relatedTarget.closest||!e.relatedTarget.closest('.act,.st'))hideTip();});
+})();
 
 /* ---------- Ton ---------- */
 let AC=null;
@@ -1718,7 +1751,7 @@ $('fog').addEventListener('click',()=>{ac();SFX.no();toast('Diese Welt liegt noc
 
 /* ---------- UI ---------- */
 const SCREENS=['menu','map','hud','home','ward','result','lost','pause','info','settings','design','daily','modes','duel','runres','hatch','help','streak','sick','sleepy','lboard'];
-function show(id){setTimeout(mascCheck,250);if(id==='result'||id==='runres'||id==='lost'){adGameOver();setTimeout(adsUI,50);}SCREENS.forEach(s=>$(s).classList.toggle('on',s===id));if(id==='menu')try{menuUI();}catch(e){}$('goMenu').classList.toggle('on',!['menu','hud','hatch','daily','home','map','result','lost','runres','pause'].includes(id));musWant=musicFor(id);if(musWant!==MUS.cur)musicPlay(musWant);}
+function show(id){try{hideTip();}catch(e){}setTimeout(mascCheck,250);if(id==='result'||id==='runres'||id==='lost'){adGameOver();setTimeout(adsUI,50);}SCREENS.forEach(s=>$(s).classList.toggle('on',s===id));if(id==='menu')try{menuUI();}catch(e){}$('goMenu').classList.toggle('on',!['menu','hud','hatch','daily','home','map','result','lost','runres','pause'].includes(id));musWant=musicFor(id);if(musWant!==MUS.cur)musicPlay(musWant);}
 function shakeEl(el){el.classList.remove('shakeit');void el.offsetWidth;el.classList.add('shakeit');}
 let toastTO=0;function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>el.classList.remove('on'),1800);}
 function bioTagUI(force){const el=$('bioTag');const lb=!G.run&&G.mode==='play'&&G.lvl!=null?levelBio(G.lvl):null;if((!G.run||G.run.type==='duel')&&!lb){el.className='';el.dataset.b='';return;}const bk=lb||bioAt(G.lastIdx||0);if(!force&&el.dataset.b===bk)return;el.dataset.b=bk;el.querySelector('b').textContent='🌍 '+BIO[bk][0];el.querySelector('small').textContent=BIO[bk][2];el.className='';void el.offsetWidth;el.className='on';}
@@ -2009,5 +2042,6 @@ function loop(now){let dt=(now-last)/1000;last=now;if(dt>.05)dt=.05;if(dt<0)dt=0
 requestAnimationFrame(loop);
 }
 </script>
+<div id="tip"></div>
 </body>
 </html>

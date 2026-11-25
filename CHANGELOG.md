@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.19.0 · Build 37
+- Zuhause: Infos zu Füttern, Waschen, Spielen, Schlafen, Medizin und Kostümen – Knopf gedrückt halten (am PC: Maus drüber)
+- Infos zu Satt, Laune, Energie, Gesundheit und Wachsen – einfach auf den Wert tippen
+
 ## v0.18.2 · Build 36
 - Klecks im Hauptmenü hat wieder seinen dunklen Rand
 - Mehr Platz im Klecks – Warnhinweise bleiben innerhalb
