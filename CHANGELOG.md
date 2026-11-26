@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.22.3 · Build 49
+- Erste signierte Version für den Google Play Store (AAB)
+
 ## v0.22.2 · Build 48
 - Flüssiger Hintergrund-Übergang beim Biomwechsel (alter Himmel wird sparsam im Puffer gezeichnet statt doppelt pro Bild)
 
