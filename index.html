@@ -59,6 +59,8 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 #logo span:nth-child(2),.logo2 span:nth-child(2){animation-delay:.12s;color:#FFC93C}#logo span:nth-child(3),.logo2 span:nth-child(3){animation-delay:.24s;color:#FF6FAE}#logo span:nth-child(4),.logo2 span:nth-child(4){animation-delay:.36s;color:#4FCB8A}#logo span:nth-child(5),.logo2 span:nth-child(5){animation-delay:.48s;color:#5FB8F5}
 @keyframes hop{0%,60%,100%{transform:translateY(0) scale(1,1)}20%{transform:translateY(-18px) scale(.92,1.08)}40%{transform:translateY(0) scale(1.1,.88)}}
 .tag{font-weight:800;font-size:20px;color:#fff;margin-top:4px;text-shadow:2px 0 var(--ink),-2px 0 var(--ink),0 2px var(--ink),0 -2px var(--ink),0 3px var(--ink)}
+.updbar{display:none;align-items:center;gap:8px;margin:2px auto 6px;background:#fff;border:3px solid #3A3558;border-radius:16px;padding:5px 6px 5px 12px;font-weight:800;font-size:14px;color:#3A3558;box-shadow:0 4px 0 #3A3558;white-space:nowrap;pointer-events:auto}
+.updbar.on{display:inline-flex}.updbar button{font:inherit;border:0;border-radius:11px;padding:4px 10px;cursor:pointer}.updbar .go{background:#4FCB8A;color:#fff;box-shadow:0 3px 0 #2E9A62}.updbar .x{background:none;color:#8A84A8;padding:4px 6px}
 .ver{font-size:12.5px;font-weight:800;color:#fff;background:rgba(58,53,88,.6);border-radius:10px;padding:1px 10px 0}
 .top{display:flex;flex-direction:column;align-items:center}
 .bottom{display:flex;flex-direction:column;align-items:center;gap:16px}
@@ -352,6 +354,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
       <button class="tile t2" id="bDesign"><span id="icDesign"></span>Gestalten</button>
       <button class="tile t3" id="bWardM"><span id="icShirt"></span>Kostüme</button>
     </div>
+    <div class="updbar" id="updBar"></div>
     <div class="ver" id="ver"></div>
   </div>
 </div>
@@ -366,6 +369,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
   <div class="srow" id="adPrivRow" style="display:none">Werbung &amp; Datenschutz<button class="btn w s" id="adPriv">Ändern</button></div>
   <div class="srow">Spielstand<button class="btn w s danger" id="bReset">Löschen</button></div>
   <div class="srow">Datenschutz<a class="btn w s" href="https://daviddigital-de.github.io/flumm/datenschutz.html" target="_blank" rel="noopener" style="text-decoration:none">Lesen</a></div>
+  <div class="srow">Nutzungsbedingungen<a class="btn w s" href="https://daviddigital-de.github.io/flumm/nutzungsbedingungen.html" target="_blank" rel="noopener" style="text-decoration:none">Lesen</a></div>
   <p class="small" id="setVer" style="margin-top:10px"></p>
   <div class="row" style="margin-top:10px"><button class="btn g s" id="setBack">Fertig</button></div>
 </div></div>
@@ -605,8 +609,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.22.3', BUILD=49;
+const VERSION='0.23.0', BUILD=50;
 const CHANGELOG=[
+ ['0.23.0','50',['Neu: Hinweis im Hauptmenü, wenn bei Google Play eine neue Version bereitsteht – Update lädt im Hintergrund, danach „Neu starten“','Einstellungen: Link zu den Nutzungsbedingungen']],
  ['0.22.3','49',['Erste signierte Version für den Google Play Store (AAB)']],
  ['0.22.2','48',['Flüssiger Hintergrund-Übergang beim Biomwechsel (alter Himmel wird sparsam im Puffer gezeichnet statt doppelt pro Bild)']],
  ['0.22.1','47',['Neuer App-Build (der Upload von Build 46 ist bei GitHub fehlgeschlagen) – Inhalt wie 0.22.0']],
@@ -746,6 +751,25 @@ async function adReward(onOk){if(!adsCan()){toast('Gerade kein Video verfügbar'
  if(got){onOk();SFX.buy();}else toast('Video abgebrochen – keine Belohnung');adsUI();}
 function adGameOver(){if(!ADS.ok)return;ADS.games++;if(ADS.games>=3&&ADS.interReady&&Date.now()-ADS.last>150000&&!ADS.busy){ADS.games=0;setTimeout(async()=>{try{ADS.busy=true;await ADS.A.showInterstitial();ADS.last=Date.now();}catch(e){}ADS.busy=false;},1400);}}
 setTimeout(adsInit,1500);
+// ── Hinweis auf neue App-Version (Google Play In-App-Update, flexibel; iOS: App-Store-Link) ──
+const IOS_APP_ID=''; // Apple-ID der App eintragen, sobald sie im App Store angelegt ist
+const UPD={st:0,info:null,key:'',t:0};
+function updP(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return null;const P=CP.Plugins&&CP.Plugins.AppUpdate;if(!P)return null;if(CP.getPlatform()==='ios'&&!IOS_APP_ID)return null;return P;}
+async function updCheck(){const P=updP();if(!P||UPD.st>1||Date.now()-UPD.t<36e5)return;UPD.t=Date.now();
+ try{const o=window.Capacitor.getPlatform()==='ios'?{country:'DE'}:{};const i=await P.getAppUpdateInfo(o);
+  if(i.installStatus===11){UPD.info=i;UPD.st=3;return updUI();}
+  if(i.updateAvailability!==2)return;const key=String(i.availableVersionCode||i.availableVersionName||'neu');if(save.updHide===key)return;UPD.info=i;UPD.key=key;UPD.st=1;updUI();}catch(e){}}
+function updUI(){const el=$('updBar');if(!el)return;if(!UPD.st){el.classList.remove('on');return;}
+ el.innerHTML=UPD.st===1?'✨ Neue Version verfügbar <button class="go" id="updGo">Aktualisieren</button><button class="x" id="updX" aria-label="Ausblenden">✕</button>'
+  :UPD.st===2?'⏳ Update wird geladen …':'✅ Update bereit <button class="go" id="updGo">Neu starten</button>';
+ el.classList.add('on');const g=$('updGo'),x=$('updX');if(g)g.onclick=updGo;if(x)x.onclick=()=>{save.updHide=UPD.key;persist();UPD.st=0;updUI();};}
+async function updGo(){const P=updP();if(!P)return;const CP=window.Capacitor;
+ try{if(UPD.st===3){await P.completeFlexibleUpdate();return;}
+  if(CP.getPlatform()==='ios'){await P.openAppStore({appId:IOS_APP_ID});return;}
+  if(UPD.info&&UPD.info.flexibleUpdateAllowed){if(!UPD.l)UPD.l=await P.addListener('onFlexibleUpdateStateChange',s=>{if(s.installStatus===11){UPD.st=3;updUI();}else if(s.installStatus===5||s.installStatus===6){UPD.st=1;updUI();}});
+   UPD.st=2;updUI();const r=await P.startFlexibleUpdate();if(r&&r.code!==undefined&&r.code!==0&&UPD.st===2){UPD.st=1;updUI();}}
+  else await P.openAppStore();}catch(e){if(UPD.st===2){UPD.st=1;updUI();}}}
+setTimeout(updCheck,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)updCheck();});
 
 
 /* ---------- Bestenlisten (Google Play Games / Game Center) ----------

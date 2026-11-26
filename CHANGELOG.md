@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.23.0 · Build 50
+- Neu: Hinweis im Hauptmenü, wenn bei Google Play eine neue Version bereitsteht – Update lädt im Hintergrund, danach „Neu starten“
+- Einstellungen: Link zu den Nutzungsbedingungen
+
 ## v0.22.3 · Build 49
 - Erste signierte Version für den Google Play Store (AAB)
 

@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.22.3 (Build 49)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.23.0 (Build 50)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.22.3-build49`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.23.0-build50`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -84,3 +84,9 @@ Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht 
 3. *Bestenlisten* anlegen (siehe Liste oben).
 4. *Tester* hinzufügen (eigenes Google-Konto) und veröffentlichen.
 5. Projekt-ID (Zahl) → `android/app/src/main/res/values/games-ids.xml` + Manifest-Eintrag `com.google.android.gms.games.APP_ID`; Bestenlisten-IDs (`CgkI…`) → `LB_CFG.android` in `index.html`.
+
+
+## Update-Hinweis (In-App-Update)
+- Plugin `@capawesome/capacitor-app-update`. Gibt es bei Google Play eine neuere Version, zeigt das Hauptmenü „Neue Version verfügbar – Aktualisieren“ (flexibles Update im Hintergrund, danach „Neu starten“). Mit ✕ pro Version ausblendbar.
+- Funktioniert nur bei Installationen aus Google Play (auch geschlossener/interner Test), nicht bei der Debug-APK.
+- iOS: vorbereitet, aktiv sobald `IOS_APP_ID` in `index.html` eingetragen ist (öffnet den App-Store-Eintrag).
