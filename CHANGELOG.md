@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.24.0 · Build 51
+- Neu: Tier-Maskottchen – Katze (neu gestaltet), Hund, Hase, Pferd, Löwe und das exklusive Einhorn (30 Tage Tagesserie)
+- Neu: Häuser unter „Gestalten“ – Haus in 5 Farben, Zelt, Iglu, Jurte, Pilzhaus und Burg (mit Album-Bonus)
+
 ## v0.23.0 · Build 50
 - Neu: Hinweis im Hauptmenü, wenn bei Google Play eine neue Version bereitsteht – Update lädt im Hintergrund, danach „Neu starten“
 - Einstellungen: Link zu den Nutzungsbedingungen
