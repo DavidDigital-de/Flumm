@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.26.0 · Build 54
+- Neu: Erfolge – 21 Erfolge mit Bronze-, Silber- und Gold-Medaille und Münz-Belohnungen (unter Spielen → 🎖️ Erfolge)
+- Bisherige Fortschritte zählen sofort mit
+
 ## v0.25.0 · Build 53
 - Neue Entwicklungsstufen: Mega-Flumm (ab Tag 14, Krone, +1 weiteres Herz) und Legenden-Flumm (ab Tag 30, Heiligenschein, Regenbogen-Schimmer, +50 % Münzen, Regenbogen-Sprungspur)
 

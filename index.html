@@ -254,6 +254,12 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 .bubble.wob{animation:wob .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes wob{0%{transform:scale(1)}20%{transform:scale(1.12,.86) rotate(-3deg)}45%{transform:scale(.93,1.08) rotate(2deg)}70%{transform:scale(1.03,.97) rotate(-1deg)}100%{transform:scale(1)}}
 .modes{display:flex;flex-direction:column;gap:12px;padding:4px 4px 6px}
+.achList{overflow-y:auto;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:2px 4px 10px}
+.achr{display:flex;align-items:center;gap:10px;font-family:"Baloo 2",ui-rounded,system-ui,sans-serif;font-weight:600;background:rgba(255,255,255,.92);border:3px solid var(--ink);border-radius:16px;padding:8px 10px;color:var(--ink)}
+.achr .ic{font-size:26px;width:34px;text-align:center;flex:none}.achr .tx{flex:1;min-width:0}.achr b{display:block;font-size:15px}.achr small{display:block;font-size:12px;opacity:.8}
+.achbar{height:8px;border-radius:5px;background:#E4DFF0;margin-top:4px;overflow:hidden}.achbar i{display:block;height:100%;background:linear-gradient(90deg,#FFC93C,#FF8A3D)}
+.achm{display:flex;gap:2px;flex:none;font-size:18px}.achm span{filter:grayscale(1);opacity:.3}.achm span.on{filter:none;opacity:1}
+.achr.done{background:linear-gradient(135deg,#FFF6D2,#FFE59A)}
 .mode{position:relative;font:inherit;display:flex;align-items:center;gap:12px;text-align:left;border:3px solid var(--ink);border-radius:22px;padding:10px 12px;color:#fff;cursor:pointer;box-shadow:0 5px 0 var(--ink),inset 0 -6px 0 rgba(0,0,0,.12),inset 0 5px 0 rgba(255,255,255,.4);transition:transform .07s,box-shadow .07s}
 .mode:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
 .mode .mi{flex:none;width:58px;height:58px;border-radius:18px;background:#fff;border:3px solid var(--ink);display:grid;place-items:center}
@@ -403,6 +409,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
     <details class="hsec"><summary>Wachsen &amp; Pflegepunkte</summary><div>Pflegepunkte gibt es fürs Füttern (+10), Waschen (+4 je Fleck), Ball spielen (+6), Schlafen (+5), Level schaffen (+8), Streicheln (+1) und das Tagesgeschenk (+5).<ul><li><b>Flummi-Kind</b>: ab Tag 1 + 80 Pflege – Futter-Magnet</li><li><b>Teen-Flumm</b>: ab Tag 4 + 250 Pflege – +1 Herz</li><li><b>Super-Flumm</b>: ab Tag 8 + 550 Pflege – +25 % Münzen</li><li><b>Mega-Flumm</b>: ab Tag 14 + 1000 Pflege – Krone, +1 weiteres Herz</li><li><b>Legenden-Flumm</b>: ab Tag 30 + 2000 Pflege – +50 % Münzen, Regenbogen-Spur</li></ul>Ab Super-Flumm gibt es zusätzlich alle 150 Pflegepunkte einen Pflegestern (+20 🪙).</div></details>
     <details class="hsec"><summary>Spielmodi</summary><div><ul><li><b>Abenteuer</b>: Weltkarte, je Level bis zu 3 Sterne (Ziel, ohne Sturz, genug PERFEKT)</li><li><b>Endlos</b>: so weit wie möglich – Rekord zählt</li><li><b>Tageslauf</b>: jeden Tag dieselbe Strecke für alle, nur 1 Leben, Bonus für den ersten Lauf. Jeder gespielte Tag zählt für deine 🔥 Serie</li><li><b>Duell</b>: siehe unten</li></ul></div></details>
     <details class="hsec"><summary>Duell</summary><div>Lauf eine Strecke mit 14 Inseln auf Zeit (jeder Sturz +3 s). Danach bekommst du einen <b>Code</b> – kopieren und per Nachricht an Freunde schicken. Sie fügen ihn unter „Code von Freund“ ein und laufen dieselbe Strecke gegen deinen <b>Geist</b>. Der Gewinner bekommt 15 🪙, und es gibt einen Revanche-Code zurück.</div></details>
+    <details class="hsec"><summary>Erfolge</summary><div>Unter <b>Spielen → 🎖️ Erfolge</b> findest du 21 Erfolge mit je drei Medaillen (🥉 Bronze +30 🪙, 🥈 Silber +75 🪙, 🥇 Gold +150 🪙) – fürs Springen, Sammeln, Pflegen, Gestalten und Dranbleiben.</div></details>
     <details class="hsec"><summary>Bestenlisten</summary><div>Unter <b>Spielen → 🏆 Bestenlisten</b> findest du <b>Tageslauf</b> (alle spielen dieselbe Strecke – wer kommt heute am weitesten?), <b>Endlos</b> und <b>Duell-Siege</b>. Bei Tageslauf und Endlos siehst du zu jedem Lauf auch Zeit, Perfekt-Landungen, Münzen und Beeren – wahlweise für heute, die Woche oder insgesamt. Die weltweiten Listen laufen über Google Play Spiele; dafür meldest du dich einmal mit deinem Google-Profil an.</div></details>
     <details class="hsec"><summary>Werbung</summary><div>Flumm ist kostenlos und finanziert sich über Werbung. Freiwillig kannst du ein kurzes <b>Video</b> ansehen: im Endlos-Modus einmal pro Lauf <b>weiterspielen</b> (+1 Herz), nach einem Spiel die <b>Münzen verdoppeln</b> oder einem kranken Flumm <b>Gratis-Medizin</b> geben. Ab und zu kommt nach einem Spiel eine kurze Werbepause (höchstens alle 2½ Minuten). Deine Datenschutz-Auswahl kannst du in den Einstellungen ändern.</div></details>
     <details class="hsec"><summary>Maskottchen</summary><div>Unter <b>Kostüme</b> findest du ganz oben die Maskottchen – Flumm in anderen Farben. Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze und Frosch kaufst du mit Münzen. <b>Exklusiv</b> gibt es: Glücks-Flumm (Welt 1-5 geschafft), Sternen-Flumm (Welt 1-10), Feuer-Flumm (10 Tage Tagesserie), Zucker-Flumm (7 Tage in Folge eingeloggt), Gold-Flumm (5 Duelle gewonnen) und Regen-Flumm (3 Duelle verloren – als Trost). Kostüme passen auf jedes Maskottchen.</div></details>
@@ -420,7 +427,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
     <button class="mode m3" id="mdDay"><span class="mi" id="miDay"></span><span><b>Tageslauf</b><small id="mdDaySm">1 Leben · jeden Tag = 🔥 Serie</small></span><em id="mdDayE"></em></button>
     <button class="mode m4" id="mdDuel"><span class="mi" id="miDuel"></span><span><b>Duell</b><small>Fordere Freunde heraus</small></span><em id="mdDuelE"></em></button>
   </div>
-  <button class="btn s w" id="mdLb" style="margin:8px auto 0;display:block">🏆 Bestenlisten</button>
+  <div class="row" style="justify-content:center;gap:10px;margin-top:8px"><button class="btn s w" id="mdLb">🏆 Bestenlisten</button><button class="btn s w" id="mdAch">🎖️ Erfolge</button></div>
   <button class="xbtn" id="mdBack" aria-label="Schließen">✕</button>
 </div></div>
 
@@ -443,6 +450,13 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
   <div class="tl"><span style="font-size:22px">🤲</span><span><b>Streicheln</b> – +3 Gesundheit (alle 30 s)</span></div>
   <div class="row" style="margin-top:10px;gap:10px;flex-wrap:wrap"><button class="btn s b adbtn" id="adMed" style="display:none">🎬 Gratis-Medizin</button><button class="btn s g" id="skMed">💊 Medizin</button><button class="btn s y" id="skHome">🏠 Zuhause</button></div>
   <button class="xbtn" id="skBack" aria-label="Schließen">✕</button>
+</div></div>
+
+<div id="ach" class="screen"><div class="album">
+  <div class="ribbon">Erfolge</div>
+  <div class="row" style="justify-content:center;gap:10px;margin:2px 0 8px"><span class="chip" id="achCoins"></span><span class="chip" id="achSum"></span></div>
+  <div class="achList" id="achList"></div>
+  <button class="xbtn" id="achBack" aria-label="Schließen">✕</button>
 </div></div>
 
 <div id="lboard" class="screen"><div class="album">
@@ -609,8 +623,9 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.25.0', BUILD=53;
+const VERSION='0.26.0', BUILD=54;
 const CHANGELOG=[
+ ['0.26.0','54',['Neu: Erfolge – 21 Erfolge mit Bronze-, Silber- und Gold-Medaille und Münz-Belohnungen (unter Spielen → 🎖️ Erfolge)','Bisherige Fortschritte zählen sofort mit']],
  ['0.25.0','53',['Neue Entwicklungsstufen: Mega-Flumm (ab Tag 14, Krone, +1 weiteres Herz) und Legenden-Flumm (ab Tag 30, Heiligenschein, Regenbogen-Schimmer, +50 % Münzen, Regenbogen-Sprungspur)']],
  ['0.24.1','52',['Flumm wächst sichtbar mit: Baby klein, Super-Flumm deutlich größer (nur optisch, Sprünge bleiben gleich)','Tier-Maskottchen wachsen mit: längere Hasenohren, größere Löwenmähne, längeres Einhorn-Horn']],
  ['0.24.0','51',['Neu: Tier-Maskottchen – Katze (neu gestaltet), Hund, Hase, Pferd, Löwe und das exklusive Einhorn (30 Tage Tagesserie)','Neu: Häuser unter „Gestalten“ – Haus in 5 Farben, Zelt, Iglu, Jurte, Pilzhaus und Burg (mit Album-Bonus)']],
@@ -676,7 +691,44 @@ const SKEY='flumm_save_v1';
 const DEFAULTS=()=>({stars:{},drops:{},unlocked:1,sound:true,vib:true,wallet:null,pet:null,owned:null,costume:'none',aim:'normal',bg:'day',pl:'grass',ownedBg:['day'],ownedPl:['grass'],house:'house',ownedHs:['house'],seenVer:'',hatched:null,tutDone:false,petName:'Flumm'});
 let save=DEFAULTS();
 let hadSave=false;try{const s=JSON.parse(localStorage.getItem(SKEY)||'null');if(s){save=Object.assign(save,s);hadSave=true;}}catch(e){}
-function persist(){try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}}
+function persist(){try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}if(!ACH_T)ACH_T=setTimeout(achCheck,600);}
+let ACH_T=0;
+function stat(k,n,quiet){const S=save.stats||(save.stats={perf:0,berries:0,coins:0});S[k]=(S[k]||0)+(n||1);}
+const ACH_R=[30,75,150],ACH_M=['🥉','🥈','🥇'],ACH_N=['Bronze','Silber','Gold'];
+const SS=()=>save.stats||{};
+const ACH=[
+ ['jump','🦘','Hüpfer','Sprünge',[100,1000,10000],()=>SS().jumps],
+ ['perf','✨','Perfektionist','PERFEKT-Landungen',[25,250,1000],()=>SS().perf],
+ ['coin','🪙','Münzsammler','Münzen eingesammelt',[100,1000,5000],()=>SS().coins],
+ ['berry','🍓','Beerenpflücker','Beeren eingesammelt',[50,500,2000],()=>SS().berries],
+ ['lvl','🗺️','Abenteurer','Level geschafft',[10,50,130],()=>Object.values(save.stars||{}).filter(v=>v>0).length],
+ ['star','⭐','Sternensammler','Sterne gesammelt',[30,150,390],()=>Object.values(save.stars||{}).reduce((a,b)=>a+(b||0),0)],
+ ['endl','♾️','Endlos-Profi','Endlos-Rekord in Inseln',[25,75,150],()=>save.best],
+ ['day','📅','Tagesläufer','Tagesläufe gespielt',[7,30,100],()=>SS().daily],
+ ['ser','🔥','Serienstar','längste Tagesserie',[3,14,30],()=>save.streak&&save.streak.best],
+ ['duel','⚔️','Duellant','Duelle gewonnen',[1,10,50],()=>save.duels&&save.duels.w],
+ ['feed','🍽️','Feinschmecker','Mal gefüttert',[10,100,500],()=>SS().feeds],
+ ['wash','🫧','Blitzsauber','Mal gewaschen',[10,50,200],()=>SS().washes],
+ ['ball','⚽','Spielkamerad','Mal Ball gespielt',[10,50,200],()=>SS().plays],
+ ['pet','🤲','Kuschelmonster','Mal gestreichelt',[50,500,2000],()=>SS().pets],
+ ['sleep','😴','Schlafmütze','Mal ins Bett gebracht',[5,30,100],()=>SS().sleeps],
+ ['grow','🌱','Großwerden','Entwicklungsstufe',[2,4,6],()=>save.pet&&save.pet.stage],
+ ['masc','🐾','Tierfreund','Maskottchen gesammelt',[3,8,0],()=>(save.mOwned||[]).length,()=>MASC.length],
+ ['cos','🎩','Modebewusst','Kostüme gesammelt',[3,10,0],()=>(save.owned||[]).filter(x=>x!=='none').length,()=>COSTUMES.length-1],
+ ['house','🏠','Baumeister','Häuser gesammelt',[2,5,0],()=>(save.ownedHs||[]).length,()=>HSS.length],
+ ['deco','🎨','Gestalter','Plattformen & Hintergründe',[5,15,0],()=>(save.ownedBg||[]).length+(save.ownedPl||[]).length,()=>BGS.length+PLS.length],
+ ['login','📆','Treue Seele','Tage am Stück eingeloggt',[3,7,30],()=>save.loginBest]];
+const achTiers=a=>a[6]?[a[4][0],a[4][1],a[6]()]:a[4];
+function achCheck(){ACH_T=0;if(typeof G==='undefined'||!save||!save.pet)return;if(G.mode==='play'){ACH_T=setTimeout(achCheck,2500);return;}
+ const A=save.ach||(save.ach={});let got=[],sum=0;
+ for(const a of ACH){const v=+a[5]()||0,T=achTiers(a);let t=A[a[0]]||0;while(t<3&&v>=T[t]){sum+=ACH_R[t];got.push(ACH_M[t]+' '+a[2]);t++;}A[a[0]]=t;}
+ if(!got.length)return;save.coins+=sum;try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}
+ setTimeout(()=>{try{SFX.win();buzz([15,30,15]);}catch(e){}toast(got.length===1?'🏆 Erfolg: '+got[0]+' · +'+sum+' 🪙':'🏆 '+got.length+' Erfolge geschafft · +'+sum+' 🪙');try{menuUI();homeUI();}catch(e){}if($('ach').classList.contains('on'))achUI();},300);}
+function achUI(){const A=save.ach||{};let m=0;
+ $('achList').innerHTML=ACH.map(a=>{const t=A[a[0]]||0,T=achTiers(a),v=+a[5]()||0;m+=t;const nx=t<3?T[t]:T[2],pr=Math.min(100,v/nx*100);
+  const lab=a[0]==='grow'?(STAGES[Math.min(6,v)]||{name:''}).name+' · Ziel: '+STAGES[nx].name:Math.min(v,nx).toLocaleString('de-DE')+' / '+nx.toLocaleString('de-DE')+' '+a[3];
+  return '<div class="achr'+(t>=3?' done':'')+'"><span class="ic">'+a[1]+'</span><span class="tx"><b>'+a[2]+(t?' · '+ACH_N[t-1]:'')+'</b><small>'+lab+(t<3?' · +'+ACH_R[t]+' 🪙':'')+'</small><div class="achbar"><i style="width:'+(t>=3?100:pr)+'%"></i></div></span><span class="achm">'+ACH_M.map((x,i)=>'<span class="'+(i<t?'on':'')+'">'+x+'</span>').join('')+'</span></div>';}).join('');
+ $('achSum').textContent='🏅 '+m+'/'+ACH.length*3;$('achCoins').textContent='🪙 '+save.coins;}
 const totalDrops=()=>Object.values(save.drops).reduce((a,b)=>a+b,0);
 function fixSave(){
  if(save.coins==null)save.coins=(save.wallet!=null?save.wallet:totalDrops()+40);
@@ -1176,7 +1228,7 @@ function finishRun(done){
   else sub=done?'Strecke geschafft!':'Leider nicht ins Ziel gekommen';}
  if(r.type==='endless'||r.type==='daily'){const det={s:score,t:Math.round(G.t),p:G.perfects,c:G.coinsGot,b:G.dropsGot};li.push('⏱ '+det.t+' s · ✨ '+det.p+' Perfekt · 🪙 '+det.c+' · 🍓 '+det.b);
   if(r.type==='endless'){if(!save.endBest||score>save.endBest.s)save.endBest=det;lbSubmit('endless',score,runTag(det));}
-  else{det.d=todayStr();if(!save.dayBest||save.dayBest.d!==det.d||score>save.dayBest.s)save.dayBest=det;lbSubmit('daily',score,runTag(det));setTimeout(lbCount,2500);}}else if(r.ghost)lbSubmit('duel',save.duels.w);
+  else{det.d=todayStr();stat('daily',1,true);if(!save.dayBest||save.dayBest.d!==det.d||score>save.dayBest.s)save.dayBest=det;lbSubmit('daily',score,runTag(det));setTimeout(lbCount,2500);}}else if(r.ghost)lbSubmit('duel',save.duels.w);
  if(P.stage>=6)bonus=Math.round(bonus*1.5);else if(P.stage>=4)bonus=Math.round(bonus*1.25);save.coins+=bonus;G.lastGain=G.coinsGot+bonus;$('adDblR').dataset.used='';$('adCont').dataset.used=(r.type==='endless'&&!r.cont&&G.lastIdx>=5)?'':'1';
  li.push('🍓 +'+G.dropsGot+' Beeren · 🪙 +'+(G.coinsGot+bonus)+' Münzen');
  persist();
@@ -1209,7 +1261,7 @@ function feed(){
  const p=G.plats[0];G.food={x0:p.x+p.w-38,y0:p.y-16,t:0,d:.55};G.menuT=2.5;
 }
 function eat(){
- const P=save.pet;P.sat=Math.min(100,P.sat+25);if(P.sick)P.hp=Math.min(100,P.hp+8);P.care+=P.sick?5:10;P.mood=Math.min(100,P.mood+5);persist();
+ const P=save.pet;stat('feeds');P.sat=Math.min(100,P.sat+25);if(P.sick)P.hp=Math.min(100,P.hp+8);P.care+=P.sick?5:10;P.mood=Math.min(100,P.mood+5);persist();
  SFX.eat();buzz(15);B.sqV=-6;setExpr('happy',1.1);popup('Mampf!',B.x,B.y-50,'#FFE066',26);hearts(B.x,B.y-20,4);
  burst(B.x,B.y+B.r*.3,8,['#FF5C6E','#fff'],150,4,400);
  checkEvolve(false);healCheck();homeUI();
@@ -1217,7 +1269,7 @@ function eat(){
 function petFlumm(){
  if(G.petCd>0)return;G.petCd=.35;
  const P=save.pet;
- if(P.sleep){popup('Zzz…',B.x,B.y-46,'#fff',20);return;}
+ if(P.sleep){popup('Zzz…',B.x,B.y-46,'#fff',20);return;}stat('pets');
  if(P.mood<100)P.care+=1;P.mood=Math.min(100,P.mood+4);if(P.sick&&Date.now()-(P.phT||0)>3e4){P.hp=Math.min(100,P.hp+3);P.phT=Date.now();popup('+ Gesundheit',B.x,B.y-70,'#9BF5DF',18);healCheck();}persist();homeUI();
  SFX.pet();buzz(8);B.sqV=-4.5;setExpr('happy',.9);hearts(B.x,B.y-B.r,3);checkEvolve(false);
 }
@@ -1225,7 +1277,7 @@ function sleepToggle(){
  const P=save.pet;decay();
  if(P.sleep){const mins=(Date.now()-P.sleep)/6e4;P.sleep=0;let msg='Guten Morgen!';if(mins>=20)P.care+=5;if(!P.sick&&P.hp>=60&&mins>=20)msg='Ausgeschlafen!';else if(P.sick)msg='Noch nicht ganz fit…';setTimeout(healCheck,600);
   persist();setExpr('happy',1.2);B.sqV=-6;popup(msg,B.x,B.y-50,'#FFE066',24);SFX.boing();}
- else{P.sleep=Date.now();persist();SFX.click();popup('Gute Nacht!',B.x,B.y-50,'#fff',22);}
+ else{P.sleep=Date.now();stat('sleeps');persist();SFX.click();popup('Gute Nacht!',B.x,B.y-50,'#fff',22);}
  homeUI();
 }
 function medicine(){
@@ -1241,7 +1293,7 @@ function washFlumm(){
  if(!P.dirt){popup('Schon blitzsauber!',B.x,B.y-50,'#fff',22);SFX.no();return;}
  G.wash={t:0};SFX.wash();G.menuT=3;
 }
-function washDone(){const P=save.pet;P.care+=4*P.dirt;P.mood=Math.min(100,P.mood+8);P.dirt=0;persist();setExpr('happy',1.3);B.sqV=-6;popup('Blitzsauber!',B.x,B.y-50,'#9ED8F5',24);SFX.pet();for(let i=0;i<6;i++)G.parts.push({x:B.x+(Math.random()-.5)*40,y:B.y-10-Math.random()*20,vx:0,vy:-40,life:.8,max:.8,c:'#FFF4C2',s:5,g:0,rot:0,vr:0,k:0});checkEvolve(false);homeUI();}
+function washDone(){const P=save.pet;stat('washes');P.care+=4*P.dirt;P.mood=Math.min(100,P.mood+8);P.dirt=0;persist();setExpr('happy',1.3);B.sqV=-6;popup('Blitzsauber!',B.x,B.y-50,'#9ED8F5',24);SFX.pet();for(let i=0;i<6;i++)G.parts.push({x:B.x+(Math.random()-.5)*40,y:B.y-10-Math.random()*20,vx:0,vy:-40,life:.8,max:.8,c:'#FFF4C2',s:5,g:0,rot:0,vr:0,k:0});checkEvolve(false);homeUI();}
 function playBall(){
  const P=save.pet;if(G.ball||G.wash)return;
  if(P.sleep){popup('Pssst… schläft',B.x,B.y-50,'#fff',22);SFX.no();return;}
@@ -1249,7 +1301,7 @@ function playBall(){
  const wait=20-(Date.now()-P.playT)/6e4;if(wait>0){toast('Flumm ist noch aus der Puste – in '+Math.ceil(wait)+' Min. wieder');SFX.no();return;}
  const p=G.plats[0];G.ball={x:p.x+20,y:p.y-80,vx:140,vy:-200,rot:0,hits:0,t:0,cd:.3,hitCd:0};SFX.boing();
 }
-function ballDone(){const P=save.pet;P.playT=Date.now();P.care+=6;P.mood=Math.min(100,P.mood+12);P.energy=Math.max(0,P.energy-8);persist();setExpr('happy',1.5);popup('Das war toll!',B.x,B.y-50,'#FFE066',24);hearts(B.x,B.y-20,5);checkEvolve(false);homeUI();}
+function ballDone(){stat('plays');const P=save.pet;P.playT=Date.now();P.care+=6;P.mood=Math.min(100,P.mood+12);P.energy=Math.max(0,P.energy-8);persist();setExpr('happy',1.5);popup('Das war toll!',B.x,B.y-50,'#FFE066',24);hearts(B.x,B.y-20,5);checkEvolve(false);homeUI();}
 function todayStr(d){d=d||new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
 const STREAK=[{d:2,c:15,t:'15 Münzen'},{d:3,cos:'crown',t:'Kostüm Goldkrone'},{d:5,c:30,f:5,t:'30 Münzen + 5 Erdbeeren'},{d:7,pl:'gold',t:'Plattform Goldinsel'},{d:10,c:50,t:'50 Münzen'},{d:14,bg:'aurora',t:'Hintergrund Polarlicht'},{d:21,c:80,f:10,t:'80 Münzen + 10 Erdbeeren'},{d:30,cos:'champ',t:'Kostüm Champion'}];
 function curStreak(){const S=save.streak;if(!S||!S.n)return 0;const y=new Date();y.setDate(y.getDate()-1);return (S.last===todayStr()||S.last===todayStr(y))?S.n:0;}
@@ -1308,6 +1360,7 @@ function wobBubble(){const el=$('petBub');el.classList.remove('wob');void el.off
 
 /* ---------- Spiel-Logik ---------- */
 function jump(){
+ if(G.mode==='play')stat('jumps',1,true);
  const sf=G.mode==='play'&&B.ground&&B.ground.surf&&SURF[B.ground.surf].pow||1;const p=B.charge*(G.mode==='play'?G.fx.cap:1),v=(VMIN+(VMAX-VMIN)*p)*B.mult*sf;
  if(G.rateP&&B.ground===G.rateP)rateLanding(G.rateP);B.slide=0;
  B.vx=v*Math.cos(ANG);B.vy=-v*Math.sin(ANG);
@@ -1957,7 +2010,7 @@ $('mapscroll').addEventListener('scroll',updWorld,{passive:true});
 $('fog').addEventListener('click',()=>{ac();SFX.no();toast('Diese Welt liegt noch im Nebel – schaffe erst die Welt davor!');});
 
 /* ---------- UI ---------- */
-const SCREENS=['menu','map','hud','home','ward','result','lost','pause','info','settings','design','daily','modes','duel','runres','hatch','help','streak','sick','sleepy','lboard','lbtop'];
+const SCREENS=['menu','map','hud','home','ward','result','lost','pause','info','settings','design','daily','modes','duel','runres','hatch','help','streak','sick','sleepy','lboard','lbtop','ach'];
 function show(id){try{hideTip();}catch(e){}setTimeout(mascCheck,250);if(id==='result'||id==='runres'||id==='lost'){adGameOver();setTimeout(adsUI,50);}SCREENS.forEach(s=>$(s).classList.toggle('on',s===id));if(id==='menu')try{menuUI();}catch(e){}$('goMenu').classList.toggle('on',!['menu','hud','hatch','daily','home','map','result','lost','runres','pause'].includes(id));musWant=musicFor(id);if(musWant!==MUS.cur)musicPlay(musWant);}
 function shakeEl(el){el.classList.remove('shakeit');void el.offsetWidth;el.classList.add('shakeit');}
 let toastTO=0;function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>el.classList.remove('on'),1800);}
@@ -2117,6 +2170,7 @@ on('adDblL',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.l
 on('adMed',()=>adReward(()=>{const P=save.pet;P.sick=false;P.hp=Math.max(P.hp,80);P.low={e:0,s:0,m:0,d:0};persist();toast('Wieder gesund – danke!');toMain();}));
 on('adCont',()=>adReward(()=>{const r=G.run;if(!r)return;r.cont=true;$('adCont').dataset.used='1';G.coinsGot=0;G.dropsGot=0;G.hearts=1;G.mode='play';G.deadT=0;show('hud');respawn();hud();showHint('Weiter geht’s – letztes Herz!');}));
 on('adPriv',async()=>{try{await ADS.A.showPrivacyOptionsForm();}catch(e){toast('Nicht verfügbar');}});
+on('mdAch',()=>{SFX.click();achCheck();achUI();show('ach');});on('achBack',()=>{SFX.click();modesUI();show('modes');});
 on('mdLb',()=>{SFX.click();lbUI();show('lboard');});on('lbBack',()=>{SFX.click();modesUI();show('modes');});on('rrLb',()=>{SFX.click();const t=G.run&&G.run.type;if(t==='daily'||t==='endless')lbTop(t);else lbShow('duel');});
 $('lbList').addEventListener('click',e=>{const b=e.target.closest('[data-lb]');if(!b)return;ac();SFX.click();const k=b.dataset.lb;if(k==='duel')lbShow(k).then(lbUI);else lbTop(k);});
 $('lbtTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;SFX.click();lbTop(lbtKind,b.dataset.s);});
@@ -2250,6 +2304,7 @@ applyTheme(save.bg);labels();startFlow();
   if(cur==='sick'){$('skBack').click();return;}
   if(cur==='sleepy'){$('slBack').click();return;}
   if(cur==='lboard'){$('lbBack').click();return;}
+  if(cur==='ach'){$('achBack').click();return;}
   if(cur==='lbtop'){$('lbtBack').click();return;}
   if(cur==='menu'||cur==='hatch'||cur==='daily'){P.App.exitApp();return;}
   toMain();});
