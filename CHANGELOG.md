@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.24.1 · Build 52
+- Flumm wächst sichtbar mit: Baby klein, Super-Flumm deutlich größer (nur optisch, Sprünge bleiben gleich)
+- Tier-Maskottchen wachsen mit: längere Hasenohren, größere Löwenmähne, längeres Einhorn-Horn
+
 ## v0.24.0 · Build 51
 - Neu: Tier-Maskottchen – Katze (neu gestaltet), Hund, Hase, Pferd, Löwe und das exklusive Einhorn (30 Tage Tagesserie)
 - Neu: Häuser unter „Gestalten“ – Haus in 5 Farben, Zelt, Iglu, Jurte, Pilzhaus und Burg (mit Album-Bonus)
