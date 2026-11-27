@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.25.0 · Build 53
+- Neue Entwicklungsstufen: Mega-Flumm (ab Tag 14, Krone, +1 weiteres Herz) und Legenden-Flumm (ab Tag 30, Heiligenschein, Regenbogen-Schimmer, +50 % Münzen, Regenbogen-Sprungspur)
+
 ## v0.24.1 · Build 52
 - Flumm wächst sichtbar mit: Baby klein, Super-Flumm deutlich größer (nur optisch, Sprünge bleiben gleich)
 - Tier-Maskottchen wachsen mit: längere Hasenohren, größere Löwenmähne, längeres Einhorn-Horn
