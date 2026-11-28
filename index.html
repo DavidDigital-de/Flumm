@@ -373,6 +373,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
   <div class="srow">Zielhilfe<div class="seg"><button id="aimN">Normal</button><button id="aimV">Voll</button><button id="aimA">Aus</button></div></div>
   <div class="srow">Hilfe<div class="row" style="gap:8px"><button class="btn w s" id="sHelp">Lesen</button><button class="btn w s" id="sTut">Tutorial</button></div></div>
   <div class="srow" id="adPrivRow" style="display:none">Werbung &amp; Datenschutz<button class="btn w s" id="adPriv">Ändern</button></div>
+  <div class="srow">Sprache<div class="seg" id="langSeg"><button data-l="auto">Auto</button><button data-l="de">DE</button><button data-l="en">EN</button></div></div>
   <div class="srow">Spielstand<button class="btn w s danger" id="bReset">Löschen</button></div>
   <div class="srow">Datenschutz<a class="btn w s" href="https://daviddigital-de.github.io/flumm/datenschutz.html" target="_blank" rel="noopener" style="text-decoration:none">Lesen</a></div>
   <div class="srow">Nutzungsbedingungen<a class="btn w s" href="https://daviddigital-de.github.io/flumm/nutzungsbedingungen.html" target="_blank" rel="noopener" style="text-decoration:none">Lesen</a></div>
@@ -412,7 +413,7 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
     <details class="hsec"><summary>Erfolge</summary><div>Unter <b>Spielen → 🎖️ Erfolge</b> findest du 21 Erfolge mit je drei Medaillen (🥉 Bronze +30 🪙, 🥈 Silber +75 🪙, 🥇 Gold +150 🪙) – fürs Springen, Sammeln, Pflegen, Gestalten und Dranbleiben.</div></details>
     <details class="hsec"><summary>Bestenlisten</summary><div>Unter <b>Spielen → 🏆 Bestenlisten</b> findest du <b>Tageslauf</b> (alle spielen dieselbe Strecke – wer kommt heute am weitesten?), <b>Endlos</b> und <b>Duell-Siege</b>. Bei Tageslauf und Endlos siehst du zu jedem Lauf auch Zeit, Perfekt-Landungen, Münzen und Beeren – wahlweise für heute, die Woche oder insgesamt. Die weltweiten Listen laufen über Google Play Spiele; dafür meldest du dich einmal mit deinem Google-Profil an.</div></details>
     <details class="hsec"><summary>Werbung</summary><div>Flumm ist kostenlos und finanziert sich über Werbung. Freiwillig kannst du ein kurzes <b>Video</b> ansehen: im Endlos-Modus einmal pro Lauf <b>weiterspielen</b> (+1 Herz), nach einem Spiel die <b>Münzen verdoppeln</b> oder einem kranken Flumm <b>Gratis-Medizin</b> geben. Ab und zu kommt nach einem Spiel eine kurze Werbepause (höchstens alle 2½ Minuten). Deine Datenschutz-Auswahl kannst du in den Einstellungen ändern.</div></details>
-    <details class="hsec"><summary>Maskottchen</summary><div>Unter <b>Kostüme</b> findest du ganz oben die Maskottchen – Flumm in anderen Farben. Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze und Frosch kaufst du mit Münzen. <b>Exklusiv</b> gibt es: Glücks-Flumm (Welt 1-5 geschafft), Sternen-Flumm (Welt 1-10), Feuer-Flumm (10 Tage Tagesserie), Zucker-Flumm (7 Tage in Folge eingeloggt), Gold-Flumm (5 Duelle gewonnen) und Regen-Flumm (3 Duelle verloren – als Trost). Kostüme passen auf jedes Maskottchen.</div></details>
+    <details class="hsec"><summary>Maskottchen</summary><div>Unter <b>Kostüme</b> findest du ganz oben die Maskottchen – Flumm in anderen Farben und als Tiere. Himbeer, Zitrone, Blaubeere, Traube, Pfirsich, Katze, Hund, Hase, Pferd, Löwe und Frosch kaufst du mit Münzen. <b>Exklusiv</b> gibt es: Glücks-Flumm (Welt 1-5 geschafft), Sternen-Flumm (Welt 1-10), Feuer-Flumm (10 Tage Tagesserie), Zucker-Flumm (7 Tage in Folge eingeloggt), Gold-Flumm (5 Duelle gewonnen) Regen-Flumm (3 Duelle verloren – als Trost) und Einhorn (30 Tage Tagesserie). Kostüme passen auf jedes Maskottchen.</div></details>
     <details class="hsec"><summary>Tagesserie 🔥</summary><div>Spiele jeden Tag einmal den <b>Tageslauf</b> – dann zählt der Tag für deine Serie. Jeder Serientag bringt extra Münzen (+2 je Tag, max. +20). Meilensteine: Tag 2: 15 🪙 · Tag 3: Kostüm <b>Goldkrone</b> · Tag 5: 30 🪙 + 5 🍓 · Tag 7: Plattform <b>Goldinsel</b> · Tag 10: 50 🪙 · Tag 14: Hintergrund <b>Polarlicht</b> · Tag 21: 80 🪙 + 10 🍓 · Tag 30: Kostüm <b>Champion</b>, danach jede Woche 40 🪙. Diese Belohnungen gibt es nur über die Serie. Lässt du einen Tag aus, beginnt die Serie von vorn – freigeschaltete Belohnungen bleiben.</div></details>
     <details class="hsec"><summary>Tagesgeschenk</summary><div>Komm jeden Tag vorbei: 7 Tage in Folge mit wachsenden Geschenken. Lässt du einen Tag aus, beginnt die Serie von vorn.</div></details>
   </div>
@@ -623,8 +624,28 @@ textarea.field{height:74px;resize:none;font-size:13px;font-family:ui-monospace,m
 <script>
 {
 'use strict';
-const VERSION='0.26.0', BUILD=54;
+/* ── Sprache: Systemsprache (de* → Deutsch, sonst Englisch), umschaltbar in den Einstellungen ── */
+const LANG=(()=>{let p='auto';try{p=(JSON.parse(localStorage.getItem('flumm_save_v1')||'{}')||{}).lang||'auto';}catch(e){}if(p==='de'||p==='en')return p;
+ const l=String((navigator.languages&&navigator.languages[0])||navigator.language||'de').toLowerCase();return l.slice(0,2)==='de'?'de':'en';})();
+const LOC=LANG==='en'?'en-US':'de-DE';
+const EN={"Silber": "Silver", "Hüpfer": "Hopper", "Sprünge": "jumps", "Perfektionist": "Perfectionist", "Münzsammler": "Coin Collector", "Münzen eingesammelt": "coins collected", "Beerenpflücker": "Berry Picker", "Beeren eingesammelt": "berries collected", "Abenteurer": "Adventurer", "Level geschafft": "levels cleared", "Sternensammler": "Star Collector", "Sterne gesammelt": "stars collected", "Endlos-Rekord in Inseln": "endless record (islands)", "Tagesläufer": "Daily Runner", "Tagesläufe gespielt": "daily runs played", "Serienstar": "Streak Star", "längste Tagesserie": "longest daily streak", "Duellant": "Duelist", "Duelle gewonnen": "duels won", "Feinschmecker": "Gourmet", "Mal gefüttert": "times fed", "Blitzsauber": "Squeaky Clean", "Mal gewaschen": "times washed", "Spielkamerad": "Playmate", "Mal Ball gespielt": "ball games played", "Kuschelmonster": "Cuddle Monster", "Mal gestreichelt": "times petted", "Schlafmütze": "Sleepyhead", "Mal ins Bett gebracht": "times put to bed", "Großwerden": "Growing Up", "Entwicklungsstufe": "growth stage", "Tierfreund": "Animal Lover", "Maskottchen gesammelt": "mascots collected", "Modebewusst": "Fashionista", "Kostüme gesammelt": "costumes collected", "Baumeister": "Master Builder", "Häuser gesammelt": "houses collected", "Gestalter": "Designer", "Plattformen & Hintergründe": "platforms & backgrounds", "Treue Seele": "Loyal Friend", "Tage am Stück eingeloggt": "days in a row logged in", "🏆 Erfolg: ": "🏆 Achievement: ", " Erfolge geschafft · +": " achievements unlocked · +", " · Ziel: ": " · Goal: ", "PERFEKT-Landungen": "PERFECT landings", "Endlos-Profi": "Endless Pro", "Futter-Magnet: Beeren und Münzen fliegen zu Flumm": "Food magnet: berries and coins fly to Flumm", "+1 Herz in jedem Level": "+1 heart in every level", "+25 % Münzen und goldene Sprungspur": "+25% coins and a golden jump trail", "Krone und +1 weiteres Herz in jedem Level": "Crown and +1 more heart in every level", "+50 % Münzen, Heiligenschein und Regenbogen-Sprungspur": "+50% coins, halo and rainbow jump trail", "Baby-Flumm": "Baby Flumm", "Flummi-Kind": "Flumm Kid", "Teen-Flumm": "Teen Flumm", "Super-Flumm": "Super Flumm", "Mega-Flumm": "Mega Flumm", "Legenden-Flumm": "Legendary Flumm", "Energie": "Energy", "Hunger": "Hunger", "Laune": "Mood", "Schmutz": "Dirt", "erschöpft – ins Bett!": "exhausted – off to bed!", "müde → isst mehr": "tired → eats more", "sehr hungrig": "very hungry", "sehr traurig": "very sad", "sehr schmutzig": "very dirty", " schadet der Gesundheit!": " hurts health!", "Gesundheit ": "Health ", " % – fit ab 60 %": "% – fit from 60%", "Wieder fit!": "Fit again!", "schläft": "asleep", "erschöpft": "exhausted", "müde": "tired", "glücklich": "happy", "Werbung": "Ad", "Gerade kein Video verfügbar": "No video available right now", "Video abgebrochen – keine Belohnung": "Video cancelled – no reward", "✨ Neue Version verfügbar <button class=\"go\" id=\"updGo\">Aktualisieren</button><button class=\"x\" id=\"updX\" aria-label=\"Ausblenden\">✕</button>": "✨ New version available <button class=\"go\" id=\"updGo\">Update</button><button class=\"x\" id=\"updX\" aria-label=\"Hide\">✕</button>", "⏳ Update wird geladen …": "⏳ Downloading update …", "✅ Update bereit <button class=\"go\" id=\"updGo\">Neu starten</button>": "✅ Update ready <button class=\"go\" id=\"updGo\">Restart</button>", "Bestenliste": "Leaderboard", " s | Perfekt: ": " s | Perfect: ", " | Münzen: ": " | Coins: ", " | Beeren: ": " | Berries: ", "Tageslauf": "Daily Run", "Endlos": "Endless", "Bitte bei Google Play Spiele anmelden, um die weltweite Liste zu sehen.": "Please sign in to Google Play Games to see the worldwide list.", "Bestenliste gerade nicht erreichbar.": "Leaderboard not available right now.", "Du": "You", " · Insel ": " · Island ", "<p class=\"small\">Noch kein Lauf": "<p class=\"small\">No run yet", "Lade weltweite Liste …": "Loading worldwide list …", "Dein bester Lauf. Die weltweite Liste kommt mit Google Play Spiele.": "Your best run. The worldwide list comes with Google Play Games.", "<p class=\"small\">Noch keine Einträge – sei der Erste!</p>": "<p class=\"small\">No entries yet – be the first!</p>", " Spieler": " players", "Weltweite Bestenliste folgt mit Google Play Games": "Worldwide leaderboard coming with Google Play Games", "Bitte bei Google Play Spiele anmelden": "Please sign in to Google Play Games", "Bestenliste gerade nicht erreichbar": "Leaderboard not available right now", " Inseln": " islands", " Siege · ": " wins · ", " Niederlagen": " losses", "Angemeldet bei Google Play Spiele – tippe für die weltweite Liste.": "Signed in to Google Play Games – tap for the worldwide list.", "Tippe, um dich bei Google Play Spiele anzumelden.": "Tap to sign in to Google Play Games.", "Deine Rekorde. Die weltweite Bestenliste kommt mit Google Play Spiele.": "Your records. The worldwide leaderboard comes with Google Play Games.", "🍓 Füttern": "🍓 Feed", "Kostet 1 Erdbeere. Satt +25, Laune +5, Pflege +10. Ist Flumm krank: Gesundheit +8. Erdbeeren sammelst du in den Leveln.": "Costs 1 strawberry. Full +25, mood +5, care +10. If Flumm is sick: health +8. You collect strawberries in the levels.", "🫧 Waschen": "🫧 Wash", "Entfernt die Flecken vom Spielen. Laune +8, Pflege +4 je Fleck. Lange sehr schmutzig schadet der Gesundheit.": "Removes the stains from playing. Mood +8, care +4 per stain. Being very dirty for long hurts health.", "⚽ Spielen": "⚽ Play", "Ballspiel: Laune +12, Pflege +6, kostet 8 Energie. Danach braucht Flumm 20 Minuten Pause.": "Ball game: mood +12, care +6, costs 8 energy. Afterwards Flumm needs a 20-minute break.", "😴 Schlafen": "😴 Sleep", "Energie füllt sich schnell, Hunger und Laune sinken nur halb so schnell. Mit vollem Bauch erholt sich die Gesundheit. Wer vor 20 Min. weckt, macht Flumm grummelig. Schlafend kann Flumm nicht spielen.": "Energy refills fast, hunger and mood drop only half as fast. With a full belly, health recovers. Waking Flumm before 20 min makes him grumpy. Flumm can’t play while asleep.", "💊 Medizin": "💊 Medicine", "Kostet 25 Münzen und macht Flumm sofort gesund (Gesundheit 80 %). Alternativ: Video ansehen, schlafen, füttern, streicheln.": "Costs 25 coins and heals Flumm instantly (health 80%). Alternatives: watch a video, sleep, feed, pet.", "👕 Kostüme": "👕 Costumes", "Maskottchen und Kostüme anprobieren und kaufen.": "Try on and buy mascots and costumes.", "🍓 Satt": "🍓 Full", "Sinkt mit der Zeit (müde Flumms werden schneller hungrig). Unter 25 %: weniger Sprungkraft. Lange unter 15 % schadet der Gesundheit.": "Drops over time (tired Flumms get hungry faster). Below 25%: less jump power. Staying below 15% for long hurts health.", "❤️ Laune": "❤️ Mood", "Steigt durch Streicheln, Spielen, Waschen und geschaffte Level. Unter 30 % sagt Flumm manchmal „Nö!“ und springt nicht. Lange sehr traurig schadet der Gesundheit.": "Rises from petting, playing, washing and cleared levels. Below 30% Flumm sometimes says “Nope!” and won’t jump. Being very sad for long hurts health.", "⚡ Energie": "⚡ Energy", "Sinkt im Wachzustand und mit jedem Spiel. Unter 20 %: lädt langsamer und isst mehr. Lange ohne Energie schadet der Gesundheit – ab ins Bett!": "Drops while awake and with every game. Below 20%: charges slower and eats more. No energy for long hurts health – off to bed!", "💊 Gesundheit": "💊 Health", "Sinkt, wenn Flumm länger hungrig (2 Std.), erschöpft (2 Std.), traurig (3 Std.) oder sehr schmutzig (4 Std.) ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.": "Drops when Flumm is hungry (2 h), exhausted (2 h), sad (3 h) or very dirty (4 h) for a while. Below 30% Flumm gets sick and can’t play – he’s fit again from 60%. Well cared for, it recovers by itself.", "🌱 Wachsen": "🌱 Growth", "Pflegepunkte (füttern, waschen, spielen, schlafen, Level schaffen) plus Alter lassen Flumm wachsen: Baby → Kind → Teen → Super. Jede Stufe bringt einen Vorteil.": "Care points (feeding, washing, playing, sleeping, clearing levels) plus age make Flumm grow: Baby → Kid → Teen → Super → Mega → Legend. Every stage brings a bonus.", "Ohne": "None", "Partyhut": "Party Hat", "Sunnyboy": "Sunny Boy", "Fliege": "Bow Tie", "Bär": "Bear", "Badespaß": "Bath Time", "Superheld": "Superhero", "Schaffner": "Conductor", "Polizei": "Police", "Feuerwehr": "Firefighter", "Schneeanzug": "Snowsuit", "Goldkrone": "Gold Crown", "Champion": "Champion", "Astronaut": "Astronaut", "Himbeer": "Raspberry", "Zitrone": "Lemon", "Blaubeere": "Blueberry", "Traube": "Grape", "Pfirsich": "Peach", "Katze": "Cat", "Hund": "Dog", "Hase": "Bunny", "Pferd": "Horse", "Einhorn": "Unicorn", "Tagesserie: 30 Tage": "Daily streak: 30 days", "Löwe": "Lion", "Frosch": "Frog", "Glücks-Flumm": "Lucky Flumm", "Minz-Flumm": "Mint Flumm", "Sternen-Flumm": "Star Flumm", "Feuer-Flumm": "Fire Flumm", "Zucker-Flumm": "Sugar Flumm", "Gold-Flumm": "Gold Flumm", "Regen-Flumm": "Rain Flumm", "Abenteuer: Welt 1-5 geschafft": "Adventure: World 1-5 cleared", "Abenteuer: Welt 1-10 geschafft": "Adventure: World 1-10 cleared", "Tagesserie: 10 Tage": "Daily streak: 10 days", "7 Tage in Folge eingeloggt": "Logged in 7 days in a row", "5 Duelle gewonnen": "5 duels won", "3 Duelle verloren – Kopf hoch!": "3 duels lost – chin up!", "🎉 Neu: ": "🎉 New: ", "Halten zum Aufladen – die Punkte zeigen die Flugbahn!": "Hold to charge – the dots show the flight path!", "Lande in der hellen Mitte für PERFEKT!": "Land in the bright center for PERFECT!", "Schnapp dir die Beeren – Futter für Flumm!": "Grab the berries – food for Flumm!", "Blaue Inseln bewegen sich – timing!": "Blue islands move – timing!", "Manche fahren auch hoch und runter.": "Some go up and down, too.", "Steinplatten zerbröseln – nicht zu lange warten!": "Stone slabs crumble – don’t wait too long!", "Jetzt wird’s kniffliger …": "Now it gets trickier …", "Pinke Pilze geben Extra-Schwung!": "Pink mushrooms give an extra boost!", "Kleine Inseln, große Gefühle.": "Small islands, big feelings.", "Das Finale der Wiesenwelt!": "The Meadow World finale!", "Neu: Springen lernen": "New: learn to jump", "Neu: PERFEKT-Landungen": "New: PERFECT landings", "Neu: Beeren & Münzen": "New: berries & coins", "Neu: bewegliche Inseln": "New: moving islands", "Neu: Aufzug-Inseln": "New: elevator islands", "Neu: Steinplatten": "New: stone slabs", "Mix aus allem": "A bit of everything", "Neu: Pilz-Federn": "New: mushroom springs", "Kleine Inseln": "Small islands", "Finale": "Finale", "Welt ": "World ", "Flumm ist krank: weniger Kraft, verweigert manchmal": "Flumm is sick: less power, sometimes refuses", "Flumm hat Hunger: weniger Sprungkraft": "Flumm is hungry: less jump power", "Flumm ist müde: lädt langsamer": "Flumm is tired: charges slower", "Flumm ist schlecht gelaunt: verweigert manchmal": "Flumm is grumpy: sometimes refuses", "Endlos: Wie weit kommt Flumm?": "Endless: how far can Flumm go?", "Tageslauf: 1 Leben – viel Glück!": "Daily run: 1 life – good luck!", "Tageslauf: 1 Leben – zählt für deine 🔥 Serie": "Daily run: 1 life – counts for your 🔥 streak", "Schlag ": "Beat ", "Duell: Lauf die Strecke so schnell du kannst!": "Duel: run the course as fast as you can!", " im Ziel!": " at the finish!", "Freund": "Friend", "Neuer Rekord!": "New record!", "Inseln geschafft: ": "Islands cleared: ", "Bester Lauf heute!": "Best run today!", "Heute bester: ": "Today’s best: ", "Tagesbonus für den ersten Lauf": "Daily bonus for the first run", "Tagesserie: 🔥 ": "Daily streak: 🔥 ", " Tag": " day", " Tage": " days", "🔥 Serienbonus +": "🔥 Streak bonus +", "🎁 Belohnung Tag ": "🎁 Reward day ", "Nächste Belohnung: Tag ": "Next reward: day ", "Duell": "Duel", "⏱️ Neue Duell-Bestzeit!": "⏱️ New duel best time!", "Zeit ": "Time ", "× Sturz (je 3 s)": "× fall (3 s each)", "Spieler": "Player", "Du hast ": "You beat ", " besiegt!": "!", "Knapp verloren gegen ": "Narrowly lost to ", "Schick deinen Revanche-Code zurück!": "Send your rematch code back!", "Strecke geschafft!": "Course complete!", "Leider nicht ins Ziel gekommen": "Didn’t make it to the finish", " Perfekt · 🪙 ": " Perfect · 🪙 ", " Beeren · 🪙 +": " berries · 🪙 +", " Münzen": " coins", "Rekord ": "Record ", "1 Leben · ": "1 life · ", "1 Leben · jeden Tag = 🔥 Serie": "1 life · every day = 🔥 streak", " Siege": " wins", "Flumm ist gewachsen! Neu: ": "Flumm has grown! New: ", "Pflegestern ": "Care star ", "Pssst… schläft": "Shh… sleeping", "Ich bin satt!": "I’m full!", "Keine Beeren mehr": "No berries left", "Sammle Beeren in den Leveln!": "Collect berries in the levels!", "Mampf!": "Yum!", "Zzz…": "Zzz…", "+ Gesundheit": "+ Health", "Guten Morgen!": "Good morning!", "Ausgeschlafen!": "Well rested!", "Noch nicht ganz fit…": "Not quite fit yet…", "Gute Nacht!": "Good night!", "Medizin kostet 25 🪙": "Medicine costs 25 🪙", "Wieder gesund!": "Healthy again!", "Schon blitzsauber!": "Already squeaky clean!", "Blitzsauber!": "Squeaky clean!", "Zu müde…": "Too tired…", "Flumm ist noch aus der Puste – in ": "Flumm is still out of breath – again in ", " Min. wieder": " min", "Das war toll!": "That was great!", "15 Münzen": "15 coins", "Kostüm Goldkrone": "Costume Gold Crown", "30 Münzen + 5 Erdbeeren": "30 coins + 5 strawberries", "Plattform Goldinsel": "Platform Gold Island", "50 Münzen": "50 coins", "Hintergrund Polarlicht": "Background Northern Lights", "80 Münzen + 10 Erdbeeren": "80 coins + 10 strawberries", "Kostüm Champion": "Costume Champion", "40 Münzen (Serienbonus)": "40 coins (streak bonus)", "<span class=\"tg\" style=\"background:#2E9E62\">heute geschafft ✔</span>": "<span class=\"tg\" style=\"background:#2E9E62\">done today ✔</span>", "<span class=\"tg\" style=\"background:#D97A12\">heute noch einmal Tageslauf spielen</span>": "<span class=\"tg\" style=\"background:#D97A12\">play the daily run once today</span>", "<small>Bester Lauf: ": "<small>Best run: ", " Tage · Einen Tag auslassen = Serie beginnt von vorn</small>": " days · Miss a day = the streak starts over</small>", "\">Tag ": "\">Day ", "Tag ": "Day ", " · +5 Pflege": " · +5 care", "Nächste Stufe: <b>": "Next stage: <b>", "Pflege ✔": "Care ✔", "Pflege ": "Care ", "Alter ✔": "Age ✔", "noch keiner": "none yet", "</b> · nächster bei ": "</b> · next at ", " Pflege (+20 🪙)": " care (+20 🪙)", "Aufwecken": "Wake up", "Schlafen": "Sleep", "heute geschlüpft": "hatched today", "1 Tag alt": "1 day old", " Tage alt": " days old", "Super-Sprung!": "Super jump!", "PERFEKT x": "PERFECT x", "PERFEKT!": "PERFECT!", "Knapp!": "Close!", "Gut": "Good", "Deine ": "Your ", " Beeren darfst du behalten.": " berries are yours to keep.", " geschafft!": " cleared!", "Ziel erreicht": "Finish reached", "Ohne Sturz": "No falls", "× PERFEKT (": "× PERFECT (", " Beeren als Futter (von ": " berries as food (of ", " (inkl. Super-Bonus)": " (incl. Super bonus)", "<li><b>🎉</b>Flumm ist gewachsen!</li>": "<li><b>🎉</b>Flumm has grown!</li>", "Rutsch!": "Slide!", "Heiß!": "Hot!", "Autsch, heiß!": "Ouch, hot!", "Dschungel": "Jungle", "ganz normal": "just normal", "Mond": "Moon", "wenig Schwerkraft · Sprünge weiter": "low gravity · longer jumps", "Gruselwald": "Spooky Forest", "Wiese": "Meadow", "Moorwald": "Moss Forest", "Wald": "Forest", "Strand": "Beach", "weicher Sand · Sprünge etwas kürzer": "soft sand · slightly shorter jumps", "Wüste": "Desert", "Eiswelt": "Ice World", "Eis rutschig · Schnee hält": "ice is slippery · snow grips", "Kristallhöhle": "Crystal Cave", "federnd · Sprünge etwas weiter": "bouncy · slightly longer jumps", "Felsenland": "Rocklands", "Vulkan": "Volcano", "heiß · nicht lange stehen bleiben": "hot · don’t stand still for long", "Wolkenreich": "Cloud Kingdom", "Regenbogenland": "Rainbow Land", "Eis ist rutschig – Schnee hält besser!": "Ice is slippery – snow grips better!", "Weicher Sand dämpft den Sprung.": "Soft sand dampens the jump.", "Hier federt alles – Sprünge werden weiter!": "Everything bounces here – jumps go further!", "Heiß! Bleib nicht zu lange stehen.": "Hot! Don’t stand still for too long.", "Wiesenwelt": "Meadow World", "Waldwelt": "Forest World", "Strandwelt": "Beach World", "Wüstenwelt": "Desert World", "Vulkanwelt": "Volcano World", "Dschungelwelt": "Jungle World", "Mondwelt": "Moon World", "Im Nebel<small>schaffe erst ": "In the fog<small>first clear ", "<small>Welt ": "<small>World ", "🍓 Beeren: bis zu ": "🍓 Berries: up to ", "🪙 Münzen gefunden: ": "🪙 Coins found: ", "Erst ": "First clear ", " schaffen!": "!", "Diese Welt liegt noch im Nebel – schaffe erst die Welt davor!": "This world is still in the fog – clear the world before it first!", "📅 Insel ": "📅 Island ", "Endlos ": "Endless ", "Tagesserie 🔥": "Daily streak 🔥", "Alltag & Spaß": "Everyday & Fun", "Berufe": "Jobs", "Abenteuer": "Adventure", " Tage Serie</em></span></button>": " day streak</em></span></button>", "Aktiv": "Active", "Kaufen?": "Buy?", "Zu wenig 🪙": "Not enough 🪙", "Wählen": "Choose", " · Belohnung erhalten ✔": " · reward received ✔", " · komplett: +": " · complete: +", "Anziehen": "Wear", "Album „": "Album “", "“ komplett! +": "” complete! +", "✨ Exklusiv: ": "✨ Exclusive: ", " Tage Tagesserie 🔥": " days daily streak 🔥", "voll (ganze Flugbahn)": "full (whole flight path)", "aus (nur Kraftring)": "off (power ring only)", "Sonnentag": "Sunny Day", "Abendrot": "Sunset", "Winterzauber": "Winter Magic", "Sternennacht": "Starry Night", "Bonbonland": "Candy Land", "Gruselnacht": "Spooky Night", "Mondlandschaft": "Moonscape", "Polarlicht": "Northern Lights", "Haus": "House", "Haus Blau": "Blue House", "Haus Grün": "Green House", "Haus Gelb": "Yellow House", "Haus Lila": "Purple House", "Zelt": "Tent", "Iglu": "Igloo", "Jurte": "Yurt", "Pilzhaus": "Mushroom House", "Burg": "Castle", "Grasinsel": "Grass Island", "Stein": "Stone", "Holzfloß": "Wooden Raft", "Sand": "Sand", "Baumstamm": "Tree Trunk", "Wolke": "Cloud", "Moos": "Moss", "Eisscholle": "Ice Floe", "Pilz": "Mushroom", "Ruine": "Ruin", "Donut": "Donut", "Metall": "Metal", "Honig": "Honey", "Kristall": "Crystal", "Lava": "Lava", "Regenbogen": "Rainbow", "Gruselinsel": "Spooky Island", "Mondgestein": "Moon Rock", "Goldinsel": "Gold Island", "Hintergründe": "Backgrounds", "Plattformen": "Platforms", "Häuser": "Houses", "Benutzen": "Use", "“ komplett! +30 🪙": "” complete! +30 🪙", "Löschen": "Delete", "Wirklich?": "Really?", "Spielstand gelöscht": "Progress deleted", " 🪙 extra!": " 🪙 extra!", "Wieder gesund – danke!": "Healthy again – thanks!", "Weiter geht’s – letztes Herz!": "Here we go – last heart!", "Nicht verfügbar": "Not available", "Flumm ist wach – aber noch krank": "Flumm is awake – but still sick", "Flumm ist wach – los geht’s!": "Flumm is awake – let’s go!", "Wieder gesund – los geht’s!": "Healthy again – let’s go!", "Gib zuerst deinen Namen ein": "Enter your name first", "Der Code ist ungültig.": "That code is invalid.", "Code kopiert!": "Code copied!", "Markiert – jetzt kopieren": "Selected – now copy it", "Modi": "Modes", "Karte": "Map", "Mir ist schlecht…": "I feel sick…", "Nö!": "Nope!", "Es wackelt! Nochmal!": "It’s wobbling! Again!", "Gleich ist es so weit!": "Almost there!", "Hallo!": "Hello!", "Ein Baby-Flumm!": "A baby Flumm!", "Ein Ei! Tippe es an.": "An egg! Tap it.", "Hallo! Ich bin ": "Hi! I’m ", ". Ich liebe es zu springen – und ich brauche dich!": ". I love to jump – and I need you!", "Hier siehst du, wie alt ich bin und wie es mir gerade geht.": "Here you can see how old I am and how I’m doing.", "Spielen: Abenteuer, Endlos, Tageslauf oder Duell gegen Freunde.": "Play: Adventure, Endless, Daily Run or a Duel against friends.", "So spielst du:<div class=\"tl\"><span style=\"font-size:22px\">🚩</span><span>Spring von Insel zu Insel bis zur <b>Fahne</b>.</span></div><div class=\"tl\"><span style=\"font-size:20px\">❤️</span><span>Fällst du runter, kostet das ein <b>Herz</b>. Keine Herzen mehr = Game Over.</span></div><div class=\"tl\"><span style=\"font-size:20px\">⭐</span><span>Bis zu <b>3 Sterne</b>: Ziel erreicht, ohne Sturz, genug PERFEKT.</span></div>": "How to play:<div class=\"tl\"><span style=\"font-size:22px\">🚩</span><span>Jump from island to island up to the <b>flag</b>.</span></div><div class=\"tl\"><span style=\"font-size:20px\">❤️</span><span>Falling off costs a <b>heart</b>. No hearts left = game over.</span></div><div class=\"tl\"><span style=\"font-size:20px\">⭐</span><span>Up to <b>3 stars</b>: reach the finish, no falls, enough PERFECTs.</span></div>", "So springst du:<div class=\"tl\"><span class=\"tg\" style=\"background:#5FB8F5\">gedrückt halten</span>→ Kraftring lädt auf</div><div class=\"tl\"><span class=\"tg\" style=\"background:#4FCB8A\">loslassen</span>→ Sprung!</div><div class=\"tl\"><span class=\"tg\" style=\"background:#F5A623\">helle Mitte</span>→ PERFEKT</div>": "How to jump:<div class=\"tl\"><span class=\"tg\" style=\"background:#5FB8F5\">press and hold</span>→ power ring charges</div><div class=\"tl\"><span class=\"tg\" style=\"background:#4FCB8A\">release</span>→ jump!</div><div class=\"tl\"><span class=\"tg\" style=\"background:#F5A623\">bright center</span>→ PERFECT</div>", "Die Inseln:": "The islands:", "<b>Normal</b> – hier stehst du sicher": "<b>Normal</b> – you’re safe here", "<b>Flügel-Insel</b> – fliegt hin und her": "<b>Winged island</b> – flies back and forth", "<b>Antrieb-Insel</b> – fährt hoch und runter": "<b>Thruster island</b> – goes up and down", "<b>Bröckel</b> – zerfällt kurz nach der Landung, schnell weiter!": "<b>Crumbly</b> – falls apart shortly after landing, move on quickly!", "<b>Glibber-Polster</b> – Extra-Schwung für den nächsten Sprung": "<b>Jelly pad</b> – extra boost for the next jump", "<small>In Endlos und Tageslauf wechselt alle 12 Inseln die Welt – und es wird immer kniffliger.</small>": "<small>In Endless and Daily Run the world changes every 12 islands – and it keeps getting trickier.</small>", "<span><b>Erdbeeren</b> schweben zwischen den Inseln. Sie sind mein <b>Futter</b> – im Zuhause füttern macht mich satt. Du behältst sie auch bei Game Over.</span></div><div class=\"tl\"><span style=\"font-size:24px\">🍽️</span><span>Ohne Erdbeeren werde ich hungrig: weniger Sprungkraft, und auf Dauer werde ich krank.</span></div>": "<span><b>Strawberries</b> float between the islands. They’re my <b>food</b> – feeding me at home fills me up. You keep them even on game over.</span></div><div class=\"tl\"><span style=\"font-size:24px\">🍽️</span><span>Without strawberries I get hungry: less jump power, and in the long run I get sick.</span></div>", "<div class=\"tl\"><span style=\"font-size:24px\">🪙</span><span><b>Münzen</b> liegen auf den Inseln. Extra-Münzen gibt es für neue Sterne, Rekorde, Duelle und das Tagesgeschenk.</span></div><div class=\"tl\"><span style=\"font-size:24px\">🛍️</span><span>Ausgeben für <b>Kostüme</b>, neue <b>Inseln &amp; Hintergründe</b> und <b>Medizin</b> (25 🪙), wenn ich krank bin.</span></div>": "<div class=\"tl\"><span style=\"font-size:24px\">🪙</span><span><b>Coins</b> lie on the islands. Extra coins come from new stars, records, duels and the daily gift.</span></div><div class=\"tl\"><span style=\"font-size:24px\">🛍️</span><span>Spend them on <b>costumes</b>, new <b>islands &amp; backgrounds</b> and <b>medicine</b> (25 🪙) when I’m sick.</span></div>", "Im Zuhause kannst du mich füttern, waschen, mit mir Ball spielen und ins Bett bringen.": "At home you can feed me, wash me, play ball with me and put me to bed.", "Wenn du dich nicht um mich kümmerst:<div class=\"tl\">": "If you don’t take care of me:<div class=\"tl\">", "<span class=\"tg\" style=\"background:#7B6FB0\">müde</span>→ lädt langsamer</div><div class=\"tl\">": "<span class=\"tg\" style=\"background:#7B6FB0\">tired</span>→ charges slower</div><div class=\"tl\">", "<span class=\"tg\" style=\"background:#D9485F\">traurig</span>→ sagt manchmal „Nö!“</div><div class=\"tl\">": "<span class=\"tg\" style=\"background:#D9485F\">sad</span>→ sometimes says “Nope!”</div><div class=\"tl\">", "<span class=\"tg\" style=\"background:#3E8E3A\">krank</span>→ dann kann ich nicht spielen! Medizin, Schlaf, Essen und Streicheln helfen</div>Achte auf die grüne <b>Gesundheit</b>!": "<span class=\"tg\" style=\"background:#3E8E3A\">sick</span>→ then I can’t play! Medicine, sleep, food and petting help</div>Keep an eye on the green <b>health</b> bar!", "<span class=\"tg\" style=\"background:#D97A12\">hungrig</span>→ weniger Sprungkraft</div><div class=\"tl\">": "<span class=\"tg\" style=\"background:#D97A12\">hungry</span>→ less jump power</div><div class=\"tl\">", "Mit guter Pflege und etwas Zeit wachse ich:<div class=\"stg\"><span class=\"tg\" style=\"background:#8FD3FF\">Baby</span>→<span class=\"tg\" style=\"background:#4FCB8A\">Kind</span>→<span class=\"tg\" style=\"background:#B58CFF\">Teen</span>→<span class=\"tg\" style=\"background:#F5A623\">Super</span></div>Jede Stufe bringt dir einen Vorteil!": "With good care and a little time I grow:<div class=\"stg\"><span class=\"tg\" style=\"background:#8FD3FF\">Baby</span>→<span class=\"tg\" style=\"background:#4FCB8A\">Kid</span>→<span class=\"tg\" style=\"background:#B58CFF\">Teen</span>→<span class=\"tg\" style=\"background:#F5A623\">Super</span></div>Every stage gives you a bonus!", "Gestalten und Kostüme: Mach mein Zuhause und mich richtig schick!": "Design and Costumes: make my home and me look great!", "Oben: Ton, Musik, Zielhilfe und Neuigkeiten – rechts Hilfe und Einstellungen. Viel Spaß!": "At the top: sound, music, aim help and news – on the right help and settings. Have fun!", "Fertig": "Done", "Weiter": "Next", "Zeit: ": "Time: ", " heute": " today", "Heute: ": "Today: ", "Rekord: ": "Record: ", "Duell-Siege": "Duel wins", "<div class=\"tl\"><span class=\"tg\" style=\"background:#F5A623\">ab Tag 30</span><span>jede Woche 40 Münzen</span></div>": "<div class=\"tl\"><span class=\"tg\" style=\"background:#F5A623\">from day 30</span><span>40 coins every week</span></div>", "noch ": "in ", " von ": " of ", "Pflegesterne: <b>": "Care stars: <b>", "<div class=\"asec\"><h3>Maskottchen</h3><div class=\"abar\"><i style=\"width:": "<div class=\"asec\"><h3>Mascots</h3><div class=\"abar\"><i style=\"width:", "Freischalten: ": "Unlock: ", "Zielhilfe: ": "Aim help: ", "Haus ": "House "};
+const EN_H={"Ton an/aus": "Sound on/off", "Musik an/aus": "Music on/off", "Zielhilfe umschalten": "Toggle aim help", "Neuigkeiten": "News", "Spring. Glibber. Gewinne.": "Jump. Wobble. Win.", "Spielen": "Play", "Zuhause": "Home", "Gestalten": "Design", "Kostüme": "Costumes", "Einstellungen": "Settings", "Musik": "Music", "Ton": "Sound", "Vibration": "Vibration", "Zielhilfe": "Aim help", "Normal": "Normal", "Voll": "Full", "Aus": "Off", "Hilfe": "Help", "Lesen": "Read", "Tutorial": "Tutorial", "Werbung & Datenschutz": "Ads & privacy", "Ändern": "Change", "Spielstand": "Progress", "Löschen": "Delete", "Datenschutz": "Privacy", "Nutzungsbedingungen": "Terms of use", "Fertig": "Done", "Ein Ei! Tippe es an.": "An egg! Tap it.", "Hallo!": "Hello!", "Wie soll dein Flumm heißen?": "What should your Flumm be called?", "Los geht's!": "Let's go!", "Spielmodus": "Game mode", "Abenteuer": "Adventure", "13 Welten · 130 Level": "13 worlds · 130 levels", "Endlos": "Endless", "Wie weit kommt Flumm?": "How far can Flumm go?", "Tageslauf": "Daily Run", "1 Leben · jeden Tag = 🔥 Serie": "1 life · every day = 🔥 streak", "Duell": "Duel", "Fordere Freunde heraus": "Challenge your friends", "🏆 Bestenlisten": "🏆 Leaderboards", "🎖️ Erfolge": "🎖️ Achievements", "Erfolge": "Achievements", "Bestenlisten": "Leaderboards", "Flumm schläft": "Flumm is asleep", "😴 Zzz … Im Schlaf kann ich nicht spielen. Weck mich erst auf!": "😴 Zzz … I can’t play while I’m asleep. Wake me up first!", "Tipp: Wer mindestens 20 Minuten geschlafen hat, wacht gut gelaunt auf. Früher wecken macht etwas grummelig.": "Tip: after at least 20 minutes of sleep I wake up happy. Waking me earlier makes me a little grumpy.", "☀️ Aufwecken": "☀️ Wake up", "🏠 Zuhause": "🏠 Home", "Flumm ist krank": "Flumm is sick", "Krank kann ich nicht spielen. Hilf mir, wieder fit zu werden!": "I can’t play while I’m sick. Help me get fit again!", "Medizin": "Medicine", "(25 🪙) – sofort fit": "(25 🪙) – fit instantly", "Schlafen": "Sleep", "mit vollem Bauch – schnellste Erholung": "with a full belly – fastest recovery", "Füttern": "Feed", "– +8 Gesundheit": "– +8 health", "Streicheln": "Pet", "– +3 Gesundheit (alle 30 s)": "– +3 health (every 30 s)", "🎬 Gratis-Medizin": "🎬 Free medicine", "💊 Medizin": "💊 Medicine", "Heute": "Today", "Woche": "Week", "Gesamt": "All time", "Tagesserie": "Daily streak", "Dein Name": "Your name", "Neues Duell": "New duel", "Lauf die Strecke so schnell du kannst. Danach bekommst du einen Code für deine Freunde.": "Run the course as fast as you can. Afterwards you get a code for your friends.", "Code von Freund": "Code from a friend", "Code hier einfügen": "Paste code here", "Annehmen": "Accept", "Ergebnis": "Result", "Code kopieren": "Copy code", "Schick den Code per WhatsApp & Co. an deine Freunde.": "Send the code to your friends via WhatsApp & co.", "🎬 Weiterspielen (+1 ♥)": "🎬 Keep playing (+1 ♥)", "🎬 Münzen ×2": "🎬 Coins ×2", "🏆 Bestenliste": "🏆 Leaderboard", "Nochmal": "Again", "Modi": "Modes", "Menü": "Menu", "Hauptmenü": "Main menu", "Zurück zu den Modi": "Back to modes", "Wiesenwelt": "Meadow World", "Welt 1": "World 1", "Level 1": "Level 1", "Los!": "Go!", "Zurück": "Back", "Baby-Flumm": "Baby Flumm", "Wachsen": "Growth", "Waschen": "Wash", "Satt": "Full", "Laune": "Mood", "Energie": "Energy", "Gesundheit": "Health", "Tippe Flumm an zum Streicheln · Halte einen Knopf oder Wert gedrückt für Infos": "Tap Flumm to pet him · Hold a button or value for info", "Maskottchen & Kostüme": "Mascots & costumes", "Ausziehen": "Take off", "Besuche Flumm jeden Tag!": "Visit Flumm every day!", "Abholen": "Collect", "Geschafft!": "Cleared!", "Weiter": "Next", "Karte": "Map", "Oh nein!": "Oh no!", "Flumm ist zu oft abgestürzt.": "Flumm fell too often.", "Pause": "Pause", "Neustart": "Restart", "Was ist neu?": "What’s new?", "Schließen": "Close", "Überspringen": "Skip", "Tagesgeschenk": "Daily gift", "Maskottchen": "Mascots", "Hintergründe": "Backgrounds", "Plattformen": "Platforms", "Häuser": "Houses", "Sprache": "Language", "Spielen → 🎖️ Erfolge": "Play → 🎖️ Achievements"};
+Object.assign(EN,{' · ✨ = exklusiv</em></div><div class="agrid">':' · ✨ = exclusive</em></div><div class="agrid">','</b><span class="pp lk"><em>✨ exklusiv</em></span></button>':'</b><span class="pp lk"><em>✨ exclusive</em></span></button>'});Object.assign(EN_H,{'Tutorial ansehen':'Watch tutorial','Auto':'Auto'});
+const L=s=>LANG==='en'&&EN[s]!=null?EN[s]:s;
+const DE_OF={};for(const k in EN)DE_OF[EN[k]]=k;
+const albKey=n=>LANG==='en'&&DE_OF[n]?DE_OF[n]:n;
+const HELP_EN="    <details class=\"hsec\" open><summary>Jumping</summary><div><b>Press and hold</b> to charge the power ring – it swings between empty and full. <b>Release</b> = jump. Land in the <b>bright center</b> of an island for a PERFECT; several in a row make a combo. The <b>aim help</b> (top left) shows the flight path: normal, full with landing point, or off.</div></details>\n    <details class=\"hsec\"><summary>Islands</summary><div><ul><li><b>Normal island</b> (in the look of the current world): just normal</li><li><b>Island with wings</b>: flies sideways back and forth</li><li><b>Island with crystal thruster</b>: goes up and down</li><li><b>Crumbly island with cracks</b>: falls apart 1.6 seconds after landing</li><li><b>Island with a pink jelly pad</b>: extra boost for the next jump</li><li><b>Island with a flag</b>: finish</li><li>In Endless and Daily Run the world changes every 12 islands – with its own islands and sky: Meadow, Moss Forest, Forest, Jungle, Beach, Desert, Ice World, Crystal Cave, Spooky Forest, Rocklands, Volcano, Cloud Kingdom, Moon (low gravity), Rainbow Land. The further you get, the bigger the gaps and the smaller the islands.</li><li><b>World features:</b> Ice World – ice islands are slippery (you slide further and can slip off), snow islands only a little · Beach &amp; Desert – soft sand, slightly shorter jumps · Crystal Cave, Cloud Kingdom &amp; Rainbow Land – bouncy, slightly longer jumps · Volcano – hot: after about 2 seconds Flumm hops up (not while charging – then he flashes red). On ice, PERFECT only counts once Flumm stops.</li></ul></div></details>\n    <details class=\"hsec\"><summary>Strawberries &amp; coins</summary><div>🍓 <b>Strawberries</b> float between the islands – they’re Flumm’s food. You keep them even on game over.<br>🪙 <b>Coins</b> lie on islands (in Adventure each one only once) and you get them for new stars, records and duels. Use them to buy costumes, designs and medicine.</div></details>\n    <details class=\"hsec\"><summary>Caring for Flumm</summary><div><ul><li><b>Full</b> drops slowly – feed with 🍓. Hungry = less jump power.</li><li><b>Mood</b> – pet, play ball, clear levels. Grumpy = sometimes refuses.</li><li><b>Energy</b> – every game costs a little, sleeping refills it. Tired = charges slower.</li><li><b>Dirt</b> – stains after levels, washing makes him happy.</li><li><b>Everything is connected:</b> tired/no energy → Flumm gets hungry and grumpy faster. Hunger → mood drops faster.</li><li><b>Health</b> drops when something is neglected for long: no energy (&gt;2 h), no food (&gt;2 h), no mood (&gt;3 h) or very dirty (&gt;4 h). Several problems at once = faster.</li><li><b>Sick</b> at health below 30% – then Flumm <b>can’t play</b> until he’s fit again (health 60%). Helps: medicine (25 🪙, fit instantly), sleeping with a full belly, feeding (+8) and petting (+3, every 30 s). Well cared for, health also recovers on its own.</li></ul>Flumm can’t die.</div></details>\n    <details class=\"hsec\"><summary>Growth &amp; care points</summary><div>You get care points for feeding (+10), washing (+4 per stain), playing ball (+6), sleeping (+5), clearing levels (+8), petting (+1) and the daily gift (+5).<ul><li><b>Flumm Kid</b>: from day 1 + 80 care – food magnet</li><li><b>Teen Flumm</b>: from day 4 + 250 care – +1 heart</li><li><b>Super Flumm</b>: from day 8 + 550 care – +25% coins</li><li><b>Mega Flumm</b>: from day 14 + 1000 care – crown, +1 more heart</li><li><b>Legendary Flumm</b>: from day 30 + 2000 care – +50% coins, rainbow trail</li></ul>From Super Flumm on you also get a care star (+20 🪙) every 150 care points.</div></details>\n    <details class=\"hsec\"><summary>Game modes</summary><div><ul><li><b>Adventure</b>: world map, up to 3 stars per level (finish, no falls, enough PERFECTs)</li><li><b>Endless</b>: as far as you can – your record counts</li><li><b>Daily Run</b>: the same course for everyone each day, only 1 life, bonus for the first run. Every day you play counts for your 🔥 streak</li><li><b>Duel</b>: see below</li></ul></div></details>\n    <details class=\"hsec\"><summary>Duel</summary><div>Run a course with 14 islands against the clock (every fall +3 s). Afterwards you get a <b>code</b> – copy it and send it to friends. They paste it under “Code from a friend” and run the same course against your <b>ghost</b>. The winner gets 15 🪙, and there’s a rematch code to send back.</div></details>\n    <details class=\"hsec\"><summary>Achievements</summary><div>Under <b>Play → 🎖️ Achievements</b> you’ll find 21 achievements with three medals each (🥉 Bronze +30 🪙, 🥈 Silver +75 🪙, 🥇 Gold +150 🪙) – for jumping, collecting, caring, designing and sticking with it.</div></details>\n    <details class=\"hsec\"><summary>Leaderboards</summary><div>Under <b>Play → 🏆 Leaderboards</b> you’ll find <b>Daily Run</b> (everyone plays the same course – who gets furthest today?), <b>Endless</b> and <b>Duel wins</b>. For Daily Run and Endless you also see each run’s time, perfect landings, coins and berries – for today, this week or all time. The worldwide lists use Google Play Games; just sign in once with your Google profile.</div></details>\n    <details class=\"hsec\"><summary>Ads</summary><div>Flumm is free and paid for by ads. If you like, you can watch a short <b>video</b>: in Endless <b>keep playing</b> once per run (+1 heart), <b>double your coins</b> after a game, or give a sick Flumm <b>free medicine</b>. Now and then a short ad break comes after a game (at most every 2½ minutes). You can change your privacy choice in the settings.</div></details>\n    <details class=\"hsec\"><summary>Mascots</summary><div>Under <b>Costumes</b> you’ll find the mascots at the very top – Flumm in other colors and as animals. Raspberry, Lemon, Blueberry, Grape, Peach, Cat, Dog, Bunny, Horse, Lion and Frog can be bought with coins. <b>Exclusive</b>: Lucky Flumm (World 1-5 cleared), Star Flumm (World 1-10), Fire Flumm (10-day daily streak), Sugar Flumm (7 days logged in in a row), Gold Flumm (5 duels won), Rain Flumm (3 duels lost – as a consolation) and Unicorn (30-day daily streak). Costumes fit every mascot.</div></details>\n    <details class=\"hsec\"><summary>Daily streak 🔥</summary><div>Play the <b>Daily Run</b> once every day – then the day counts for your streak. Every streak day brings extra coins (+2 per day, max. +20). Milestones: day 2: 15 🪙 · day 3: costume <b>Gold Crown</b> · day 5: 30 🪙 + 5 🍓 · day 7: platform <b>Gold Island</b> · day 10: 50 🪙 · day 14: background <b>Northern Lights</b> · day 21: 80 🪙 + 10 🍓 · day 30: costume <b>Champion</b>, then 40 🪙 every week. These rewards are only available through the streak. If you miss a day, the streak starts over – unlocked rewards stay.</div></details>\n    <details class=\"hsec\"><summary>Daily gift</summary><div>Drop by every day: 7 days in a row with growing gifts. If you miss a day, it starts over.</div></details>\n";
+function i18nDom(){if(LANG!=='en')return;document.documentElement.lang='en';
+ const hs=document.querySelector('#help .albscroll');if(hs){hs.querySelectorAll('details').forEach(d=>d.remove());hs.insertAdjacentHTML('beforeend',HELP_EN);}
+ const tr=t=>{const k=t.replace(/\s+/g,' ').trim();return EN_H[k]!=null?t.replace(k,EN_H[k]):null;};
+ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;const ns=[];while(n=w.nextNode())ns.push(n);
+ for(const x of ns){if(x.parentNode&&/^(SCRIPT|STYLE)$/.test(x.parentNode.nodeName))continue;const r=tr(x.nodeValue);if(r!=null)x.nodeValue=r;}
+ document.querySelectorAll('[aria-label],[title],[placeholder]').forEach(e=>{for(const at of ['aria-label','title','placeholder']){const v=e.getAttribute(at);if(v&&EN_H[v.trim()]!=null)e.setAttribute(at,EN_H[v.trim()]);}});}
+i18nDom();
+
+const VERSION='0.27.0', BUILD=55;
 const CHANGELOG=[
+ ['0.27.0','55',['Flumm spricht jetzt auch Englisch: Die App nutzt die Systemsprache (deutschsprachige Geräte = Deutsch, alle anderen = Englisch)','In den Einstellungen lässt sich die Sprache umschalten: Automatisch, Deutsch oder English']],
  ['0.26.0','54',['Neu: Erfolge – 21 Erfolge mit Bronze-, Silber- und Gold-Medaille und Münz-Belohnungen (unter Spielen → 🎖️ Erfolge)','Bisherige Fortschritte zählen sofort mit']],
  ['0.25.0','53',['Neue Entwicklungsstufen: Mega-Flumm (ab Tag 14, Krone, +1 weiteres Herz) und Legenden-Flumm (ab Tag 30, Heiligenschein, Regenbogen-Schimmer, +50 % Münzen, Regenbogen-Sprungspur)']],
  ['0.24.1','52',['Flumm wächst sichtbar mit: Baby klein, Super-Flumm deutlich größer (nur optisch, Sprünge bleiben gleich)','Tier-Maskottchen wachsen mit: längere Hasenohren, größere Löwenmähne, längeres Einhorn-Horn']],
@@ -680,6 +701,10 @@ const CHANGELOG=[
  ['0.2.0','2',['Zielhilfe mit langer Flugbahn und Landepunkt','Flumm-Zuhause: füttern, streicheln, wachsen','Kleiderschrank mit 11 Kostümen','Tropfen-Geldbeutel']],
  ['0.1.0','1',['Erster spielbarer Prototyp mit 10 Leveln']]
 ];
+const CHANGELOG_EN=[['0.27.0','55',['Flumm now speaks English! The app follows your system language (German-speaking devices = German, all others = English).','Switch the language any time in the settings: Automatic, Deutsch or English.']],
+ ['0.26.0','54',['Achievements: 21 achievements with bronze, silver and gold medals and coin rewards.']],
+ ['0.25.0','53',['Two new growth stages: Mega Flumm and Legendary Flumm.']],
+ ['0.24.0','51',['Animal mascots (cat, dog, bunny, horse, lion, unicorn) and houses (tent, igloo, yurt, mushroom house, castle and more).']]];
 const $=id=>document.getElementById(id);
 const cv=$('c');let ctx=cv.getContext('2d');
 let W=0,H=0,DPR=1,SC=1,VW=460,VHe=720;
@@ -694,39 +719,39 @@ let hadSave=false;try{const s=JSON.parse(localStorage.getItem(SKEY)||'null');if(
 function persist(){try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}if(!ACH_T)ACH_T=setTimeout(achCheck,600);}
 let ACH_T=0;
 function stat(k,n,quiet){const S=save.stats||(save.stats={perf:0,berries:0,coins:0});S[k]=(S[k]||0)+(n||1);}
-const ACH_R=[30,75,150],ACH_M=['🥉','🥈','🥇'],ACH_N=['Bronze','Silber','Gold'];
+const ACH_R=[30,75,150],ACH_M=['🥉','🥈','🥇'],ACH_N=['Bronze',L('Silber'),'Gold'];
 const SS=()=>save.stats||{};
 const ACH=[
- ['jump','🦘','Hüpfer','Sprünge',[100,1000,10000],()=>SS().jumps],
- ['perf','✨','Perfektionist','PERFEKT-Landungen',[25,250,1000],()=>SS().perf],
- ['coin','🪙','Münzsammler','Münzen eingesammelt',[100,1000,5000],()=>SS().coins],
- ['berry','🍓','Beerenpflücker','Beeren eingesammelt',[50,500,2000],()=>SS().berries],
- ['lvl','🗺️','Abenteurer','Level geschafft',[10,50,130],()=>Object.values(save.stars||{}).filter(v=>v>0).length],
- ['star','⭐','Sternensammler','Sterne gesammelt',[30,150,390],()=>Object.values(save.stars||{}).reduce((a,b)=>a+(b||0),0)],
- ['endl','♾️','Endlos-Profi','Endlos-Rekord in Inseln',[25,75,150],()=>save.best],
- ['day','📅','Tagesläufer','Tagesläufe gespielt',[7,30,100],()=>SS().daily],
- ['ser','🔥','Serienstar','längste Tagesserie',[3,14,30],()=>save.streak&&save.streak.best],
- ['duel','⚔️','Duellant','Duelle gewonnen',[1,10,50],()=>save.duels&&save.duels.w],
- ['feed','🍽️','Feinschmecker','Mal gefüttert',[10,100,500],()=>SS().feeds],
- ['wash','🫧','Blitzsauber','Mal gewaschen',[10,50,200],()=>SS().washes],
- ['ball','⚽','Spielkamerad','Mal Ball gespielt',[10,50,200],()=>SS().plays],
- ['pet','🤲','Kuschelmonster','Mal gestreichelt',[50,500,2000],()=>SS().pets],
- ['sleep','😴','Schlafmütze','Mal ins Bett gebracht',[5,30,100],()=>SS().sleeps],
- ['grow','🌱','Großwerden','Entwicklungsstufe',[2,4,6],()=>save.pet&&save.pet.stage],
- ['masc','🐾','Tierfreund','Maskottchen gesammelt',[3,8,0],()=>(save.mOwned||[]).length,()=>MASC.length],
- ['cos','🎩','Modebewusst','Kostüme gesammelt',[3,10,0],()=>(save.owned||[]).filter(x=>x!=='none').length,()=>COSTUMES.length-1],
- ['house','🏠','Baumeister','Häuser gesammelt',[2,5,0],()=>(save.ownedHs||[]).length,()=>HSS.length],
- ['deco','🎨','Gestalter','Plattformen & Hintergründe',[5,15,0],()=>(save.ownedBg||[]).length+(save.ownedPl||[]).length,()=>BGS.length+PLS.length],
- ['login','📆','Treue Seele','Tage am Stück eingeloggt',[3,7,30],()=>save.loginBest]];
+ ['jump','🦘',L('Hüpfer'),L('Sprünge'),[100,1000,10000],()=>SS().jumps],
+ ['perf','✨',L('Perfektionist'),L('PERFEKT-Landungen'),[25,250,1000],()=>SS().perf],
+ ['coin','🪙',L('Münzsammler'),L('Münzen eingesammelt'),[100,1000,5000],()=>SS().coins],
+ ['berry','🍓',L('Beerenpflücker'),L('Beeren eingesammelt'),[50,500,2000],()=>SS().berries],
+ ['lvl','🗺️',L('Abenteurer'),L('Level geschafft'),[10,50,130],()=>Object.values(save.stars||{}).filter(v=>v>0).length],
+ ['star','⭐',L('Sternensammler'),L('Sterne gesammelt'),[30,150,390],()=>Object.values(save.stars||{}).reduce((a,b)=>a+(b||0),0)],
+ ['endl','♾️',L('Endlos-Profi'),L('Endlos-Rekord in Inseln'),[25,75,150],()=>save.best],
+ ['day','📅',L('Tagesläufer'),L('Tagesläufe gespielt'),[7,30,100],()=>SS().daily],
+ ['ser','🔥',L('Serienstar'),L('längste Tagesserie'),[3,14,30],()=>save.streak&&save.streak.best],
+ ['duel','⚔️',L('Duellant'),L('Duelle gewonnen'),[1,10,50],()=>save.duels&&save.duels.w],
+ ['feed','🍽️',L('Feinschmecker'),L('Mal gefüttert'),[10,100,500],()=>SS().feeds],
+ ['wash','🫧',L('Blitzsauber'),L('Mal gewaschen'),[10,50,200],()=>SS().washes],
+ ['ball','⚽',L('Spielkamerad'),L('Mal Ball gespielt'),[10,50,200],()=>SS().plays],
+ ['pet','🤲',L('Kuschelmonster'),L('Mal gestreichelt'),[50,500,2000],()=>SS().pets],
+ ['sleep','😴',L('Schlafmütze'),L('Mal ins Bett gebracht'),[5,30,100],()=>SS().sleeps],
+ ['grow','🌱',L('Großwerden'),L('Entwicklungsstufe'),[2,4,6],()=>save.pet&&save.pet.stage],
+ ['masc','🐾',L('Tierfreund'),L('Maskottchen gesammelt'),[3,8,0],()=>(save.mOwned||[]).length,()=>MASC.length],
+ ['cos','🎩',L('Modebewusst'),L('Kostüme gesammelt'),[3,10,0],()=>(save.owned||[]).filter(x=>x!=='none').length,()=>COSTUMES.length-1],
+ ['house','🏠',L('Baumeister'),L('Häuser gesammelt'),[2,5,0],()=>(save.ownedHs||[]).length,()=>HSS.length],
+ ['deco','🎨',L('Gestalter'),L('Plattformen & Hintergründe'),[5,15,0],()=>(save.ownedBg||[]).length+(save.ownedPl||[]).length,()=>BGS.length+PLS.length],
+ ['login','📆',L('Treue Seele'),L('Tage am Stück eingeloggt'),[3,7,30],()=>save.loginBest]];
 const achTiers=a=>a[6]?[a[4][0],a[4][1],a[6]()]:a[4];
 function achCheck(){ACH_T=0;if(typeof G==='undefined'||!save||!save.pet)return;if(G.mode==='play'){ACH_T=setTimeout(achCheck,2500);return;}
  const A=save.ach||(save.ach={});let got=[],sum=0;
  for(const a of ACH){const v=+a[5]()||0,T=achTiers(a);let t=A[a[0]]||0;while(t<3&&v>=T[t]){sum+=ACH_R[t];got.push(ACH_M[t]+' '+a[2]);t++;}A[a[0]]=t;}
  if(!got.length)return;save.coins+=sum;try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}
- setTimeout(()=>{try{SFX.win();buzz([15,30,15]);}catch(e){}toast(got.length===1?'🏆 Erfolg: '+got[0]+' · +'+sum+' 🪙':'🏆 '+got.length+' Erfolge geschafft · +'+sum+' 🪙');try{menuUI();homeUI();}catch(e){}if($('ach').classList.contains('on'))achUI();},300);}
+ setTimeout(()=>{try{SFX.win();buzz([15,30,15]);}catch(e){}toast(got.length===1?L('🏆 Erfolg: ')+got[0]+' · +'+sum+' 🪙':'🏆 '+got.length+L(' Erfolge geschafft · +')+sum+' 🪙');try{menuUI();homeUI();}catch(e){}if($('ach').classList.contains('on'))achUI();},300);}
 function achUI(){const A=save.ach||{};let m=0;
  $('achList').innerHTML=ACH.map(a=>{const t=A[a[0]]||0,T=achTiers(a),v=+a[5]()||0;m+=t;const nx=t<3?T[t]:T[2],pr=Math.min(100,v/nx*100);
-  const lab=a[0]==='grow'?(STAGES[Math.min(6,v)]||{name:''}).name+' · Ziel: '+STAGES[nx].name:Math.min(v,nx).toLocaleString('de-DE')+' / '+nx.toLocaleString('de-DE')+' '+a[3];
+  const lab=a[0]==='grow'?(STAGES[Math.min(6,v)]||{name:''}).name+L(' · Ziel: ')+STAGES[nx].name:Math.min(v,nx).toLocaleString(LOC)+' / '+nx.toLocaleString(LOC)+' '+a[3];
   return '<div class="achr'+(t>=3?' done':'')+'"><span class="ic">'+a[1]+'</span><span class="tx"><b>'+a[2]+(t?' · '+ACH_N[t-1]:'')+'</b><small>'+lab+(t<3?' · +'+ACH_R[t]+' 🪙':'')+'</small><div class="achbar"><i style="width:'+(t>=3?100:pr)+'%"></i></div></span><span class="achm">'+ACH_M.map((x,i)=>'<span class="'+(i<t?'on':'')+'">'+x+'</span>').join('')+'</span></div>';}).join('');
  $('achSum').textContent='🏅 '+m+'/'+ACH.length*3;$('achCoins').textContent='🪙 '+save.coins;}
 const totalDrops=()=>Object.values(save.drops).reduce((a,b)=>a+b,0);
@@ -742,16 +767,16 @@ function fixSave(){
 }
 fixSave();persist();
 const STAGES=[null,
- {name:'Baby-Flumm',day:0,care:0,perk:''},
- {name:'Flummi-Kind',day:1,care:80,perk:'Futter-Magnet: Beeren und Münzen fliegen zu Flumm'},
- {name:'Teen-Flumm',day:4,care:250,perk:'+1 Herz in jedem Level'},
- {name:'Super-Flumm',day:8,care:550,perk:'+25 % Münzen und goldene Sprungspur'},
- {name:'Mega-Flumm',day:14,care:1000,perk:'Krone und +1 weiteres Herz in jedem Level'},
- {name:'Legenden-Flumm',day:30,care:2000,perk:'+50 % Münzen, Heiligenschein und Regenbogen-Sprungspur'}];
+ {name:L('Baby-Flumm'),day:0,care:0,perk:''},
+ {name:L('Flummi-Kind'),day:1,care:80,perk:L('Futter-Magnet: Beeren und Münzen fliegen zu Flumm')},
+ {name:L('Teen-Flumm'),day:4,care:250,perk:L('+1 Herz in jedem Level')},
+ {name:L('Super-Flumm'),day:8,care:550,perk:L('+25 % Münzen und goldene Sprungspur')},
+ {name:L('Mega-Flumm'),day:14,care:1000,perk:L('Krone und +1 weiteres Herz in jedem Level')},
+ {name:L('Legenden-Flumm'),day:30,care:2000,perk:L('+50 % Münzen, Heiligenschein und Regenbogen-Sprungspur')}];
 const ageDays=()=>Math.max(0,Math.floor((Date.now()-save.pet.born)/864e5));
 function nextStageOk(){const P=save.pet,n=STAGES[P.stage+1];return !!(n&&ageDays()>=n.day&&P.care>=n.care);}
 /* Zustandsmodell v0.10: Werte beeinflussen sich gegenseitig; lange Vernachlässigung kostet Gesundheit */
-const NEG={e:[10,2,'Energie'],s:[15,2,'Hunger'],m:[15,3,'Laune'],d:[3,4,'Schmutz']};
+const NEG={e:[10,2,L('Energie')],s:[15,2,L('Hunger')],m:[15,3,L('Laune')],d:[3,4,L('Schmutz')]};
 function decay(){const now=Date.now(),P=save.pet;let h=(now-P.ts)/3.6e6;if(h<=0)return;h=Math.min(h,24*21);
  const L=P.low;
  while(h>0){const d=Math.min(h,.25);h-=d;
@@ -769,15 +794,15 @@ function decay(){const now=Date.now(),P=save.pet;let h=(now-P.ts)/3.6e6;if(h<=0)
  }
  P.ts=now;persist();}
 function warnTxt(){const P=save.pet,L=P.low,w=[];
- if(P.energy<10&&!P.sleep)w.push('erschöpft – ins Bett!');else if(P.energy<20)w.push('müde → isst mehr');
- if(P.sat<15)w.push('sehr hungrig');if(P.mood<15)w.push('sehr traurig');if(P.dirt>=3)w.push('sehr schmutzig');
- for(const k in NEG)if(L[k]>NEG[k][1]){w.unshift(NEG[k][2]+' schadet der Gesundheit!');break;}
+ if(P.energy<10&&!P.sleep)w.push(L('erschöpft – ins Bett!'));else if(P.energy<20)w.push(L('müde → isst mehr'));
+ if(P.sat<15)w.push(L('sehr hungrig'));if(P.mood<15)w.push(L('sehr traurig'));if(P.dirt>=3)w.push(L('sehr schmutzig'));
+ for(const k in NEG)if(L[k]>NEG[k][1]){w.unshift(NEG[k][2]+L(' schadet der Gesundheit!'));break;}
  return w.slice(0,2).join(' · ');}
 function sickBlock(){decay();const P=save.pet;if(P.sleep&&!P.sick){setupMenu();show('sleepy');SFX.no();return true;}if(!P.sick)return false;setupMenu();
- $('skHp').style.width=Math.round(P.hp)+'%';$('skTxt').textContent='Gesundheit '+Math.round(P.hp)+' % – fit ab 60 %';$('skMed').classList.toggle('dim',save.coins<25);
+ $('skHp').style.width=Math.round(P.hp)+'%';$('skTxt').textContent=L('Gesundheit ')+Math.round(P.hp)+L(' % – fit ab 60 %');$('skMed').classList.toggle('dim',save.coins<25);
  show('sick');SFX.no();buzz(40);return true;}
-function healCheck(){const P=save.pet;if(P.sick&&P.hp>=60){const L=P.low;if(!(L.e>NEG.e[1]||L.s>NEG.s[1]||L.m>NEG.m[1]||L.d>NEG.d[1])){P.sick=false;persist();popup('Wieder fit!',B.x,B.y-60,'#9BF5DF',26);SFX.win();hearts(B.x,B.y-20,6);}}}
-function petStatus(){const P=save.pet;if(P.sleep)return['schläft','#7B6FB0'];if(P.sick)return['krank','#3E8E3A'];if(P.hp<50)return['angeschlagen','#C0504D'];if(P.energy<10)return['erschöpft','#7B6FB0'];if(P.sat<25)return['hungrig','#D97A12'];if(P.energy<20)return['müde','#7B6FB0'];if(P.mood<30)return['traurig','#D9485F'];if(P.mood>70&&P.sat>60)return['glücklich','#2E9E62'];return['zufrieden','#3A3558'];}
+function healCheck(){const P=save.pet;if(P.sick&&P.hp>=60){const L=P.low;if(!(L.e>NEG.e[1]||L.s>NEG.s[1]||L.m>NEG.m[1]||L.d>NEG.d[1])){P.sick=false;persist();popup(L('Wieder fit!'),B.x,B.y-60,'#9BF5DF',26);SFX.win();hearts(B.x,B.y-20,6);}}}
+function petStatus(){const P=save.pet;if(P.sleep)return[L('schläft'),'#7B6FB0'];if(P.sick)return['krank','#3E8E3A'];if(P.hp<50)return['angeschlagen','#C0504D'];if(P.energy<10)return[L('erschöpft'),'#7B6FB0'];if(P.sat<25)return['hungrig','#D97A12'];if(P.energy<20)return[L('müde'),'#7B6FB0'];if(P.mood<30)return['traurig','#D9485F'];if(P.mood>70&&P.sat>60)return[L('glücklich'),'#2E9E62'];return['zufrieden','#3A3558'];}
 function petFx(){const P=save.pet;return{cap:(P.sat<25||P.sick)?.85:P.hp<50?.92:1,slow:P.energy<20?1.35:1,refuse:(P.mood<30?.15:0)+(P.sick?.15:0)};}
 decay();
 
@@ -799,13 +824,13 @@ async function adsInit(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&
   await A.initialize({initializeForTesting:!ADS_CFG.live,maxAdContentRating:'PG'});ADS.ok=true;try{$('adPrivRow').style.display='';}catch(e){}
   A.addListener('interstitialAdDismissed',()=>{ADS.interReady=false;adLoad('inter');musicAuto&&musicAuto();});
   A.addListener('onRewardedVideoAdDismissed',()=>{ADS.rewReady=false;adLoad('reward');});
-  adLoad('inter');adLoad('reward');}catch(e){console.log('Werbung',e);}}
+  adLoad('inter');adLoad('reward');}catch(e){console.log(L('Werbung'),e);}}
 async function adLoad(k){if(!ADS.ok)return;try{if(k==='inter'){await ADS.A.prepareInterstitial(adOpts('inter'));ADS.interReady=true;}else{await ADS.A.prepareRewardVideoAd(adOpts('reward'));ADS.rewReady=true;}adsUI();}catch(e){setTimeout(()=>adLoad(k),30000);}}
 function adsCan(){return ADS.ok&&ADS.rewReady&&!ADS.busy;}
 function adsUI(){document.querySelectorAll('.adbtn').forEach(b=>b.style.display=adsCan()&&!b.dataset.used?'':'none');}
-async function adReward(onOk){if(!adsCan()){toast('Gerade kein Video verfügbar');return;}ADS.busy=true;adsUI();let got=false;
+async function adReward(onOk){if(!adsCan()){toast(L('Gerade kein Video verfügbar'));return;}ADS.busy=true;adsUI();let got=false;
  try{const r=await ADS.A.showRewardVideoAd();got=!!r;}catch(e){}ADS.busy=false;ADS.rewReady=false;ADS.last=Date.now();adLoad('reward');
- if(got){onOk();SFX.buy();}else toast('Video abgebrochen – keine Belohnung');adsUI();}
+ if(got){onOk();SFX.buy();}else toast(L('Video abgebrochen – keine Belohnung'));adsUI();}
 function adGameOver(){if(!ADS.ok)return;ADS.games++;if(ADS.games>=3&&ADS.interReady&&Date.now()-ADS.last>150000&&!ADS.busy){ADS.games=0;setTimeout(async()=>{try{ADS.busy=true;await ADS.A.showInterstitial();ADS.last=Date.now();}catch(e){}ADS.busy=false;},1400);}}
 setTimeout(adsInit,1500);
 // ── Hinweis auf neue App-Version (Google Play In-App-Update, flexibel; iOS: App-Store-Link) ──
@@ -817,8 +842,8 @@ async function updCheck(){const P=updP();if(!P||UPD.st>1||Date.now()-UPD.t<36e5)
   if(i.installStatus===11){UPD.info=i;UPD.st=3;return updUI();}
   if(i.updateAvailability!==2)return;const key=String(i.availableVersionCode||i.availableVersionName||'neu');if(save.updHide===key)return;UPD.info=i;UPD.key=key;UPD.st=1;updUI();}catch(e){}}
 function updUI(){const el=$('updBar');if(!el)return;if(!UPD.st){el.classList.remove('on');return;}
- el.innerHTML=UPD.st===1?'✨ Neue Version verfügbar <button class="go" id="updGo">Aktualisieren</button><button class="x" id="updX" aria-label="Ausblenden">✕</button>'
-  :UPD.st===2?'⏳ Update wird geladen …':'✅ Update bereit <button class="go" id="updGo">Neu starten</button>';
+ el.innerHTML=UPD.st===1?L('✨ Neue Version verfügbar <button class="go" id="updGo">Aktualisieren</button><button class="x" id="updX" aria-label="Ausblenden">✕</button>')
+  :UPD.st===2?L('⏳ Update wird geladen …'):L('✅ Update bereit <button class="go" id="updGo">Neu starten</button>');
  el.classList.add('on');const g=$('updGo'),x=$('updX');if(g)g.onclick=updGo;if(x)x.onclick=()=>{save.updHide=UPD.key;persist();UPD.st=0;updUI();};}
 async function updGo(){const P=updP();if(!P)return;const CP=window.Capacitor;
  try{if(UPD.st===3){await P.completeFlexibleUpdate();return;}
@@ -835,52 +860,52 @@ const LB_CFG={android:{endless:'',daily:'',duel:''},ios:{endless:'',daily:'',due
 const LB={ok:false,P:null,plat:'',signed:false,today:-1};
 function lbId(k){const c=LB_CFG[LB.plat]||{};return c[k]||'';}
 async function lbInit(){const CP=window.Capacitor;if(!(CP&&CP.isNativePlatform&&CP.isNativePlatform()))return;const P=CP.Plugins&&CP.Plugins.PlayGames;LB.plat=CP.getPlatform();
- if(!P||!lbId('endless'))return;LB.P=P;try{await P.initialize();LB.ok=true;const r=await P.signIn({silent:true});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){console.log('Bestenliste',e);}}
+ if(!P||!lbId('endless'))return;LB.P=P;try{await P.initialize();LB.ok=true;const r=await P.signIn({silent:true});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){console.log(L('Bestenliste'),e);}}
 async function lbSignIn(){if(!LB.ok)return false;if(LB.signed)return true;try{const r=await LB.P.signIn({silent:false});LB.signed=!!(r&&r.signedIn);if(LB.signed)lbSyncAll();}catch(e){}return LB.signed;}
 function lbSubmit(k,score,tag){if(!LB.ok||!LB.signed||!lbId(k)||!(score>0))return;const o={leaderboardId:lbId(k),score:Math.floor(score)};if(tag)o.tag=tag;LB.P.submitScore(o).catch(()=>{});}
 const runTag=r=>'t'+r.t+'p'+r.p+'c'+r.c+'b'+r.b;
 function parseTag(t){const m=/t(\d+)p(\d+)c(\d+)b(\d+)/.exec(t||'');return m?{t:+m[1],p:+m[2],c:+m[3],b:+m[4]}:null;}
-const runDetail=d=>d?'Zeit: '+d.t+' s | Perfekt: '+d.p+' | Münzen: '+d.c+' | Beeren: '+d.b:'';
+const runDetail=d=>d?L('Zeit: ')+d.t+L(' s | Perfekt: ')+d.p+L(' | Münzen: ')+d.c+L(' | Beeren: ')+d.b:'';
 let lbtKind='daily',lbtSpan='daily';
 function lbTop(kind,span){lbtKind=kind;lbtSpan=span||(kind==='daily'?'daily':'all');show('lbtop');lbtRender(null);
- $('lbtTitle').textContent=kind==='daily'?'Tageslauf':'Endlos';
+ $('lbtTitle').textContent=kind==='daily'?L('Tageslauf'):L('Endlos');
  document.querySelectorAll('#lbtTabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===lbtSpan));
  if(!LB.ok){return;}
- (async()=>{if(!(await lbSignIn())){$('lbtNote').textContent='Bitte bei Google Play Spiele anmelden, um die weltweite Liste zu sehen.';return;}
+ (async()=>{if(!(await lbSignIn())){$('lbtNote').textContent=L('Bitte bei Google Play Spiele anmelden, um die weltweite Liste zu sehen.');return;}
   try{const me=await LB.P.getPlayerId().catch(()=>({}));const r=await LB.P.loadTopScores({leaderboardId:lbId(kind),span:lbtSpan,max:25});let rows=r.scores||[];
    if(me.playerId&&!rows.some(x=>x.playerId===me.playerId)){try{const c=await LB.P.loadTopScores({leaderboardId:lbId(kind),span:lbtSpan,max:1,centered:true});const mine=(c.scores||[]).find(x=>x.playerId===me.playerId);if(mine)rows=rows.concat([{gap:true},mine]);}catch(e){}}
-   lbtRender(rows,me.playerId);}catch(e){$('lbtNote').textContent='Bestenliste gerade nicht erreichbar.';}})();}
+   lbtRender(rows,me.playerId);}catch(e){$('lbtNote').textContent=L('Bestenliste gerade nicht erreichbar.');}})();}
 function lbtRender(rows,myId){const box=$('lbtList');
  if(!rows){const mine=lbtKind==='daily'?(save.dayBest&&save.dayBest.d===todayStr()?save.dayBest:null):save.endBest;
-  box.innerHTML=mine?'<div class="lbr me"><b class="rk">★</b><span><b>'+esc(save.name||save.petName||'Du')+' · Insel '+mine.s+'</b><small>'+runDetail(mine)+'</small></span></div>':'<p class="small">Noch kein Lauf'+(lbtKind==='daily'?' heute':'')+'.</p>';
-  $('lbtNote').textContent=LB.ok?'Lade weltweite Liste …':'Dein bester Lauf. Die weltweite Liste kommt mit Google Play Spiele.';return;}
- box.innerHTML=rows.length?rows.map(x=>x.gap?'<div class="lbgap">⋯</div>':'<div class="lbr'+(x.playerId===myId?' me':'')+'"><b class="rk">'+x.rank+'</b><span><b>'+esc(x.name)+' · Insel '+x.score+'</b><small>'+runDetail(parseTag(x.tag))+'</small></span></div>').join(''):'<p class="small">Noch keine Einträge – sei der Erste!</p>';
+  box.innerHTML=mine?'<div class="lbr me"><b class="rk">★</b><span><b>'+esc(save.name||save.petName||L('Du'))+L(' · Insel ')+mine.s+'</b><small>'+runDetail(mine)+'</small></span></div>':L('<p class="small">Noch kein Lauf')+(lbtKind==='daily'?L(' heute'):'')+'.</p>';
+  $('lbtNote').textContent=LB.ok?L('Lade weltweite Liste …'):L('Dein bester Lauf. Die weltweite Liste kommt mit Google Play Spiele.');return;}
+ box.innerHTML=rows.length?rows.map(x=>x.gap?'<div class="lbgap">⋯</div>':'<div class="lbr'+(x.playerId===myId?' me':'')+'"><b class="rk">'+x.rank+'</b><span><b>'+esc(x.name)+L(' · Insel ')+x.score+'</b><small>'+runDetail(parseTag(x.tag))+'</small></span></div>').join(''):L('<p class="small">Noch keine Einträge – sei der Erste!</p>');
  $('lbtNote').textContent=lbtKind==='daily'&&LB.today>=0?todayTxt():'';}
 async function lbCount(){if(!LB.ok||!LB.signed||!lbId('daily')||!LB.P.getPlayerCount)return;try{const r=await LB.P.getPlayerCount({leaderboardId:lbId('daily'),span:'daily'});if(r&&r.count>=0){LB.today=r.count;try{modesUI();}catch(e){}if($('lboard').classList.contains('on'))lbUI();}}catch(e){}}
-const todayTxt=()=>LB.today>=0?'👥 '+LB.today+(LB.today===1?' Spieler':' Spieler')+' heute':'';
+const todayTxt=()=>LB.today>=0?'👥 '+LB.today+(LB.today===1?L(' Spieler'):L(' Spieler'))+' heute':'';
 function statAdd(){const S=save.stats||(save.stats={perf:0,berries:0,coins:0});S.perf+=G.perfects||0;S.berries+=G.dropsGot||0;S.coins+=G.coinsGot||0;persist();}
 function lbSyncAll(){setTimeout(lbCount,1500);lbSubmit('endless',save.best||0);if(save.dayRun&&save.dayRun.d===todayStr())lbSubmit('daily',save.dayRun.best);lbSubmit('duel',save.duels&&save.duels.w||0);}
-async function lbShow(k){if(!LB.ok){toast('Weltweite Bestenliste folgt mit Google Play Games');return;}if(!(await lbSignIn())){toast('Bitte bei Google Play Spiele anmelden');return;}try{if(k)await LB.P.showLeaderboard({leaderboardId:lbId(k)});else await LB.P.showAllLeaderboards();}catch(e){toast('Bestenliste gerade nicht erreichbar');}}
+async function lbShow(k){if(!LB.ok){toast(L('Weltweite Bestenliste folgt mit Google Play Games'));return;}if(!(await lbSignIn())){toast(L('Bitte bei Google Play Spiele anmelden'));return;}try{if(k)await LB.P.showLeaderboard({leaderboardId:lbId(k)});else await LB.P.showAllLeaderboards();}catch(e){toast(L('Bestenliste gerade nicht erreichbar'));}}
 function lbUI(){const t=todayStr(),dr=save.dayRun&&save.dayRun.d===t?save.dayRun.best:0,du=save.duels||{w:0,l:0};
  const S=save.stats||{perf:0,berries:0,coins:0};
- $('lbList').innerHTML=[['daily','📅','Tageslauf','Heute: '+dr+' Inseln'+(LB.today>=0?' · '+todayTxt():'')],['endless','♾️','Endlos','Rekord: '+(save.best||0)+' Inseln'],['duel','⚔️','Duell-Siege',du.w+' Siege · '+du.l+' Niederlagen']].map(r=>'<button class="mode lbm" data-lb="'+r[0]+'"><span class="mi" style="font-size:30px">'+r[1]+'</span><span><b>'+r[2]+'</b><small>'+r[3]+'</small></span><em>🏆</em></button>').join('');
- $('lbNote').textContent=LB.ok?(LB.signed?'Angemeldet bei Google Play Spiele – tippe für die weltweite Liste.':'Tippe, um dich bei Google Play Spiele anzumelden.'):'Deine Rekorde. Die weltweite Bestenliste kommt mit Google Play Spiele.';}
+ $('lbList').innerHTML=[['daily','📅',L('Tageslauf'),L('Heute: ')+dr+L(' Inseln')+(LB.today>=0?' · '+todayTxt():'')],['endless','♾️',L('Endlos'),L('Rekord: ')+(save.best||0)+L(' Inseln')],['duel','⚔️',L('Duell-Siege'),du.w+L(' Siege · ')+du.l+L(' Niederlagen')]].map(r=>'<button class="mode lbm" data-lb="'+r[0]+'"><span class="mi" style="font-size:30px">'+r[1]+'</span><span><b>'+r[2]+'</b><small>'+r[3]+'</small></span><em>🏆</em></button>').join('');
+ $('lbNote').textContent=LB.ok?(LB.signed?L('Angemeldet bei Google Play Spiele – tippe für die weltweite Liste.'):L('Tippe, um dich bei Google Play Spiele anzumelden.')):L('Deine Rekorde. Die weltweite Bestenliste kommt mit Google Play Spiele.');}
 setTimeout(lbInit,2500);
 
 
 /* ---------- Tooltips im Zuhause (gedrückt halten / Maus drüber) ---------- */
 const TIPS={
- bFeed:['🍓 Füttern','Kostet 1 Erdbeere. Satt +25, Laune +5, Pflege +10. Ist Flumm krank: Gesundheit +8. Erdbeeren sammelst du in den Leveln.'],
- bWash:['🫧 Waschen','Entfernt die Flecken vom Spielen. Laune +8, Pflege +4 je Fleck. Lange sehr schmutzig schadet der Gesundheit.'],
- bBall:['⚽ Spielen','Ballspiel: Laune +12, Pflege +6, kostet 8 Energie. Danach braucht Flumm 20 Minuten Pause.'],
- bSleep:['😴 Schlafen','Energie füllt sich schnell, Hunger und Laune sinken nur halb so schnell. Mit vollem Bauch erholt sich die Gesundheit. Wer vor 20 Min. weckt, macht Flumm grummelig. Schlafend kann Flumm nicht spielen.'],
- bMed:['💊 Medizin','Kostet 25 Münzen und macht Flumm sofort gesund (Gesundheit 80 %). Alternativ: Video ansehen, schlafen, füttern, streicheln.'],
- bWard:['👕 Kostüme','Maskottchen und Kostüme anprobieren und kaufen.'],
- icSat:['🍓 Satt','Sinkt mit der Zeit (müde Flumms werden schneller hungrig). Unter 25 %: weniger Sprungkraft. Lange unter 15 % schadet der Gesundheit.'],
- icMood:['❤️ Laune','Steigt durch Streicheln, Spielen, Waschen und geschaffte Level. Unter 30 % sagt Flumm manchmal „Nö!“ und springt nicht. Lange sehr traurig schadet der Gesundheit.'],
- icEn:['⚡ Energie','Sinkt im Wachzustand und mit jedem Spiel. Unter 20 %: lädt langsamer und isst mehr. Lange ohne Energie schadet der Gesundheit – ab ins Bett!'],
- icHp:['💊 Gesundheit','Sinkt, wenn Flumm länger hungrig (2 Std.), erschöpft (2 Std.), traurig (3 Std.) oder sehr schmutzig (4 Std.) ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.'],
- icGrow:['🌱 Wachsen','Pflegepunkte (füttern, waschen, spielen, schlafen, Level schaffen) plus Alter lassen Flumm wachsen: Baby → Kind → Teen → Super. Jede Stufe bringt einen Vorteil.']};
+ bFeed:[L('🍓 Füttern'),L('Kostet 1 Erdbeere. Satt +25, Laune +5, Pflege +10. Ist Flumm krank: Gesundheit +8. Erdbeeren sammelst du in den Leveln.')],
+ bWash:[L('🫧 Waschen'),L('Entfernt die Flecken vom Spielen. Laune +8, Pflege +4 je Fleck. Lange sehr schmutzig schadet der Gesundheit.')],
+ bBall:[L('⚽ Spielen'),L('Ballspiel: Laune +12, Pflege +6, kostet 8 Energie. Danach braucht Flumm 20 Minuten Pause.')],
+ bSleep:[L('😴 Schlafen'),L('Energie füllt sich schnell, Hunger und Laune sinken nur halb so schnell. Mit vollem Bauch erholt sich die Gesundheit. Wer vor 20 Min. weckt, macht Flumm grummelig. Schlafend kann Flumm nicht spielen.')],
+ bMed:[L('💊 Medizin'),L('Kostet 25 Münzen und macht Flumm sofort gesund (Gesundheit 80 %). Alternativ: Video ansehen, schlafen, füttern, streicheln.')],
+ bWard:[L('👕 Kostüme'),L('Maskottchen und Kostüme anprobieren und kaufen.')],
+ icSat:[L('🍓 Satt'),L('Sinkt mit der Zeit (müde Flumms werden schneller hungrig). Unter 25 %: weniger Sprungkraft. Lange unter 15 % schadet der Gesundheit.')],
+ icMood:[L('❤️ Laune'),L('Steigt durch Streicheln, Spielen, Waschen und geschaffte Level. Unter 30 % sagt Flumm manchmal „Nö!“ und springt nicht. Lange sehr traurig schadet der Gesundheit.')],
+ icEn:[L('⚡ Energie'),L('Sinkt im Wachzustand und mit jedem Spiel. Unter 20 %: lädt langsamer und isst mehr. Lange ohne Energie schadet der Gesundheit – ab ins Bett!')],
+ icHp:[L('💊 Gesundheit'),L('Sinkt, wenn Flumm länger hungrig (2 Std.), erschöpft (2 Std.), traurig (3 Std.) oder sehr schmutzig (4 Std.) ist. Unter 30 % wird Flumm krank und kann nicht spielen – fit ist er wieder ab 60 %. Gut versorgt erholt sie sich von allein.')],
+ icGrow:[L('🌱 Wachsen'),L('Pflegepunkte (füttern, waschen, spielen, schlafen, Level schaffen) plus Alter lassen Flumm wachsen: Baby → Kind → Teen → Super. Jede Stufe bringt einen Vorteil.')]};
 let tipTO=0,tipLP=0,tipShown=false;
 function showTip(el,key){const t=TIPS[key];if(!t)return;const d=$('tip');d.innerHTML='<b>'+t[0]+'</b>'+t[1];d.className='';const r=el.getBoundingClientRect();d.style.left='0px';d.style.top='0px';d.classList.add('on');
  const w=d.offsetWidth,h=d.offsetHeight;let x=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2)),y=r.top-h-14,below=false;if(y<8){y=r.bottom+14;below=true;}
@@ -979,20 +1004,20 @@ function capDraw(c,r,top,dark,band){
 function star(c,x,y,R,col){c.fillStyle=col;c.beginPath();for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rad=k%2?R*.45:R;c.lineTo(x+Math.cos(a)*rad,y+Math.sin(a)*rad);}c.closePath();c.fill();}
 function ring(c,r,from,to){c.lineWidth=r*.28;for(let k=0;k<8;k++){const a0=k/8*Math.PI*2,a1=(k+1)/8*Math.PI*2;if(a1<=from||a0>=to)continue;c.strokeStyle=k%2?'#fff':'#FF4F6D';c.beginPath();c.ellipse(0,r*.62,r*1.08,r*.3,0,Math.max(a0,from),Math.min(a1,to));c.stroke();}}
 const COSTUMES=[
- {id:'none',name:'Ohne',price:0},
- {id:'party',name:'Partyhut',price:15,hat:1,front(c,r){c.save();c.translate(r*.1,-r*.78);c.rotate(.18);c.fillStyle='#FF6FAE';c.beginPath();c.moveTo(-r*.38,0);c.lineTo(r*.38,0);c.lineTo(0,-r*.95);c.closePath();c.fill();c.fillStyle='#FFE066';c.beginPath();c.moveTo(-r*.27,-r*.28);c.lineTo(r*.27,-r*.28);c.lineTo(r*.2,-r*.46);c.lineTo(-r*.2,-r*.46);c.fill();c.beginPath();c.moveTo(-r*.13,-r*.62);c.lineTo(r*.13,-r*.62);c.lineTo(r*.07,-r*.76);c.lineTo(-r*.07,-r*.76);c.fill();c.fillStyle='#6EC6FF';c.beginPath();c.arc(0,-r*.95,r*.15,0,7);c.fill();c.restore();}},
- {id:'sun',name:'Sunnyboy',price:20,front(c,r){c.fillStyle='#26233F';for(const s of[-1,1]){c.beginPath();c.ellipse(s*r*.34,-r*.08,r*.28,r*.2,0,0,7);c.fill();}c.strokeStyle='#26233F';c.lineWidth=r*.08;c.beginPath();c.moveTo(-r*.12,-r*.14);c.lineTo(r*.12,-r*.14);c.stroke();c.strokeStyle='rgba(255,255,255,.65)';c.lineWidth=r*.05;for(const s of[-1,1]){c.beginPath();c.moveTo(s*r*.34-r*.15,-r*.12);c.lineTo(s*r*.34-r*.04,-r*.2);c.stroke();}}},
- {id:'bow',name:'Fliege',price:20,front(c,r){c.fillStyle='#FF4F6D';c.beginPath();c.moveTo(0,r*.74);c.lineTo(-r*.36,r*.54);c.lineTo(-r*.36,r*.94);c.closePath();c.moveTo(0,r*.74);c.lineTo(r*.36,r*.54);c.lineTo(r*.36,r*.94);c.closePath();c.fill();c.fillStyle='#D93A57';c.beginPath();c.arc(0,r*.74,r*.11,0,7);c.fill();}},
- {id:'bear',name:'Bär',price:30,hat:1,back(c,r){for(const s of[-1,1]){c.fillStyle='#A86E43';c.beginPath();c.arc(s*r*.62,-r*.7,r*.32,0,7);c.fill();c.fillStyle='#F2A7B8';c.beginPath();c.arc(s*r*.62,-r*.7,r*.16,0,7);c.fill();}},front(c,r){c.fillStyle='rgba(168,110,67,.35)';c.beginPath();c.ellipse(0,r*.36,r*.3,r*.2,0,0,7);c.fill();c.fillStyle='#5A3A22';c.beginPath();c.ellipse(0,r*.2,r*.09,r*.06,0,0,7);c.fill();}},
- {id:'swim',name:'Badespaß',price:30,back(c,r){ring(c,r,Math.PI,Math.PI*2);},mid(c,r){c.strokeStyle='#2B3A67';c.lineWidth=r*.07;c.beginPath();c.moveTo(-r*.95,-r*.52);c.lineTo(r*.95,-r*.52);c.stroke();for(const s of[-1,1]){c.fillStyle='#6EC6FF';c.strokeStyle='#2B3A67';c.lineWidth=r*.06;c.beginPath();c.arc(s*r*.26,-r*.56,r*.17,0,7);c.fill();c.stroke();}},front(c,r){ring(c,r,0,Math.PI);}},
- {id:'hero',name:'Superheld',price:40,back(c,r,t){const w=Math.sin(t*6)*r*.1;c.fillStyle='#E8364F';c.beginPath();c.moveTo(-r*.6,-r*.25);c.lineTo(r*.6,-r*.25);c.quadraticCurveTo(r*1.05,r*.5,r*.75+w,r*1.2);c.quadraticCurveTo(-r*.25,r*1.45-w,-r*1.35,r*1.05+w);c.quadraticCurveTo(-r*1.2,r*.3,-r*.6,-r*.25);c.fill();c.fillStyle='#B8263B';c.beginPath();c.moveTo(-r*.6,-r*.25);c.quadraticCurveTo(-r*1.2,r*.3,-r*1.35,r*1.05+w);c.lineTo(-r*1.1,r*1.1);c.quadraticCurveTo(-r*.9,r*.3,-r*.4,-r*.2);c.fill();},mid(c,r){c.fillStyle='#2D3A8C';c.beginPath();c.moveTo(-r*.78,-r*.34);c.quadraticCurveTo(0,-r*.46,r*.78,-r*.34);c.quadraticCurveTo(r*.86,-r*.06,r*.62,r*.06);c.quadraticCurveTo(0,-r*.08,-r*.62,r*.06);c.quadraticCurveTo(-r*.86,-r*.06,-r*.78,-r*.34);c.fill();},front(c,r){star(c,0,r*.72,r*.16,'#FFD34D');}},
- {id:'conductor',name:'Schaffner',price:35,hat:1,front(c,r){capDraw(c,r,'#2B3A67','#1E2A4D','#E5B530');c.fillStyle='#E8364F';c.beginPath();c.arc(0,-r*1.0,r*.1,0,7);c.fill();}},
- {id:'police',name:'Polizei',price:35,hat:1,front(c,r){capDraw(c,r,'#2F6FD6','#1D4FA3','#1D2A55');star(c,0,-r*.98,r*.15,'#FFD34D');}},
- {id:'fire',name:'Feuerwehr',price:40,hat:1,front(c,r){c.fillStyle='#E8364F';c.beginPath();c.ellipse(0,-r*.66,r*.76,r*.58,0,Math.PI,0);c.closePath();c.fill();c.fillStyle='#C42A40';c.fillRect(-r*.08,-r*1.24,r*.16,r*.58);c.beginPath();c.ellipse(0,-r*.64,r*.92,r*.14,0,0,Math.PI*2);c.fill();c.fillStyle='#FFD34D';c.beginPath();c.arc(0,-r*.9,r*.15,0,7);c.fill();}},
- {id:'winter',name:'Schneeanzug',price:40,hat:1,front(c,r){c.fillStyle='#E8364F';c.beginPath();c.ellipse(0,-r*.68,r*.7,r*.52,0,Math.PI,0);c.closePath();c.fill();c.fillStyle='#fff';c.fillRect(-r*.72,-r*.8,r*1.44,r*.16);c.beginPath();c.arc(0,-r*1.22,r*.18,0,7);c.fill();c.fillStyle='#4F7BE8';c.beginPath();c.ellipse(0,r*.58,r*.82,r*.17,0,0,7);c.fill();c.save();c.translate(r*.3,r*.6);c.rotate(-.15);c.fillRect(-r*.12,0,r*.24,r*.5);c.fillStyle='#fff';c.fillRect(-r*.12,r*.2,r*.24,r*.07);c.fillRect(-r*.12,r*.34,r*.24,r*.07);c.restore();}},
- {id:'crown',name:'Goldkrone',price:0,streak:3,hat:1,front(c,r){c.save();c.translate(0,-r*.8);c.lineJoin='round';c.fillStyle='#FFD23D';c.strokeStyle='#A8700E';c.lineWidth=r*.06;c.beginPath();c.moveTo(-r*.44,0);c.lineTo(-r*.5,-r*.46);c.lineTo(-r*.24,-r*.22);c.lineTo(0,-r*.56);c.lineTo(r*.24,-r*.22);c.lineTo(r*.5,-r*.46);c.lineTo(r*.44,0);c.closePath();c.fill();c.stroke();c.fillStyle='#FFF4B8';c.fillRect(-r*.4,-r*.12,r*.8,r*.06);for(const [x,col] of [[-r*.24,'#4FCB8A'],[0,'#E8364F'],[r*.24,'#5FB8F5']]){c.fillStyle=col;c.beginPath();c.arc(x,-r*.06,r*.07,0,7);c.fill();}for(const x of [-r*.5,0,r*.5]){c.fillStyle='#FFF4B8';c.beginPath();c.arc(x,x?-r*.48:-r*.58,r*.06,0,7);c.fill();}c.restore();}},
- {id:'champ',name:'Champion',price:0,streak:30,back(c,r,t){const w=Math.sin(t*6)*r*.1;c.fillStyle='#FFC531';c.beginPath();c.moveTo(-r*.6,-r*.25);c.lineTo(r*.6,-r*.25);c.quadraticCurveTo(r*1.05,r*.5,r*.75+w,r*1.2);c.quadraticCurveTo(-r*.25,r*1.45-w,-r*1.35,r*1.05+w);c.quadraticCurveTo(-r*1.2,r*.3,-r*.6,-r*.25);c.fill();c.fillStyle='#D9971A';c.beginPath();c.moveTo(-r*.6,-r*.25);c.quadraticCurveTo(-r*1.2,r*.3,-r*1.35,r*1.05+w);c.lineTo(-r*1.1,r*1.1);c.quadraticCurveTo(-r*.9,r*.3,-r*.4,-r*.2);c.fill();},front(c,r){star(c,0,r*.72,r*.18,'#FFD34D');c.save();c.translate(0,-r*.86);star(c,0,0,r*.2,'#FFF4B8');c.restore();}},
- {id:'astro',name:'Astronaut',price:50,hat:1,back(c,r){c.strokeStyle='#D6D1E8';c.lineWidth=r*.08;c.beginPath();c.moveTo(r*.55,-r*1.1);c.lineTo(r*.75,-r*1.6);c.stroke();c.fillStyle='#FF4F6D';c.beginPath();c.arc(r*.75,-r*1.62,r*.12,0,7);c.fill();},front(c,r){c.fillStyle='rgba(200,235,255,.22)';c.strokeStyle='rgba(255,255,255,.9)';c.lineWidth=r*.1;c.beginPath();c.arc(0,-r*.05,r*1.28,0,7);c.fill();c.stroke();c.strokeStyle='rgba(255,255,255,.75)';c.lineWidth=r*.08;c.beginPath();c.arc(0,-r*.05,r*1.05,Math.PI*1.15,Math.PI*1.45);c.stroke();c.fillStyle='#D6D1E8';c.beginPath();c.ellipse(0,r*1.12,r*.85,r*.2,0,0,7);c.fill();}}
+ {id:'none',name:L('Ohne'),price:0},
+ {id:'party',name:L('Partyhut'),price:15,hat:1,front(c,r){c.save();c.translate(r*.1,-r*.78);c.rotate(.18);c.fillStyle='#FF6FAE';c.beginPath();c.moveTo(-r*.38,0);c.lineTo(r*.38,0);c.lineTo(0,-r*.95);c.closePath();c.fill();c.fillStyle='#FFE066';c.beginPath();c.moveTo(-r*.27,-r*.28);c.lineTo(r*.27,-r*.28);c.lineTo(r*.2,-r*.46);c.lineTo(-r*.2,-r*.46);c.fill();c.beginPath();c.moveTo(-r*.13,-r*.62);c.lineTo(r*.13,-r*.62);c.lineTo(r*.07,-r*.76);c.lineTo(-r*.07,-r*.76);c.fill();c.fillStyle='#6EC6FF';c.beginPath();c.arc(0,-r*.95,r*.15,0,7);c.fill();c.restore();}},
+ {id:'sun',name:L('Sunnyboy'),price:20,front(c,r){c.fillStyle='#26233F';for(const s of[-1,1]){c.beginPath();c.ellipse(s*r*.34,-r*.08,r*.28,r*.2,0,0,7);c.fill();}c.strokeStyle='#26233F';c.lineWidth=r*.08;c.beginPath();c.moveTo(-r*.12,-r*.14);c.lineTo(r*.12,-r*.14);c.stroke();c.strokeStyle='rgba(255,255,255,.65)';c.lineWidth=r*.05;for(const s of[-1,1]){c.beginPath();c.moveTo(s*r*.34-r*.15,-r*.12);c.lineTo(s*r*.34-r*.04,-r*.2);c.stroke();}}},
+ {id:'bow',name:L('Fliege'),price:20,front(c,r){c.fillStyle='#FF4F6D';c.beginPath();c.moveTo(0,r*.74);c.lineTo(-r*.36,r*.54);c.lineTo(-r*.36,r*.94);c.closePath();c.moveTo(0,r*.74);c.lineTo(r*.36,r*.54);c.lineTo(r*.36,r*.94);c.closePath();c.fill();c.fillStyle='#D93A57';c.beginPath();c.arc(0,r*.74,r*.11,0,7);c.fill();}},
+ {id:'bear',name:L('Bär'),price:30,hat:1,back(c,r){for(const s of[-1,1]){c.fillStyle='#A86E43';c.beginPath();c.arc(s*r*.62,-r*.7,r*.32,0,7);c.fill();c.fillStyle='#F2A7B8';c.beginPath();c.arc(s*r*.62,-r*.7,r*.16,0,7);c.fill();}},front(c,r){c.fillStyle='rgba(168,110,67,.35)';c.beginPath();c.ellipse(0,r*.36,r*.3,r*.2,0,0,7);c.fill();c.fillStyle='#5A3A22';c.beginPath();c.ellipse(0,r*.2,r*.09,r*.06,0,0,7);c.fill();}},
+ {id:'swim',name:L('Badespaß'),price:30,back(c,r){ring(c,r,Math.PI,Math.PI*2);},mid(c,r){c.strokeStyle='#2B3A67';c.lineWidth=r*.07;c.beginPath();c.moveTo(-r*.95,-r*.52);c.lineTo(r*.95,-r*.52);c.stroke();for(const s of[-1,1]){c.fillStyle='#6EC6FF';c.strokeStyle='#2B3A67';c.lineWidth=r*.06;c.beginPath();c.arc(s*r*.26,-r*.56,r*.17,0,7);c.fill();c.stroke();}},front(c,r){ring(c,r,0,Math.PI);}},
+ {id:'hero',name:L('Superheld'),price:40,back(c,r,t){const w=Math.sin(t*6)*r*.1;c.fillStyle='#E8364F';c.beginPath();c.moveTo(-r*.6,-r*.25);c.lineTo(r*.6,-r*.25);c.quadraticCurveTo(r*1.05,r*.5,r*.75+w,r*1.2);c.quadraticCurveTo(-r*.25,r*1.45-w,-r*1.35,r*1.05+w);c.quadraticCurveTo(-r*1.2,r*.3,-r*.6,-r*.25);c.fill();c.fillStyle='#B8263B';c.beginPath();c.moveTo(-r*.6,-r*.25);c.quadraticCurveTo(-r*1.2,r*.3,-r*1.35,r*1.05+w);c.lineTo(-r*1.1,r*1.1);c.quadraticCurveTo(-r*.9,r*.3,-r*.4,-r*.2);c.fill();},mid(c,r){c.fillStyle='#2D3A8C';c.beginPath();c.moveTo(-r*.78,-r*.34);c.quadraticCurveTo(0,-r*.46,r*.78,-r*.34);c.quadraticCurveTo(r*.86,-r*.06,r*.62,r*.06);c.quadraticCurveTo(0,-r*.08,-r*.62,r*.06);c.quadraticCurveTo(-r*.86,-r*.06,-r*.78,-r*.34);c.fill();},front(c,r){star(c,0,r*.72,r*.16,'#FFD34D');}},
+ {id:'conductor',name:L('Schaffner'),price:35,hat:1,front(c,r){capDraw(c,r,'#2B3A67','#1E2A4D','#E5B530');c.fillStyle='#E8364F';c.beginPath();c.arc(0,-r*1.0,r*.1,0,7);c.fill();}},
+ {id:'police',name:L('Polizei'),price:35,hat:1,front(c,r){capDraw(c,r,'#2F6FD6','#1D4FA3','#1D2A55');star(c,0,-r*.98,r*.15,'#FFD34D');}},
+ {id:'fire',name:L('Feuerwehr'),price:40,hat:1,front(c,r){c.fillStyle='#E8364F';c.beginPath();c.ellipse(0,-r*.66,r*.76,r*.58,0,Math.PI,0);c.closePath();c.fill();c.fillStyle='#C42A40';c.fillRect(-r*.08,-r*1.24,r*.16,r*.58);c.beginPath();c.ellipse(0,-r*.64,r*.92,r*.14,0,0,Math.PI*2);c.fill();c.fillStyle='#FFD34D';c.beginPath();c.arc(0,-r*.9,r*.15,0,7);c.fill();}},
+ {id:'winter',name:L('Schneeanzug'),price:40,hat:1,front(c,r){c.fillStyle='#E8364F';c.beginPath();c.ellipse(0,-r*.68,r*.7,r*.52,0,Math.PI,0);c.closePath();c.fill();c.fillStyle='#fff';c.fillRect(-r*.72,-r*.8,r*1.44,r*.16);c.beginPath();c.arc(0,-r*1.22,r*.18,0,7);c.fill();c.fillStyle='#4F7BE8';c.beginPath();c.ellipse(0,r*.58,r*.82,r*.17,0,0,7);c.fill();c.save();c.translate(r*.3,r*.6);c.rotate(-.15);c.fillRect(-r*.12,0,r*.24,r*.5);c.fillStyle='#fff';c.fillRect(-r*.12,r*.2,r*.24,r*.07);c.fillRect(-r*.12,r*.34,r*.24,r*.07);c.restore();}},
+ {id:'crown',name:L('Goldkrone'),price:0,streak:3,hat:1,front(c,r){c.save();c.translate(0,-r*.8);c.lineJoin='round';c.fillStyle='#FFD23D';c.strokeStyle='#A8700E';c.lineWidth=r*.06;c.beginPath();c.moveTo(-r*.44,0);c.lineTo(-r*.5,-r*.46);c.lineTo(-r*.24,-r*.22);c.lineTo(0,-r*.56);c.lineTo(r*.24,-r*.22);c.lineTo(r*.5,-r*.46);c.lineTo(r*.44,0);c.closePath();c.fill();c.stroke();c.fillStyle='#FFF4B8';c.fillRect(-r*.4,-r*.12,r*.8,r*.06);for(const [x,col] of [[-r*.24,'#4FCB8A'],[0,'#E8364F'],[r*.24,'#5FB8F5']]){c.fillStyle=col;c.beginPath();c.arc(x,-r*.06,r*.07,0,7);c.fill();}for(const x of [-r*.5,0,r*.5]){c.fillStyle='#FFF4B8';c.beginPath();c.arc(x,x?-r*.48:-r*.58,r*.06,0,7);c.fill();}c.restore();}},
+ {id:'champ',name:L('Champion'),price:0,streak:30,back(c,r,t){const w=Math.sin(t*6)*r*.1;c.fillStyle='#FFC531';c.beginPath();c.moveTo(-r*.6,-r*.25);c.lineTo(r*.6,-r*.25);c.quadraticCurveTo(r*1.05,r*.5,r*.75+w,r*1.2);c.quadraticCurveTo(-r*.25,r*1.45-w,-r*1.35,r*1.05+w);c.quadraticCurveTo(-r*1.2,r*.3,-r*.6,-r*.25);c.fill();c.fillStyle='#D9971A';c.beginPath();c.moveTo(-r*.6,-r*.25);c.quadraticCurveTo(-r*1.2,r*.3,-r*1.35,r*1.05+w);c.lineTo(-r*1.1,r*1.1);c.quadraticCurveTo(-r*.9,r*.3,-r*.4,-r*.2);c.fill();},front(c,r){star(c,0,r*.72,r*.18,'#FFD34D');c.save();c.translate(0,-r*.86);star(c,0,0,r*.2,'#FFF4B8');c.restore();}},
+ {id:'astro',name:L('Astronaut'),price:50,hat:1,back(c,r){c.strokeStyle='#D6D1E8';c.lineWidth=r*.08;c.beginPath();c.moveTo(r*.55,-r*1.1);c.lineTo(r*.75,-r*1.6);c.stroke();c.fillStyle='#FF4F6D';c.beginPath();c.arc(r*.75,-r*1.62,r*.12,0,7);c.fill();},front(c,r){c.fillStyle='rgba(200,235,255,.22)';c.strokeStyle='rgba(255,255,255,.9)';c.lineWidth=r*.1;c.beginPath();c.arc(0,-r*.05,r*1.28,0,7);c.fill();c.stroke();c.strokeStyle='rgba(255,255,255,.75)';c.lineWidth=r*.08;c.beginPath();c.arc(0,-r*.05,r*1.05,Math.PI*1.15,Math.PI*1.45);c.stroke();c.fillStyle='#D6D1E8';c.beginPath();c.ellipse(0,r*1.12,r*.85,r*.2,0,0,7);c.fill();}}
 ];
 const COS={};COSTUMES.forEach(c=>COS[c.id]=c);
 /* ---------- Maskottchen (Farbvarianten von Flumm) ---------- */
@@ -1005,35 +1030,35 @@ function fringe(c,r,t,cols){// Stirnlocke
  cols.forEach((col,i)=>{c.fillStyle=col;c.beginPath();const x=-r*.32+i*r*.16;c.moveTo(x,-r*.95);c.quadraticCurveTo(x-r*.12,-r*.62,x+r*.02+Math.sin(t*3+i)*r*.03,-r*.5);c.quadraticCurveTo(x+r*.16,-r*.7,x+r*.2,-r*.95);c.closePath();c.fill();});}
 function star4(c,x,y,s){c.beginPath();c.moveTo(x,y-s);c.quadraticCurveTo(x,y,x+s,y);c.quadraticCurveTo(x,y,x,y+s);c.quadraticCurveTo(x,y,x-s,y);c.quadraticCurveTo(x,y,x,y-s);c.fill();}
 const MASC=[
- {id:'mint',name:'Minz-Flumm',price:0,pal:['#B8FBEA','#4FE0BE','#16A487'],lid:'#3CCBA8',ant:'#22B894'},
- {id:'berry',name:'Himbeer',price:40,pal:['#FFD6E6','#FF7FAE','#D9407A'],lid:'#F2709F',ant:'#D9407A'},
- {id:'lemon',name:'Zitrone',price:40,pal:['#FFF8C4','#FFE04D','#D9A21A'],lid:'#F2CE3A',ant:'#C99212'},
- {id:'blue',name:'Blaubeere',price:50,pal:['#D6ECFF','#6FB6FF','#2F6FD6'],lid:'#5C9EEB',ant:'#2F6FD6'},
- {id:'grape',name:'Traube',price:60,pal:['#EBD9FF','#B58CFF','#7444D6'],lid:'#A07BF0',ant:'#7444D6'},
- {id:'peach',name:'Pfirsich',price:60,pal:['#FFE9D6','#FFB07A','#E0743A'],lid:'#F59A5E',ant:'#D9702A'},
- {id:'cat',name:'Katze',price:90,pal:['#FFE6CC','#FFAE63','#DB7330'],lid:'#F5A050',noAnt:1,
+ {id:'mint',name:L('Minz-Flumm'),price:0,pal:['#B8FBEA','#4FE0BE','#16A487'],lid:'#3CCBA8',ant:'#22B894'},
+ {id:'berry',name:L('Himbeer'),price:40,pal:['#FFD6E6','#FF7FAE','#D9407A'],lid:'#F2709F',ant:'#D9407A'},
+ {id:'lemon',name:L('Zitrone'),price:40,pal:['#FFF8C4','#FFE04D','#D9A21A'],lid:'#F2CE3A',ant:'#C99212'},
+ {id:'blue',name:L('Blaubeere'),price:50,pal:['#D6ECFF','#6FB6FF','#2F6FD6'],lid:'#5C9EEB',ant:'#2F6FD6'},
+ {id:'grape',name:L('Traube'),price:60,pal:['#EBD9FF','#B58CFF','#7444D6'],lid:'#A07BF0',ant:'#7444D6'},
+ {id:'peach',name:L('Pfirsich'),price:60,pal:['#FFE9D6','#FFB07A','#E0743A'],lid:'#F59A5E',ant:'#D9702A'},
+ {id:'cat',name:L('Katze'),price:90,pal:['#FFE6CC','#FFAE63','#DB7330'],lid:'#F5A050',noAnt:1,
  back(c,r,t){// Schwanz
   c.strokeStyle='#DB7330';c.lineWidth=r*.2;c.lineCap='round';c.beginPath();c.moveTo(r*.7,r*.45);c.quadraticCurveTo(r*1.35,r*.3+Math.sin(t*3)*r*.1,r*1.15,-r*.3+Math.sin(t*3)*r*.15);c.stroke();
   for(const s of[-1,1]){c.fillStyle='#DB7330';c.beginPath();c.moveTo(s*r*.2,-r*.82);c.lineTo(s*r*.62,-r*1.32);c.lineTo(s*r*.84,-r*.5);c.closePath();c.fill();ol(c,r,.05);c.fillStyle='#FFB8C8';c.beginPath();c.moveTo(s*r*.34,-r*.8);c.lineTo(s*r*.6,-r*1.12);c.lineTo(s*r*.72,-r*.62);c.fill();}},
  front(c,r){c.fillStyle='rgba(190,90,30,.55)';for(const d of[-.18,0,.18]){c.beginPath();c.ellipse(d*r,-r*.72,r*.05,r*.13,0,0,7);c.fill();}
   c.fillStyle='#FF8FA8';c.beginPath();c.moveTo(-r*.08,r*.2);c.lineTo(r*.08,r*.2);c.lineTo(0,r*.29);c.closePath();c.fill();
   c.strokeStyle='rgba(60,40,30,.55)';c.lineWidth=r*.035;c.lineCap='round';for(const s of[-1,1])for(const d of[-.06,.06]){c.beginPath();c.moveTo(s*r*.48,r*.26+d*r);c.lineTo(s*r*.95,r*.2+d*r*2.3);c.stroke();}}},
- {id:'dog',name:'Hund',price:90,pal:['#FFF1DC','#E9C08A','#B07A45'],lid:'#D9AC72',noAnt:1,
+ {id:'dog',name:L('Hund'),price:90,pal:['#FFF1DC','#E9C08A','#B07A45'],lid:'#D9AC72',noAnt:1,
  back(c,r,t){c.strokeStyle='#B07A45';c.lineWidth=r*.18;c.lineCap='round';const w=Math.sin(t*10)*r*.25;c.beginPath();c.moveTo(r*.75,r*.35);c.quadraticCurveTo(r*1.2,r*.1,r*1.25+w*.3,-r*.35+w);c.stroke();},
  front(c,r,t){// Fleck, Schlappohren, Nase
   c.fillStyle='rgba(140,90,50,.5)';c.beginPath();c.ellipse(r*.42,-r*.22,r*.26,r*.22,.3,0,7);c.fill();
   for(const s of[-1,1]){const sw=Math.sin(t*3+s)*.08;c.save();c.translate(s*r*.72,-r*.55);c.rotate(s*(.25+sw));c.fillStyle='#8A5A30';c.beginPath();c.ellipse(0,r*.32,r*.22,r*.42,0,0,7);c.fill();ol(c,r,.05);c.restore();}
   c.fillStyle='#3A2A2A';c.beginPath();c.ellipse(0,r*.16,r*.12,r*.08,0,0,7);c.fill();c.fillStyle='rgba(255,255,255,.6)';c.beginPath();c.ellipse(-r*.04,r*.13,r*.04,r*.02,0,0,7);c.fill();}},
- {id:'bunny',name:'Hase',price:90,pal:['#FFFFFF','#EDE8F2','#B9AFC8'],lid:'#DAD2E4',noAnt:1,
+ {id:'bunny',name:L('Hase'),price:90,pal:['#FFFFFF','#EDE8F2','#B9AFC8'],lid:'#DAD2E4',noAnt:1,
  back(c,r,t,st){const L=.7+.12*st;for(const s of[-1,1]){c.save();c.translate(s*r*.3,-r*.75);c.rotate(s*(.12+Math.sin(t*3+s)*.07+(st<2?.25:0)));c.scale(1,L);c.fillStyle='#EDE8F2';c.beginPath();c.ellipse(0,-r*.55,r*.2,r*.62,0,0,7);c.fill();ol(c,r,.05);c.fillStyle='#FFB8CC';c.beginPath();c.ellipse(0,-r*.5,r*.1,r*.45,0,0,7);c.fill();c.restore();}},
  front(c,r){c.fillStyle='#FF8FA8';c.beginPath();c.ellipse(0,r*.18,r*.08,r*.06,0,0,7);c.fill();
   c.fillStyle='#fff';c.strokeStyle=AOL;c.lineWidth=r*.03;c.beginPath();c.rect(-r*.08,r*.42,r*.075,r*.1);c.rect(r*.005,r*.42,r*.075,r*.1);c.fill();c.stroke();}},
- {id:'horse',name:'Pferd',price:120,pal:['#F5D5B5','#C98A55','#8E5530'],lid:'#B87A48',noAnt:1,
+ {id:'horse',name:L('Pferd'),price:120,pal:['#F5D5B5','#C98A55','#8E5530'],lid:'#B87A48',noAnt:1,
  back(c,r,t){for(const s of[-1,1]){c.fillStyle='#8E5530';c.beginPath();c.moveTo(s*r*.22,-r*.86);c.lineTo(s*r*.42,-r*1.3);c.lineTo(s*r*.62,-r*.74);c.closePath();c.fill();ol(c,r,.04);}
   mane(c,r,t,['#4A2E22','#5E3A2A','#4A2E22','#5E3A2A']);},
  front(c,r,t){fringe(c,r,t,['#4A2E22','#5E3A2A','#4A2E22']);
   c.fillStyle='#F2D2B0';c.beginPath();c.ellipse(0,r*.42,r*.38,r*.26,0,0,7);c.fill();c.fillStyle='#6A4030';for(const s of[-1,1]){c.beginPath();c.ellipse(s*r*.14,r*.4,r*.05,r*.035,0,0,7);c.fill();}}},
- {id:'uni',name:'Einhorn',ex:'Tagesserie: 30 Tage',ok:()=>(save.streak&&save.streak.best||0)>=30,pal:['#FFFFFF','#F5EEFF','#C9B8E8'],lid:'#E6DAF7',noAnt:1,
+ {id:'uni',name:L('Einhorn'),ex:L('Tagesserie: 30 Tage'),ok:()=>(save.streak&&save.streak.best||0)>=30,pal:['#FFFFFF','#F5EEFF','#C9B8E8'],lid:'#E6DAF7',noAnt:1,
  back(c,r,t){for(const s of[-1,1]){c.fillStyle='#E9DDF7';c.beginPath();c.moveTo(s*r*.22,-r*.86);c.lineTo(s*r*.42,-r*1.28);c.lineTo(s*r*.62,-r*.74);c.closePath();c.fill();ol(c,r,.04);}
   mane(c,r,t,['#FF7AA8','#FFB24D','#FFE15A','#7EE08A','#6FC3FF','#B58CFF']);},
  front(c,r,t,st){fringe(c,r,t,['#FF7AA8','#FFE15A','#6FC3FF','#B58CFF']);
@@ -1041,32 +1066,32 @@ const MASC=[
   c.strokeStyle='#E0A22A';c.lineWidth=r*.035;for(const y of[.15,.32,.5]){c.beginPath();c.moveTo(-r*.13*(1-y),-r*.62*y);c.lineTo(r*.13*(1-y-.12),-r*.62*(y+.1));c.stroke();}c.restore();
   c.fillStyle='rgba(255,180,220,.55)';c.beginPath();c.ellipse(0,r*.42,r*.36,r*.24,0,0,7);c.fill();c.fillStyle='#C08AB0';for(const s of[-1,1]){c.beginPath();c.ellipse(s*r*.13,r*.4,r*.045,r*.03,0,0,7);c.fill();}
   const sp=Math.sin(t*4);c.fillStyle='rgba(255,255,255,'+(.5+.5*sp)+')';star4(c,r*.78,-r*.8,r*.1);}},
- {id:'lion',name:'Löwe',price:120,pal:['#FFF0B8','#FFCE55','#D9952A'],lid:'#F2BA45',noAnt:1,
+ {id:'lion',name:L('Löwe'),price:120,pal:['#FFF0B8','#FFCE55','#D9952A'],lid:'#F2BA45',noAnt:1,
  back(c,r,t,st){c.save();const m=.8+.07*st;c.scale(m,m);c.fillStyle='#D9772A';c.beginPath();for(let i=0;i<=28;i++){const a=i/28*Math.PI*2,rr=r*(1.32+.1*Math.sin(i*1.0+t*2)+(i%2?.06:0));i?c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr*.98-r*.05):c.moveTo(Math.cos(a)*rr,Math.sin(a)*rr*.98-r*.05);}c.closePath();c.fill();ol(c,r,.05);
   c.fillStyle='#B85A1E';c.beginPath();for(let i=0;i<=28;i++){const a=i/28*Math.PI*2,rr=r*(1.15+(i%2?.05:0));i?c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr-r*.05):c.moveTo(Math.cos(a)*rr,Math.sin(a)*rr-r*.05);}c.closePath();c.fill();
   c.restore();for(const s of[-1,1]){c.fillStyle='#FFCE55';c.beginPath();c.arc(s*r*.62,-r*.72,r*.2,0,7);c.fill();ol(c,r,.04);c.fillStyle='#F2A0A0';c.beginPath();c.arc(s*r*.62,-r*.72,r*.1,0,7);c.fill();}},
  front(c,r){c.fillStyle='#FFF4D6';c.beginPath();c.ellipse(0,r*.36,r*.32,r*.22,0,0,7);c.fill();c.fillStyle='#6A3A2A';c.beginPath();c.moveTo(-r*.1,r*.17);c.lineTo(r*.1,r*.17);c.lineTo(0,r*.28);c.closePath();c.fill();
   c.fillStyle='rgba(106,58,42,.5)';for(const s of[-1,1])for(const d of[[.16,.33],[.22,.42],[.12,.45]]){c.beginPath();c.arc(s*r*d[0],r*d[1],r*.02,0,7);c.fill();}}},
- {id:'frog',name:'Frosch',price:90,pal:['#E0FFB8','#8EDB45','#4FA327'],lid:'#7CC93A',ant:'#3F8F22',
+ {id:'frog',name:L('Frosch'),price:90,pal:['#E0FFB8','#8EDB45','#4FA327'],lid:'#7CC93A',ant:'#3F8F22',
   front(c,r){c.fillStyle='rgba(60,130,30,.35)';for(const d of[[-.6,.45,.1],[.55,.55,.08],[.1,.7,.07],[-.25,-.62,.07],[.62,-.3,.06]]){c.beginPath();c.arc(d[0]*r,d[1]*r,d[2]*r,0,7);c.fill();}}},
- {id:'clover',name:'Glücks-Flumm',ex:'Abenteuer: Welt 1-5 geschafft',ok:()=>(save.stars[4]||0)>0,pal:['#D9FFD2','#6FD86A','#2E9E3A'],lid:'#5CC75A',ant:'#2E9E3A',
+ {id:'clover',name:L('Glücks-Flumm'),ex:L('Abenteuer: Welt 1-5 geschafft'),ok:()=>(save.stars[4]||0)>0,pal:['#D9FFD2','#6FD86A','#2E9E3A'],lid:'#5CC75A',ant:'#2E9E3A',
   front(c,r){c.save();c.translate(r*.5,-r*.62);c.fillStyle='#2E9E3A';for(let i=0;i<4;i++){c.save();c.rotate(i*Math.PI/2+.4);c.beginPath();c.arc(0,-r*.13,r*.12,0,7);c.fill();c.restore();}c.restore();}},
- {id:'starry',name:'Sternen-Flumm',ex:'Abenteuer: Welt 1-10 geschafft',ok:()=>(save.stars[9]||0)>0,pal:['#D2D6FF','#6672E8','#26307F'],lid:'#5560D6',ant:'#26307F',
+ {id:'starry',name:L('Sternen-Flumm'),ex:L('Abenteuer: Welt 1-10 geschafft'),ok:()=>(save.stars[9]||0)>0,pal:['#D2D6FF','#6672E8','#26307F'],lid:'#5560D6',ant:'#26307F',
   front(c,r,t){for(const d of[[-.55,.3,.1],[.4,.5,.08],[.2,-.5,.07],[-.2,.62,.06],[.62,0,.07]]){star(c,d[0]*r,d[1]*r,d[2]*r*(1+.25*Math.sin(t*3+d[0]*9)),'#FFF4B8');}}},
- {id:'fire',name:'Feuer-Flumm',ex:'Tagesserie: 10 Tage',ok:()=>(save.streak&&save.streak.best||0)>=10,pal:['#FFE0B0','#FF8A3D','#D9431A'],lid:'#F2742E',ant:'#B8320F',
+ {id:'fire',name:L('Feuer-Flumm'),ex:L('Tagesserie: 10 Tage'),ok:()=>(save.streak&&save.streak.best||0)>=10,pal:['#FFE0B0','#FF8A3D','#D9431A'],lid:'#F2742E',ant:'#B8320F',
   back(c,r,t){for(const [x,h,col] of[[-.3,.55,'#FF6A1F'],[.05,.75,'#FFB23D'],[.35,.5,'#FF6A1F'],[.05,.45,'#FFE066']]){const w=Math.sin(t*9+x*7)*r*.06;c.fillStyle=col;c.beginPath();c.moveTo(x*r-r*.2,-r*.75);c.quadraticCurveTo(x*r-r*.18+w,-r*(.8+h*.6),x*r+w*2,-r*(.8+h));c.quadraticCurveTo(x*r+r*.18+w,-r*(.8+h*.6),x*r+r*.2,-r*.75);c.fill();}}},
- {id:'candy',name:'Zucker-Flumm',ex:'7 Tage in Folge eingeloggt',ok:()=>(save.loginBest||0)>=7,pal:['#FFFFFF','#FFC2DD','#F27AAE'],lid:'#F59AC4',ant:'#E0609A',
+ {id:'candy',name:L('Zucker-Flumm'),ex:L('7 Tage in Folge eingeloggt'),ok:()=>(save.loginBest||0)>=7,pal:['#FFFFFF','#FFC2DD','#F27AAE'],lid:'#F59AC4',ant:'#E0609A',
   front(c,r){const cs=['#5FB8F5','#FFE066','#4FCB8A','#B58CFF'];[[-.6,.3,.5],[-.3,.6,2],[.3,.62,1],[.6,.35,2.5],[.55,-.4,.2],[-.6,-.25,1.2],[.1,.75,.8]].forEach((d,i)=>{c.save();c.translate(d[0]*r,d[1]*r);c.rotate(d[2]);c.fillStyle=cs[i%4];c.fillRect(-r*.08,-r*.025,r*.16,r*.05);c.restore();});}},
- {id:'gold',name:'Gold-Flumm',ex:'5 Duelle gewonnen',ok:()=>save.duels&&save.duels.w>=5,pal:['#FFF8D6','#FFD23D','#C99212'],lid:'#F0C030',ant:'#A8700E',
+ {id:'gold',name:L('Gold-Flumm'),ex:L('5 Duelle gewonnen'),ok:()=>save.duels&&save.duels.w>=5,pal:['#FFF8D6','#FFD23D','#C99212'],lid:'#F0C030',ant:'#A8700E',
   front(c,r,t){for(const d of[[.55,-.5],[-.6,.35],[.35,.55]]){const k=.5+.5*Math.sin(t*4+d[0]*5);star(c,d[0]*r,d[1]*r,r*.1*k+r*.03,'#FFFFFF');}}},
- {id:'rain',name:'Regen-Flumm',ex:'3 Duelle verloren – Kopf hoch!',ok:()=>save.duels&&save.duels.l>=3,pal:['#EEF4FA','#A9C0D6','#5F7A96'],lid:'#93AAC2',ant:'#4E6884',
+ {id:'rain',name:L('Regen-Flumm'),ex:L('3 Duelle verloren – Kopf hoch!'),ok:()=>save.duels&&save.duels.l>=3,pal:['#EEF4FA','#A9C0D6','#5F7A96'],lid:'#93AAC2',ant:'#4E6884',
   back(c,r,t){c.fillStyle='rgba(255,255,255,.95)';c.strokeStyle='#8FA7BF';c.lineWidth=r*.05;const y=-r*1.75;c.beginPath();c.arc(-r*.3,y,r*.25,0,7);c.arc(0,y-r*.14,r*.3,0,7);c.arc(r*.3,y,r*.24,0,7);c.fill();c.strokeStyle='#5FB8F5';c.lineWidth=r*.05;for(let i=0;i<3;i++){const ph=((t*1.6+i*.33)%1);c.globalAlpha=1-ph;c.beginPath();c.moveTo((i-1)*r*.25,y+r*.25+ph*r*.6);c.lineTo((i-1)*r*.25-r*.04,y+r*.38+ph*r*.6);c.stroke();}c.globalAlpha=1;}}
 ];
 const MBY={};MASC.forEach(m=>MBY[m.id]=m);
 /* Preise: Kaufobjekte dauerhaft teurer (×3), damit man länger sammelt */
 const PRICE_X=3,px=l=>l.forEach(x=>{if(x.price)x.price=Math.round(x.price*PRICE_X/5)*5;});px(COSTUMES);px(MASC);
 function mascCheck(){if(!save.mOwned)return;const got=MASC.filter(m=>m.ok&&!save.mOwned.includes(m.id)&&m.ok());if(!got.length)return;got.forEach(m=>save.mOwned.push(m.id));persist();
- setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎉 Neu: '+got.map(m=>m.name).join(', ')+'!');},700);}
+ setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast(L('🎉 Neu: ')+got.map(m=>m.name).join(', ')+'!');},700);}
 
 
 /* ---------- Level ---------- */
@@ -1088,8 +1113,8 @@ for(let i=0;i<10;i++)LEVELS[i].bio='grass';
 const WBIO=['grass','moss','log','sand','desert','ice','crystal','stone','lava','cloud','jungle','spooky','moon'];
 for(let i=10;i<130;i++){const t=Math.min(1.12,(i-10)/89),j=i%10,b=WBIO[Math.floor(i/10)];
  LEVELS.push({n:Math.round(10+t*7+j*.3),d:[Math.round(215+40*t),Math.round(335+50*t)],w:[Math.round(Math.max(58,74-14*t)),Math.round(Math.max(70,102-22*t))],dh:Math.round(110+30*t),move:.22+.1*t,crack:.18+.14*t,spring:j%3===1?.22:.12,vmove:true,bio:b});}
-const HINTS=['Halten zum Aufladen – die Punkte zeigen die Flugbahn!','Lande in der hellen Mitte für PERFEKT!','Schnapp dir die Beeren – Futter für Flumm!','Blaue Inseln bewegen sich – timing!','Manche fahren auch hoch und runter.','Steinplatten zerbröseln – nicht zu lange warten!','Jetzt wird’s kniffliger …','Pinke Pilze geben Extra-Schwung!','Kleine Inseln, große Gefühle.','Das Finale der Wiesenwelt!'];
-const NEWS=['Neu: Springen lernen','Neu: PERFEKT-Landungen','Neu: Beeren & Münzen','Neu: bewegliche Inseln','Neu: Aufzug-Inseln','Neu: Steinplatten','Mix aus allem','Neu: Pilz-Federn','Kleine Inseln','Finale'];
+const HINTS=[L('Halten zum Aufladen – die Punkte zeigen die Flugbahn!'),L('Lande in der hellen Mitte für PERFEKT!'),L('Schnapp dir die Beeren – Futter für Flumm!'),L('Blaue Inseln bewegen sich – timing!'),L('Manche fahren auch hoch und runter.'),L('Steinplatten zerbröseln – nicht zu lange warten!'),L('Jetzt wird’s kniffliger …'),L('Pinke Pilze geben Extra-Schwung!'),L('Kleine Inseln, große Gefühle.'),L('Das Finale der Wiesenwelt!')];
+const NEWS=[L('Neu: Springen lernen'),L('Neu: PERFEKT-Landungen'),L('Neu: Beeren & Münzen'),L('Neu: bewegliche Inseln'),L('Neu: Aufzug-Inseln'),L('Neu: Steinplatten'),L('Mix aus allem'),L('Neu: Pilz-Federn'),L('Kleine Inseln'),L('Finale')];
 const ANG=58*Math.PI/180, GRAV=1800, VMIN=300, VMAX=1000, CHARGE_T=1.15, PERF=.3, SPRING=1.22, CRACK_T=1.6;
 function mkPlat(x,y,w,type){return{x0:x,y0:y,x:x,y:y,prevY:y,w:w,type:type,mv:null,breakT:0,breakMax:1,broken:false,fallVy:0,alpha:1,bt:9,crumbT:0};}
 function buildLevel(i){
@@ -1123,7 +1148,7 @@ function buildLevel(i){
  for(let k=1;k<plats.length-1;k++){if(R2()<.45){const p=plats[k];coins.push({id:k,p,ox:p.w/2+(R2()-.5)*p.w*.4,dy:0,got:false,old:false,ph:R2()*6});}}
  return{plats,drops,coins};
 }
-const lvShort=i=>(Math.floor(i/10)+1)+'-'+(i%10+1),lvName=i=>'Welt '+lvShort(i);
+const lvShort=i=>(Math.floor(i/10)+1)+'-'+(i%10+1),lvName=i=>L('Welt ')+lvShort(i);
 /* Jedes 10. Level einer Welt ist ein Finale: 50 % länger */
 LEVELS.forEach((L,i)=>{if(i%10===9)L.n=Math.round(L.n*1.5);});
 const levelBio=i=>LEVELS[i]&&LEVELS[i].bio||null;
@@ -1161,7 +1186,7 @@ function startLevel(i){
  G.deathY=Math.max(...lv.plats.map(p=>p.y0))+580;
  const p=lv.plats[0];Object.assign(B,{ground:p,offX:p.w/2,x:p.x+p.w/2,y:p.y-B.r,vx:0,vy:0,charging:false,charge:0,sq:-.3,sqV:0,mult:1,springAir:false});setExpr('normal',0);
  snapCam();show('hud');hud();
- const fxs=[];if(P.sick)fxs.push('Flumm ist krank: weniger Kraft, verweigert manchmal');else{if(P.sat<25)fxs.push('Flumm hat Hunger: weniger Sprungkraft');if(P.energy<20)fxs.push('Flumm ist müde: lädt langsamer');if(P.mood<30)fxs.push('Flumm ist schlecht gelaunt: verweigert manchmal');}
+ const fxs=[];if(P.sick)fxs.push(L('Flumm ist krank: weniger Kraft, verweigert manchmal'));else{if(P.sat<25)fxs.push(L('Flumm hat Hunger: weniger Sprungkraft'));if(P.energy<20)fxs.push(L('Flumm ist müde: lädt langsamer'));if(P.mood<30)fxs.push(L('Flumm ist schlecht gelaunt: verweigert manchmal'));}
  showHint(wake||fxs[0]||HINTS[i]);
 }
 function snapCam(){const t=camTarget();G.cam.x=t.x;G.cam.y=t.y;}
@@ -1197,7 +1222,7 @@ function startRun(type,o){
  const p=G.plats[0];Object.assign(B,{ground:p,offX:p.w/2,x:p.x+p.w/2,y:p.y-B.r,vx:0,vy:0,charging:false,charge:0,sq:-.3,sqV:0,mult:1,springAir:false});setExpr('normal',0);
  GH=null;if(G.run.ghost){const g=G.run.ghost;GH={x:B.x,y:B.y,vx:0,vy:0,ground:p,offX:p.w/2,ji:0,j:g.j,lastP:p,mult:1,done:false,name:g.n,cos:g.c||'none',masc:g.m||'mint'};}
  snapCam();show('hud');hud();
- showHint(type==='endless'?'Endlos: Wie weit kommt Flumm?':type==='daily'?(bioTagUI(true),streakDoneToday()?'Tageslauf: 1 Leben – viel Glück!':'Tageslauf: 1 Leben – zählt für deine 🔥 Serie'):G.run.ghost?'Schlag '+G.run.ghost.n+': '+fmtT(G.run.ghost.t)+' s':'Duell: Lauf die Strecke so schnell du kannst!');
+ showHint(type==='endless'?L('Endlos: Wie weit kommt Flumm?'):type==='daily'?(bioTagUI(true),streakDoneToday()?L('Tageslauf: 1 Leben – viel Glück!'):L('Tageslauf: 1 Leben – zählt für deine 🔥 Serie')):G.run.ghost?L('Schlag ')+G.run.ghost.n+': '+fmtT(G.run.ghost.t)+' s':L('Duell: Lauf die Strecke so schnell du kannst!'));
 }
 let GH=null;
 const fmtT=t=>(t/100).toFixed(1).replace('.',',');
@@ -1205,40 +1230,40 @@ function ghostUpdate(dt){if(!GH||GH.done)return;const g=GH;
  if(g.ground){const p=g.ground;g.x=p.x+g.offX;g.y=p.y-B.r;
   if(g.ji<g.j.length&&G.t*100>=g.j[g.ji][0]){const c=g.j[g.ji][1]/1000,v=(VMIN+(VMAX-VMIN)*c)*(p.type==='spring'?SPRING:1);g.vx=v*Math.cos(ANG);g.vy=-v*Math.sin(ANG);g.ground=null;g.ji++;}}
  else{const py=g.y;g.vy+=GRAV*dt;g.x+=g.vx*dt;g.y+=g.vy*dt;
-  if(g.vy>0)for(const p of G.plats){if(py+B.r<=p.prevY+3&&g.y+B.r>=p.y&&g.x>=p.x-8&&g.x<=p.x+p.w+8){g.ground=p;g.offX=Math.max(0,Math.min(p.w,g.x-p.x));g.vx=g.vy=0;g.lastP=p;if(p.type==='goal'){g.done=true;popup(g.name+' im Ziel!',g.x,g.y-50,'#FFB3D9',18);}break;}}
+  if(g.vy>0)for(const p of G.plats){if(py+B.r<=p.prevY+3&&g.y+B.r>=p.y&&g.x>=p.x-8&&g.x<=p.x+p.w+8){g.ground=p;g.offX=Math.max(0,Math.min(p.w,g.x-p.x));g.vx=g.vy=0;g.lastP=p;if(p.type==='goal'){g.done=true;popup(g.name+L(' im Ziel!'),g.x,g.y-50,'#FFB3D9',18);}break;}}
   if(g.y>G.deathY){const p=g.lastP;g.ground=p;g.offX=p.w/2;g.vx=g.vy=0;}}}
 function makeCode(o){try{return 'F1.'+btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}catch(e){return '';}}
-function readCode(c){try{c=(c||'').trim().replace(/\s/g,'');if(!c.startsWith('F1.'))return null;let b=c.slice(3).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';const o=JSON.parse(decodeURIComponent(escape(atob(b))));if(!o||typeof o.s!=='number'||typeof o.t!=='number'||!Array.isArray(o.j))return null;o.n=String(o.n||'Freund').slice(0,12);o.c=COS[o.c]?o.c:'none';o.m=MBY[o.m]?o.m:'mint';return o;}catch(e){return null;}}
+function readCode(c){try{c=(c||'').trim().replace(/\s/g,'');if(!c.startsWith('F1.'))return null;let b=c.slice(3).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';const o=JSON.parse(decodeURIComponent(escape(atob(b))));if(!o||typeof o.s!=='number'||typeof o.t!=='number'||!Array.isArray(o.j))return null;o.n=String(o.n||L('Freund')).slice(0,12);o.c=COS[o.c]?o.c:'none';o.m=MBY[o.m]?o.m:'mint';return o;}catch(e){return null;}}
 function finishRun(done){
  const r=G.run,P=save.pet,li=[];
  statAdd();save.coins+=G.coinsGot;save.food+=G.dropsGot;P.dirt=Math.min(3,P.dirt+1);P.care+=P.sick?2:4;P.mood=Math.min(100,P.mood+6);
  let title='',sub='',score='',bonus=0;$('rrCode').style.display='none';
- if(r.type==='endless'){const sc=G.lastIdx;score=sc;const best=save.best||0;title='Endlos';sub=sc>best?'Neuer Rekord!':'Rekord: '+best;if(sc>best)save.best=sc;bonus=Math.max(0,Math.floor(sc/4)-(r.bonusPaid||0));r.bonusPaid=(r.bonusPaid||0)+bonus;li.push('Inseln geschafft: '+sc);}
+ if(r.type==='endless'){const sc=G.lastIdx;score=sc;const best=save.best||0;title=L('Endlos');sub=sc>best?L('Neuer Rekord!'):L('Rekord: ')+best;if(sc>best)save.best=sc;bonus=Math.max(0,Math.floor(sc/4)-(r.bonusPaid||0));r.bonusPaid=(r.bonusPaid||0)+bonus;li.push(L('Inseln geschafft: ')+sc);}
  else if(r.type==='daily'){const sc=G.lastIdx;score=sc;const t=todayStr();if(!save.dayRun||save.dayRun.d!==t)save.dayRun={d:t,best:0,paid:false};
-  title='Tageslauf';sub=sc>save.dayRun.best?'Bester Lauf heute!':'Heute bester: '+save.dayRun.best;save.dayRun.best=Math.max(save.dayRun.best,sc);
-  if(!save.dayRun.paid){bonus=5+Math.floor(sc/2);save.dayRun.paid=true;li.push('Tagesbonus für den ersten Lauf');}li.push('Inseln geschafft: '+sc);
-  if(!streakDoneToday()){const res=streakAdvance();const sb=Math.min(20,2*res.n);bonus+=sb;sub='Tagesserie: 🔥 '+res.n+(res.n===1?' Tag':' Tage');li.push('🔥 Serienbonus +'+sb+' 🪙');
-   res.got.forEach(r=>li.push('🎁 Belohnung Tag '+r.d+': <b>'+r.t+'</b>'));if(res.got.length)setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎁 '+res.got.map(r=>r.t).join(' · '));},400);}
-  const nx=nextStreakReward(curStreak());if(nx)li.push('Nächste Belohnung: Tag '+nx.d+' – '+nx.t);}
- else{title='Duell';const tm=done?Math.round(G.t*100)+G.falls*300:0;if(done&&(!save.duelBest||tm<save.duelBest)){save.duelBest=tm;li.push('⏱️ Neue Duell-Bestzeit!');}score=done?fmtT(tm)+' s':'–';
-  if(done){li.push('Zeit '+fmtT(Math.round(G.t*100))+' s'+(G.falls?' + '+G.falls+'× Sturz (je 3 s)':''));
-   const code=makeCode({s:r.seed,n:save.name||'Spieler',t:tm,j:r.rec,c:save.costume,m:save.masc});$('rrCodeTxt').value=code;$('rrCode').style.display='';}
+  title=L('Tageslauf');sub=sc>save.dayRun.best?L('Bester Lauf heute!'):L('Heute bester: ')+save.dayRun.best;save.dayRun.best=Math.max(save.dayRun.best,sc);
+  if(!save.dayRun.paid){bonus=5+Math.floor(sc/2);save.dayRun.paid=true;li.push(L('Tagesbonus für den ersten Lauf'));}li.push(L('Inseln geschafft: ')+sc);
+  if(!streakDoneToday()){const res=streakAdvance();const sb=Math.min(20,2*res.n);bonus+=sb;sub=L('Tagesserie: 🔥 ')+res.n+(res.n===1?L(' Tag'):L(' Tage'));li.push(L('🔥 Serienbonus +')+sb+' 🪙');
+   res.got.forEach(r=>li.push(L('🎁 Belohnung Tag ')+r.d+': <b>'+r.t+'</b>'));if(res.got.length)setTimeout(()=>{SFX.win();confetti(B.x,B.y);toast('🎁 '+res.got.map(r=>r.t).join(' · '));},400);}
+  const nx=nextStreakReward(curStreak());if(nx)li.push(L('Nächste Belohnung: Tag ')+nx.d+' – '+nx.t);}
+ else{title=L('Duell');const tm=done?Math.round(G.t*100)+G.falls*300:0;if(done&&(!save.duelBest||tm<save.duelBest)){save.duelBest=tm;li.push(L('⏱️ Neue Duell-Bestzeit!'));}score=done?fmtT(tm)+' s':'–';
+  if(done){li.push(L('Zeit ')+fmtT(Math.round(G.t*100))+' s'+(G.falls?' + '+G.falls+'× Sturz (je 3 s)':''));
+   const code=makeCode({s:r.seed,n:save.name||L('Spieler'),t:tm,j:r.rec,c:save.costume,m:save.masc});$('rrCodeTxt').value=code;$('rrCode').style.display='';}
   if(r.ghost){const g=r.ghost,win=done&&tm<g.t;if(!save.duels)save.duels={w:0,l:0};if(win)save.duels.w++;else save.duels.l++;
-   sub=win?'Du hast '+g.n+' besiegt!':'Knapp verloren gegen '+g.n;bonus=win?15:5;li.unshift(g.n+': '+fmtT(g.t)+' s');if(done)li.push('Schick deinen Revanche-Code zurück!');}
-  else sub=done?'Strecke geschafft!':'Leider nicht ins Ziel gekommen';}
- if(r.type==='endless'||r.type==='daily'){const det={s:score,t:Math.round(G.t),p:G.perfects,c:G.coinsGot,b:G.dropsGot};li.push('⏱ '+det.t+' s · ✨ '+det.p+' Perfekt · 🪙 '+det.c+' · 🍓 '+det.b);
+   sub=win?L('Du hast ')+g.n+' besiegt!':L('Knapp verloren gegen ')+g.n;bonus=win?15:5;li.unshift(g.n+': '+fmtT(g.t)+' s');if(done)li.push(L('Schick deinen Revanche-Code zurück!'));}
+  else sub=done?L('Strecke geschafft!'):L('Leider nicht ins Ziel gekommen');}
+ if(r.type==='endless'||r.type==='daily'){const det={s:score,t:Math.round(G.t),p:G.perfects,c:G.coinsGot,b:G.dropsGot};li.push('⏱ '+det.t+' s · ✨ '+det.p+L(' Perfekt · 🪙 ')+det.c+' · 🍓 '+det.b);
   if(r.type==='endless'){if(!save.endBest||score>save.endBest.s)save.endBest=det;lbSubmit('endless',score,runTag(det));}
   else{det.d=todayStr();stat('daily',1,true);if(!save.dayBest||save.dayBest.d!==det.d||score>save.dayBest.s)save.dayBest=det;lbSubmit('daily',score,runTag(det));setTimeout(lbCount,2500);}}else if(r.ghost)lbSubmit('duel',save.duels.w);
  if(P.stage>=6)bonus=Math.round(bonus*1.5);else if(P.stage>=4)bonus=Math.round(bonus*1.25);save.coins+=bonus;G.lastGain=G.coinsGot+bonus;$('adDblR').dataset.used='';$('adCont').dataset.used=(r.type==='endless'&&!r.cont&&G.lastIdx>=5)?'':'1';
- li.push('🍓 +'+G.dropsGot+' Beeren · 🪙 +'+(G.coinsGot+bonus)+' Münzen');
+ li.push('🍓 +'+G.dropsGot+L(' Beeren · 🪙 +')+(G.coinsGot+bonus)+L(' Münzen'));
  persist();
  $('rrTitle').textContent=title;$('rrSub').textContent=sub;$('rrScore').textContent=score;$('rrList').innerHTML=li.map(x=>'<li>'+x+'</li>').join('');
  show('runres');
 }
 function modesUI(){const t=todayStr();
  $('mdAdvE').textContent=Object.values(save.stars).reduce((a,b)=>a+b,0)+'/'+LEVELS.length*3+' ★';
- $('mdEndE').textContent='Rekord '+(save.best||0);
- $('mdDayE').textContent='🔥 '+curStreak()+(streakDoneToday()?' ✔':'');$('mdDaySm').textContent=LB.today>=0?'1 Leben · '+todayTxt():'1 Leben · jeden Tag = 🔥 Serie';
+ $('mdEndE').textContent=L('Rekord ')+(save.best||0);
+ $('mdDayE').textContent='🔥 '+curStreak()+(streakDoneToday()?' ✔':'');$('mdDaySm').textContent=LB.today>=0?L('1 Leben · ')+todayTxt():L('1 Leben · jeden Tag = 🔥 Serie');
  $('mdDuelE').textContent=save.duels?save.duels.w+' Siege':'';}
 
 /* ---------- Pflege ---------- */
@@ -1246,98 +1271,98 @@ function checkEvolve(silent){
  const P=save.pet;
  if(nextStageOk()){
  save.pet.stage++;persist();const s=save.pet.stage;
- if(!silent){confetti(B.x,B.y);SFX.win();buzz([20,40,20]);popup(STAGES[s].name+'!',B.x,B.y-60,'#FFE066',30);setExpr('happy',2);B.sqV=-7;toast('Flumm ist gewachsen! Neu: '+STAGES[s].perk);homeUI();menuUI();}
+ if(!silent){confetti(B.x,B.y);SFX.win();buzz([20,40,20]);popup(STAGES[s].name+'!',B.x,B.y-60,'#FFE066',30);setExpr('happy',2);B.sqV=-7;toast(L('Flumm ist gewachsen! Neu: ')+STAGES[s].perk);homeUI();menuUI();}
  return true;}
- if(P.stage>=4){const n=Math.floor(Math.max(0,P.care-550)/150);if(n>P.cstars){const d=n-P.cstars;P.cstars=n;save.coins+=20*d;persist();if(!silent){confetti(B.x,B.y);SFX.win();toast('Pflegestern '+n+'! +'+20*d+' 🪙');homeUI();menuUI();}return true;}}
+ if(P.stage>=4){const n=Math.floor(Math.max(0,P.care-550)/150);if(n>P.cstars){const d=n-P.cstars;P.cstars=n;save.coins+=20*d;persist();if(!silent){confetti(B.x,B.y);SFX.win();toast(L('Pflegestern ')+n+'! +'+20*d+' 🪙');homeUI();menuUI();}return true;}}
  return false;
 }
 function feed(){
  const P=save.pet;
  if(G.food)return;
- if(P.sleep){popup('Pssst… schläft',B.x,B.y-50,'#fff',22);SFX.no();return;}
- if(P.sat>=99){popup('Ich bin satt!',B.x,B.y-50,'#fff',24);SFX.no();return;}
- if(save.food<1){popup('Keine Beeren mehr',B.x,B.y-50,'#FF8FB8',22);toast('Sammle Beeren in den Leveln!');SFX.no();shakeEl($('pFood'));return;}
+ if(P.sleep){popup(L('Pssst… schläft'),B.x,B.y-50,'#fff',22);SFX.no();return;}
+ if(P.sat>=99){popup(L('Ich bin satt!'),B.x,B.y-50,'#fff',24);SFX.no();return;}
+ if(save.food<1){popup(L('Keine Beeren mehr'),B.x,B.y-50,'#FF8FB8',22);toast(L('Sammle Beeren in den Leveln!'));SFX.no();shakeEl($('pFood'));return;}
  save.food--;persist();homeUI();
  const p=G.plats[0];G.food={x0:p.x+p.w-38,y0:p.y-16,t:0,d:.55};G.menuT=2.5;
 }
 function eat(){
  const P=save.pet;stat('feeds');P.sat=Math.min(100,P.sat+25);if(P.sick)P.hp=Math.min(100,P.hp+8);P.care+=P.sick?5:10;P.mood=Math.min(100,P.mood+5);persist();
- SFX.eat();buzz(15);B.sqV=-6;setExpr('happy',1.1);popup('Mampf!',B.x,B.y-50,'#FFE066',26);hearts(B.x,B.y-20,4);
+ SFX.eat();buzz(15);B.sqV=-6;setExpr('happy',1.1);popup(L('Mampf!'),B.x,B.y-50,'#FFE066',26);hearts(B.x,B.y-20,4);
  burst(B.x,B.y+B.r*.3,8,['#FF5C6E','#fff'],150,4,400);
  checkEvolve(false);healCheck();homeUI();
 }
 function petFlumm(){
  if(G.petCd>0)return;G.petCd=.35;
  const P=save.pet;
- if(P.sleep){popup('Zzz…',B.x,B.y-46,'#fff',20);return;}stat('pets');
- if(P.mood<100)P.care+=1;P.mood=Math.min(100,P.mood+4);if(P.sick&&Date.now()-(P.phT||0)>3e4){P.hp=Math.min(100,P.hp+3);P.phT=Date.now();popup('+ Gesundheit',B.x,B.y-70,'#9BF5DF',18);healCheck();}persist();homeUI();
+ if(P.sleep){popup(L('Zzz…'),B.x,B.y-46,'#fff',20);return;}stat('pets');
+ if(P.mood<100)P.care+=1;P.mood=Math.min(100,P.mood+4);if(P.sick&&Date.now()-(P.phT||0)>3e4){P.hp=Math.min(100,P.hp+3);P.phT=Date.now();popup(L('+ Gesundheit'),B.x,B.y-70,'#9BF5DF',18);healCheck();}persist();homeUI();
  SFX.pet();buzz(8);B.sqV=-4.5;setExpr('happy',.9);hearts(B.x,B.y-B.r,3);checkEvolve(false);
 }
 function sleepToggle(){
  const P=save.pet;decay();
- if(P.sleep){const mins=(Date.now()-P.sleep)/6e4;P.sleep=0;let msg='Guten Morgen!';if(mins>=20)P.care+=5;if(!P.sick&&P.hp>=60&&mins>=20)msg='Ausgeschlafen!';else if(P.sick)msg='Noch nicht ganz fit…';setTimeout(healCheck,600);
+ if(P.sleep){const mins=(Date.now()-P.sleep)/6e4;P.sleep=0;let msg=L('Guten Morgen!');if(mins>=20)P.care+=5;if(!P.sick&&P.hp>=60&&mins>=20)msg=L('Ausgeschlafen!');else if(P.sick)msg=L('Noch nicht ganz fit…');setTimeout(healCheck,600);
   persist();setExpr('happy',1.2);B.sqV=-6;popup(msg,B.x,B.y-50,'#FFE066',24);SFX.boing();}
- else{P.sleep=Date.now();stat('sleeps');persist();SFX.click();popup('Gute Nacht!',B.x,B.y-50,'#fff',22);}
+ else{P.sleep=Date.now();stat('sleeps');persist();SFX.click();popup(L('Gute Nacht!'),B.x,B.y-50,'#fff',22);}
  homeUI();
 }
 function medicine(){
  const P=save.pet;
  if(!P.sick)return;
- if(save.coins<25){toast('Medizin kostet 25 🪙');SFX.no();shakeEl($('pWallet'));return;}
+ if(save.coins<25){toast(L('Medizin kostet 25 🪙'));SFX.no();shakeEl($('pWallet'));return;}
  save.coins-=25;P.sick=false;P.hp=Math.max(P.hp,80);P.low={e:0,s:0,m:0,d:0};P.mood=Math.min(100,P.mood+10);persist();
- SFX.buy();setExpr('happy',1.5);B.sqV=-6;popup('Wieder gesund!',B.x,B.y-50,'#9BF5DF',24);hearts(B.x,B.y-20,5);homeUI();
+ SFX.buy();setExpr('happy',1.5);B.sqV=-6;popup(L('Wieder gesund!'),B.x,B.y-50,'#9BF5DF',24);hearts(B.x,B.y-20,5);homeUI();
 }
 function washFlumm(){
  const P=save.pet;if(G.wash||G.ball)return;
- if(P.sleep){popup('Pssst… schläft',B.x,B.y-50,'#fff',22);SFX.no();return;}
- if(!P.dirt){popup('Schon blitzsauber!',B.x,B.y-50,'#fff',22);SFX.no();return;}
+ if(P.sleep){popup(L('Pssst… schläft'),B.x,B.y-50,'#fff',22);SFX.no();return;}
+ if(!P.dirt){popup(L('Schon blitzsauber!'),B.x,B.y-50,'#fff',22);SFX.no();return;}
  G.wash={t:0};SFX.wash();G.menuT=3;
 }
-function washDone(){const P=save.pet;stat('washes');P.care+=4*P.dirt;P.mood=Math.min(100,P.mood+8);P.dirt=0;persist();setExpr('happy',1.3);B.sqV=-6;popup('Blitzsauber!',B.x,B.y-50,'#9ED8F5',24);SFX.pet();for(let i=0;i<6;i++)G.parts.push({x:B.x+(Math.random()-.5)*40,y:B.y-10-Math.random()*20,vx:0,vy:-40,life:.8,max:.8,c:'#FFF4C2',s:5,g:0,rot:0,vr:0,k:0});checkEvolve(false);homeUI();}
+function washDone(){const P=save.pet;stat('washes');P.care+=4*P.dirt;P.mood=Math.min(100,P.mood+8);P.dirt=0;persist();setExpr('happy',1.3);B.sqV=-6;popup(L('Blitzsauber!'),B.x,B.y-50,'#9ED8F5',24);SFX.pet();for(let i=0;i<6;i++)G.parts.push({x:B.x+(Math.random()-.5)*40,y:B.y-10-Math.random()*20,vx:0,vy:-40,life:.8,max:.8,c:'#FFF4C2',s:5,g:0,rot:0,vr:0,k:0});checkEvolve(false);homeUI();}
 function playBall(){
  const P=save.pet;if(G.ball||G.wash)return;
- if(P.sleep){popup('Pssst… schläft',B.x,B.y-50,'#fff',22);SFX.no();return;}
- if(P.energy<15){popup('Zu müde…',B.x,B.y-50,'#fff',22);SFX.no();return;}
- const wait=20-(Date.now()-P.playT)/6e4;if(wait>0){toast('Flumm ist noch aus der Puste – in '+Math.ceil(wait)+' Min. wieder');SFX.no();return;}
+ if(P.sleep){popup(L('Pssst… schläft'),B.x,B.y-50,'#fff',22);SFX.no();return;}
+ if(P.energy<15){popup(L('Zu müde…'),B.x,B.y-50,'#fff',22);SFX.no();return;}
+ const wait=20-(Date.now()-P.playT)/6e4;if(wait>0){toast(L('Flumm ist noch aus der Puste – in ')+Math.ceil(wait)+L(' Min. wieder'));SFX.no();return;}
  const p=G.plats[0];G.ball={x:p.x+20,y:p.y-80,vx:140,vy:-200,rot:0,hits:0,t:0,cd:.3,hitCd:0};SFX.boing();
 }
-function ballDone(){stat('plays');const P=save.pet;P.playT=Date.now();P.care+=6;P.mood=Math.min(100,P.mood+12);P.energy=Math.max(0,P.energy-8);persist();setExpr('happy',1.5);popup('Das war toll!',B.x,B.y-50,'#FFE066',24);hearts(B.x,B.y-20,5);checkEvolve(false);homeUI();}
+function ballDone(){stat('plays');const P=save.pet;P.playT=Date.now();P.care+=6;P.mood=Math.min(100,P.mood+12);P.energy=Math.max(0,P.energy-8);persist();setExpr('happy',1.5);popup(L('Das war toll!'),B.x,B.y-50,'#FFE066',24);hearts(B.x,B.y-20,5);checkEvolve(false);homeUI();}
 function todayStr(d){d=d||new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
-const STREAK=[{d:2,c:15,t:'15 Münzen'},{d:3,cos:'crown',t:'Kostüm Goldkrone'},{d:5,c:30,f:5,t:'30 Münzen + 5 Erdbeeren'},{d:7,pl:'gold',t:'Plattform Goldinsel'},{d:10,c:50,t:'50 Münzen'},{d:14,bg:'aurora',t:'Hintergrund Polarlicht'},{d:21,c:80,f:10,t:'80 Münzen + 10 Erdbeeren'},{d:30,cos:'champ',t:'Kostüm Champion'}];
+const STREAK=[{d:2,c:15,t:L('15 Münzen')},{d:3,cos:'crown',t:L('Kostüm Goldkrone')},{d:5,c:30,f:5,t:L('30 Münzen + 5 Erdbeeren')},{d:7,pl:'gold',t:L('Plattform Goldinsel')},{d:10,c:50,t:L('50 Münzen')},{d:14,bg:'aurora',t:L('Hintergrund Polarlicht')},{d:21,c:80,f:10,t:L('80 Münzen + 10 Erdbeeren')},{d:30,cos:'champ',t:L('Kostüm Champion')}];
 function curStreak(){const S=save.streak;if(!S||!S.n)return 0;const y=new Date();y.setDate(y.getDate()-1);return (S.last===todayStr()||S.last===todayStr(y))?S.n:0;}
 function streakDoneToday(){return save.streak&&save.streak.last===todayStr();}
 function streakAdvance(){const S=save.streak,t=todayStr();if(S.last===t)return null;const n=curStreak()+1;S.n=n;S.last=t;S.best=Math.max(S.best||0,n);const got=[];
  for(const r of STREAK){if(r.d>n||S.got.includes(r.d))continue;S.got.push(r.d);if(r.c)save.coins+=r.c;if(r.f)save.food+=r.f;if(r.cos&&!save.owned.includes(r.cos))save.owned.push(r.cos);if(r.pl&&!save.ownedPl.includes(r.pl))save.ownedPl.push(r.pl);if(r.bg&&!save.ownedBg.includes(r.bg))save.ownedBg.push(r.bg);got.push(r);}
- if(n>30&&n%7===2){save.coins+=40;got.push({d:n,t:'40 Münzen (Serienbonus)'});}
+ if(n>30&&n%7===2){save.coins+=40;got.push({d:n,t:L('40 Münzen (Serienbonus)')});}
  return {n,got};}
 function nextStreakReward(n){return STREAK.find(r=>r.d>n&&!save.streak.got.includes(r.d));}
 function streakUI(){const n=curStreak(),done=streakDoneToday();
- $('stNow').innerHTML='<b>🔥 '+n+(n===1?' Tag':' Tage')+'</b>'+(done?'<span class="tg" style="background:#2E9E62">heute geschafft ✔</span>':'<span class="tg" style="background:#D97A12">heute noch einmal Tageslauf spielen</span>')+'<small>Bester Lauf: '+(save.streak.best||0)+' Tage · Einen Tag auslassen = Serie beginnt von vorn</small>';
- $('stList').innerHTML=STREAK.map(r=>{const ok=save.streak.got.includes(r.d);return '<div class="tl'+(ok?' ok':'')+'"><span class="tg" style="background:'+(ok?'#2E9E62':'#7B6FB0')+'">Tag '+r.d+'</span><span>'+r.t+'</span><b class="stk">'+(ok?'✔':n>=r.d?'✔':'🔒')+'</b></div>';}).join('')+'<div class="tl"><span class="tg" style="background:#F5A623">ab Tag 30</span><span>jede Woche 40 Münzen</span></div>';}
+ $('stNow').innerHTML='<b>🔥 '+n+(n===1?L(' Tag'):L(' Tage'))+'</b>'+(done?L('<span class="tg" style="background:#2E9E62">heute geschafft ✔</span>'):L('<span class="tg" style="background:#D97A12">heute noch einmal Tageslauf spielen</span>'))+L('<small>Bester Lauf: ')+(save.streak.best||0)+L(' Tage · Einen Tag auslassen = Serie beginnt von vorn</small>');
+ $('stList').innerHTML=STREAK.map(r=>{const ok=save.streak.got.includes(r.d);return '<div class="tl'+(ok?' ok':'')+'"><span class="tg" style="background:'+(ok?'#2E9E62':'#7B6FB0')+L('">Tag ')+r.d+'</span><span>'+r.t+'</span><b class="stk">'+(ok?'✔':n>=r.d?'✔':'🔒')+'</b></div>';}).join('')+L('<div class="tl"><span class="tg" style="background:#F5A623">ab Tag 30</span><span>jede Woche 40 Münzen</span></div>');}
 const DAILY=[{f:3},{c:10},{f:4},{c:15},{f:5},{c:20},{c:40,f:6}];
 let dailyDay=0;
 function checkDaily(){const t=todayStr();if(save.daily.last===t)return false;const y=new Date();y.setDate(y.getDate()-1);
  dailyDay=save.daily.last===todayStr(y)?(save.daily.streak%7)+1:1;
- $('days').innerHTML=DAILY.map((r,i)=>'<div class="day'+(i===6?' d7':'')+(i+1<dailyDay?' done':i+1===dailyDay?' today':'')+'">Tag '+(i+1)+'<b>'+(r.f?r.f+' 🍓':'')+(r.f&&r.c?' ':'')+(r.c?r.c+' 🪙':'')+'</b>'+(i+1<dailyDay?'✔':'')+'</div>').join('');
+ $('days').innerHTML=DAILY.map((r,i)=>'<div class="day'+(i===6?' d7':'')+(i+1<dailyDay?' done':i+1===dailyDay?' today':'')+L('">Tag ')+(i+1)+'<b>'+(r.f?r.f+' 🍓':'')+(r.f&&r.c?' ':'')+(r.c?r.c+' 🪙':'')+'</b>'+(i+1<dailyDay?'✔':'')+'</div>').join('');
  show('daily');return true;}
-function claimDaily(){if(!dailyDay||save.daily.last===todayStr()){show('menu');return;}const r=DAILY[dailyDay-1];save.food+=r.f||0;save.coins+=r.c||0;save.pet.care+=5;save.daily={last:todayStr(),streak:dailyDay};save.loginBest=Math.max(save.loginBest||0,dailyDay);persist();SFX.buy();buzz([20,40,20]);confetti(B.x,B.y);toast('Tag '+dailyDay+': '+[(r.f?'+'+r.f+' 🍓':''),(r.c?'+'+r.c+' 🪙':'')].filter(Boolean).join(' ')+' · +5 Pflege');checkEvolve(true);show('menu');menuUI();}
+function claimDaily(){if(!dailyDay||save.daily.last===todayStr()){show('menu');return;}const r=DAILY[dailyDay-1];save.food+=r.f||0;save.coins+=r.c||0;save.pet.care+=5;save.daily={last:todayStr(),streak:dailyDay};save.loginBest=Math.max(save.loginBest||0,dailyDay);persist();SFX.buy();buzz([20,40,20]);confetti(B.x,B.y);toast(L('Tag ')+dailyDay+': '+[(r.f?'+'+r.f+' 🍓':''),(r.c?'+'+r.c+' 🪙':'')].filter(Boolean).join(' ')+L(' · +5 Pflege'));checkEvolve(true);show('menu');menuUI();}
 function homeUI(){
  const P=save.pet;
  $('mSat').style.width=Math.round(P.sat)+'%';$('mMood').style.width=Math.round(P.mood)+'%';$('mEn').style.width=Math.round(P.energy)+'%';$('mHp').style.width=Math.round(P.hp)+'%';$('mHp').classList.toggle('low',P.hp<40);
  const n=STAGES[P.stage+1];
  if(n){const prev=STAGES[P.stage].care;$('mXp').style.width=Math.max(0,Math.min(100,(P.care-prev)/(n.care-prev)*100))+'%';
-  const dleft=Math.max(0,n.day-ageDays());$('pNext').innerHTML='Nächste Stufe: <b>'+n.name+'</b> · '+(P.care>=n.care?'Pflege ✔':'Pflege '+Math.floor(P.care)+'/'+n.care)+' · '+(dleft?'noch '+dleft+(dleft===1?' Tag':' Tage'):'Alter ✔');}
- else{const base=550+150*P.cstars;$('mXp').style.width=Math.min(100,(P.care-base)/150*100)+'%';$('pNext').innerHTML='Pflegesterne: <b>'+'★'.repeat(Math.min(P.cstars,10))+(P.cstars>10?' ×'+P.cstars:'')+(P.cstars?'':'noch keiner')+'</b> · nächster bei '+(base+150)+' Pflege (+20 🪙)';}
+  const dleft=Math.max(0,n.day-ageDays());$('pNext').innerHTML=L('Nächste Stufe: <b>')+n.name+'</b> · '+(P.care>=n.care?L('Pflege ✔'):L('Pflege ')+Math.floor(P.care)+'/'+n.care)+' · '+(dleft?L('noch ')+dleft+(dleft===1?L(' Tag'):L(' Tage')):L('Alter ✔'));}
+ else{const base=550+150*P.cstars;$('mXp').style.width=Math.min(100,(P.care-base)/150*100)+'%';$('pNext').innerHTML=L('Pflegesterne: <b>')+'★'.repeat(Math.min(P.cstars,10))+(P.cstars>10?' ×'+P.cstars:'')+(P.cstars?'':L('noch keiner'))+L('</b> · nächster bei ')+(base+150)+L(' Pflege (+20 🪙)');}
  const st=petStatus();
  $('pStage').textContent=STAGES[P.stage].name;$('pWallet').textContent='🪙 '+save.coins;$('pFood').textContent='🍓 '+save.food;
  const wt=warnTxt();$('pAge').innerHTML=ageText()+' · <b class="stp" style="background:'+st[1]+'">'+st[0]+'</b>'+(wt?'<span class="warn">⚠ '+wt+'</span>':'');
- $('tSleep').textContent=P.sleep?'Aufwecken':'Schlafen';
+ $('tSleep').textContent=P.sleep?L('Aufwecken'):L('Schlafen');
  $('bMed').style.display=P.sick?'':'none';
  $('bWash').classList.toggle('dim',!P.dirt);$('bFeed').classList.toggle('dim',save.food<1);
  $('bBall').classList.toggle('dim',(Date.now()-P.playT)<12e5||P.energy<15);
  musicAuto();
 }
-function ageText(){const d=ageDays();return d===0?'heute geschlüpft':d===1?'1 Tag alt':d+' Tage alt';}
+function ageText(){const d=ageDays();return d===0?L('heute geschlüpft'):d===1?L('1 Tag alt'):d+L(' Tage alt');}
 function menuUI(){$('mnStreak').innerHTML='🔥 '+curStreak()+(streakDoneToday()?' ✔':'<i class="sdot"></i>');$('mnFood').textContent='🍓 '+save.food;$('mnCoins').textContent='🪙 '+save.coins;const st=petStatus(),P=save.pet,M=MBY[save.masc]||MBY.mint,el=$('petBub');el.classList.add('kl');
  const bar=(ic,v,c)=>'<span>'+ic+'<i><u style="width:'+Math.round(v)+'%;background:'+(v<25?'#E5484D':c)+'"></u></i></span>';
  const wt=warnTxt();
@@ -1385,21 +1410,21 @@ function land(p){
   if(G.run){if(!G.run.len&&G.plats.length-idx<7)genMore(5);hud();if(G.run.type!=='duel'){const bi=Math.floor(idx/BIO_N);if(bi>(G.run.bi||0)){G.run.bi=bi;const bk=bioAt(idx),b=BIO[bk],ps=bk==='ice'?SURF.ice:SURF[BIOSURF[bk]];showHint('🌍 '+b[0]+'!'+(ps&&ps.t?' '+ps.t:''));SFX.win();}}}
  }
  if(p.type==='crack'&&!p.breakT&&!p.broken){p.breakT=p.breakMax=CRACK_T;}
- if(p.type==='spring'){B.mult=SPRING;popup('Super-Sprung!',B.x,B.y-72,'#FF6FAE',20);}else B.mult=1;
+ if(p.type==='spring'){B.mult=SPRING;popup(L('Super-Sprung!'),B.x,B.y-72,'#FF6FAE',20);}else B.mult=1;
  if(p.type==='goal'&&G.mode==='play')win();
  if(G.held&&G.mode==='play'){B.charging=true;B.charge=0;B.cdir=1;}
 }
 function rateLanding(p){G.rateP=null;
   const rel=Math.abs(B.offX-p.w/2)/(p.w/2);
-  if(rel<PERF){G.perfects++;G.combo++;popup(G.combo>1?'PERFEKT x'+G.combo:'PERFEKT!',B.x,B.y-46,'#FFE066',G.combo>1?32:28);SFX.perfect(G.combo);setExpr('happy',.9);G.shake=3+Math.min(G.combo,5);burst(B.x,B.y,14,['#FFE066','#FFC93C','#fff'],320,6,200);if(G.combo>=3)G.timeScale=.45;}
-  else if(rel>.8){G.combo=0;popup('Knapp!',B.x,B.y-46,'#FF8FB8',26);SFX.knapp();G.timeScale=.25;setExpr('scared',.7);B.sqV=-6;}
-  else{G.combo=0;popup('Gut',B.x,B.y-40,'#fff',22);}
+  if(rel<PERF){G.perfects++;G.combo++;popup(G.combo>1?L('PERFEKT x')+G.combo:L('PERFEKT!'),B.x,B.y-46,'#FFE066',G.combo>1?32:28);SFX.perfect(G.combo);setExpr('happy',.9);G.shake=3+Math.min(G.combo,5);burst(B.x,B.y,14,['#FFE066','#FFC93C','#fff'],320,6,200);if(G.combo>=3)G.timeScale=.45;}
+  else if(rel>.8){G.combo=0;popup(L('Knapp!'),B.x,B.y-46,'#FF8FB8',26);SFX.knapp();G.timeScale=.25;setExpr('scared',.7);B.sqV=-6;}
+  else{G.combo=0;popup(L('Gut'),B.x,B.y-40,'#fff',22);}
 }
 function win(){G.mode='won';G.winT=1.5;G.timeScale=.4;SFX.win();buzz([20,40,20]);confetti(B.x,B.y);setExpr('happy',3);}
 function fallOut(){G.hearts--;G.falls++;G.combo=0;SFX.fall();buzz(70);G.shake=8;hud(true);G.deadT=.85;setExpr('scared',2);}
 function respawn(){
  if(G.hearts<=0&&G.run){G.mode='result';finishRun(false);return;}
- if(G.hearts<=0){G.mode='lost';setExpr('sad',99);save.food+=G.dropsGot;save.pet.dirt=Math.min(3,save.pet.dirt+1);persist();$('lInfo').textContent=G.dropsGot?'Deine '+G.dropsGot+' Beeren darfst du behalten.':'';show('lost');return;}
+ if(G.hearts<=0){G.mode='lost';setExpr('sad',99);save.food+=G.dropsGot;save.pet.dirt=Math.min(3,save.pet.dirt+1);persist();$('lInfo').textContent=G.dropsGot?L('Deine ')+G.dropsGot+' Beeren darfst du behalten.':'';show('lost');return;}
  const p=G.plats[G.lastIdx];
  p.broken=false;p.fallVy=0;p.alpha=1;p.y=p.y0;if(p.type==='crack'){p.breakT=p.breakMax=CRACK_T+.5;}else p.breakT=0;
  G.rateP=null;Object.assign(B,{heatP:p,heatT:0,slide:0,ground:p,offX:p.w/2,x:p.x+p.w/2,y:p.y-B.r,vx:0,vy:0,charging:false,charge:0,sq:-.5,sqV:3,mult:p.type==='spring'?SPRING:1,springAir:false});
@@ -1419,12 +1444,12 @@ function finishLevel(){
  save.pet.mood=Math.min(100,save.pet.mood+12);save.pet.care+=save.pet.sick?4:8;save.pet.dirt=Math.min(3,save.pet.dirt+1);
  const grew=checkEvolve(true);
  if(i+2>save.unlocked)save.unlocked=Math.min(LEVELS.length,i+2);persist();
- $('rTitle').textContent=(i+1)%10===0?WORLDS[Math.floor(i/10)].name+' geschafft!':lvName(i)+' geschafft!';
+ $('rTitle').textContent=(i+1)%10===0?WORLDS[Math.floor(i/10)].name+' geschafft!':lvName(i)+L(' geschafft!');
  const total=G.drops.length;
- $('rCrit').innerHTML=[['Ziel erreicht',c[0]],['Ohne Sturz',c[1]],[need+'× PERFEKT ('+G.perfects+')',c[2]]].map(x=>'<li class="'+(x[1]?'':'no')+'"><b>'+(x[1]?'✔':'✖')+'</b>'+x[0]+'</li>').join('')
-  +(total?'<li><b>🍓</b>+'+G.dropsGot+' Beeren als Futter (von '+total+')</li>':'')
-  +'<li><b>🪙</b>+'+gain+' Münzen'+(bonus?' (inkl. Super-Bonus)':'')+'</li>'
-  +(grew?'<li><b>🎉</b>Flumm ist gewachsen!</li>':'');
+ $('rCrit').innerHTML=[[L('Ziel erreicht'),c[0]],[L('Ohne Sturz'),c[1]],[need+L('× PERFEKT (')+G.perfects+')',c[2]]].map(x=>'<li class="'+(x[1]?'':'no')+'"><b>'+(x[1]?'✔':'✖')+'</b>'+x[0]+'</li>').join('')
+  +(total?'<li><b>🍓</b>+'+G.dropsGot+L(' Beeren als Futter (von ')+total+')</li>':'')
+  +'<li><b>🪙</b>+'+gain+L(' Münzen')+(bonus?L(' (inkl. Super-Bonus)'):'')+'</li>'
+  +(grew?L('<li><b>🎉</b>Flumm ist gewachsen!</li>'):'');
  const stars=document.querySelectorAll('#result .stars i');stars.forEach(s=>s.classList.remove('on'));
  stars.forEach((s,k)=>{if(k<st)setTimeout(()=>{s.classList.add('on');SFX.perfect(k*3);},350+k*320);});
  $('rNext').style.display=i<LEVELS.length-1?'':'none';
@@ -1471,10 +1496,10 @@ function update(rdt){
  if(B.ground){
   const p=B.ground;
   if(B.slide&&G.mode==='play'){const S=SURF[p.surf]||{fr:4};B.offX+=B.slide*dt;B.slide*=Math.exp(-S.fr*dt);if(Math.abs(B.slide)<4){B.slide=0;if(G.rateP===p)rateLanding(p);}else if(Math.random()<.4)G.parts.push({x:B.x-Math.sign(B.slide)*B.r*.6,y:p.y-2,vx:-B.slide*.2,vy:-20,life:.35,max:.35,c:'#E3F9FF',s:4,g:300,rot:0,vr:0,k:0});
-   if(B.offX>p.w+4||B.offX<-4){G.rateP=null;G.combo=0;B.ground=null;B.vx=B.slide;B.vy=0;B.slide=0;B.charging=false;B.charge=0;setExpr('scared',1);popup('Rutsch!',B.x,B.y-46,'#9EE0FA',22);}}
+   if(B.offX>p.w+4||B.offX<-4){G.rateP=null;G.combo=0;B.ground=null;B.vx=B.slide;B.vy=0;B.slide=0;B.charging=false;B.charge=0;setExpr('scared',1);popup(L('Rutsch!'),B.x,B.y-46,'#9EE0FA',22);}}
   if(B.ground&&G.mode==='play'&&p.surf==='hot'){B.heatT+=dt;if(Math.random()<dt*8)G.parts.push({x:B.x+(Math.random()-.5)*B.r,y:p.y-2,vx:0,vy:-60,life:.5,max:.5,c:B.heatT>1.4?'#FF7A1F':'#FFC23D',s:3,g:-50,rot:0,vr:0,k:0});
-   if(B.heatT>SURF.hot.heat&&B.charging){B.hotWarn=(B.hotWarn||0)+dt;if(B.hotWarn>.45){B.hotWarn=0;popup('Heiß!',B.x,B.y-56,'#FF5A3D',20);}}
-   else if(B.heatT>SURF.hot.heat){B.heatT=0;B.ground=null;B.vx=0;B.vy=-420;B.charging=false;B.charge=0;B.sqV=6;setExpr('scared',1);popup('Autsch, heiß!',B.x,B.y-50,'#FF8A3D',24);SFX.knapp();buzz(30);}}
+   if(B.heatT>SURF.hot.heat&&B.charging){B.hotWarn=(B.hotWarn||0)+dt;if(B.hotWarn>.45){B.hotWarn=0;popup(L('Heiß!'),B.x,B.y-56,'#FF5A3D',20);}}
+   else if(B.heatT>SURF.hot.heat){B.heatT=0;B.ground=null;B.vx=0;B.vy=-420;B.charging=false;B.charge=0;B.sqV=6;setExpr('scared',1);popup(L('Autsch, heiß!'),B.x,B.y-50,'#FF8A3D',24);SFX.knapp();buzz(30);}}
  }
  if(B.ground){
   const p=B.ground;B.x=p.x+B.offX;B.y=p.y-B.r;
@@ -1682,8 +1707,8 @@ function drawBowl(x,y){
  ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(x-11,y+2,7,2);
 }
 const BIOMES=['grass','moss','log','jungle','sand','desert','ice','crystal','spooky','stone','lava','cloud','moon','rainbow'],BIO_N=12;
-const BIO={jungle:['Dschungel','jungle','ganz normal'],moon:['Mond','moon','wenig Schwerkraft · Sprünge weiter'],spooky:['Gruselwald','spooky','ganz normal'],grass:['Wiese','day','ganz normal'],moss:['Moorwald','b_moss','ganz normal'],log:['Wald','b_log','ganz normal'],sand:['Strand','b_sand','weicher Sand · Sprünge etwas kürzer'],desert:['Wüste','b_desert','weicher Sand · Sprünge etwas kürzer'],ice:['Eiswelt','snow','Eis rutschig · Schnee hält'],crystal:['Kristallhöhle','b_crystal','federnd · Sprünge etwas weiter'],stone:['Felsenland','b_stone','ganz normal'],lava:['Vulkan','b_lava','heiß · nicht lange stehen bleiben'],cloud:['Wolkenreich','b_cloud','federnd · Sprünge etwas weiter'],rainbow:['Regenbogenland','candy','federnd · Sprünge etwas weiter']};
-const SURF={ice:{slide:.32,fr:2.2,t:'Eis ist rutschig – Schnee hält besser!'},snow:{slide:.08,fr:5},sand:{pow:.94,t:'Weicher Sand dämpft den Sprung.'},bouncy:{pow:1.07,t:'Hier federt alles – Sprünge werden weiter!'},hot:{heat:2.2,t:'Heiß! Bleib nicht zu lange stehen.'}};
+const BIO={jungle:[L('Dschungel'),'jungle',L('ganz normal')],moon:[L('Mond'),'moon',L('wenig Schwerkraft · Sprünge weiter')],spooky:[L('Gruselwald'),'spooky',L('ganz normal')],grass:[L('Wiese'),'day',L('ganz normal')],moss:[L('Moorwald'),'b_moss',L('ganz normal')],log:[L('Wald'),'b_log',L('ganz normal')],sand:[L('Strand'),'b_sand',L('weicher Sand · Sprünge etwas kürzer')],desert:[L('Wüste'),'b_desert',L('weicher Sand · Sprünge etwas kürzer')],ice:[L('Eiswelt'),'snow',L('Eis rutschig · Schnee hält')],crystal:[L('Kristallhöhle'),'b_crystal',L('federnd · Sprünge etwas weiter')],stone:[L('Felsenland'),'b_stone',L('ganz normal')],lava:[L('Vulkan'),'b_lava',L('heiß · nicht lange stehen bleiben')],cloud:[L('Wolkenreich'),'b_cloud',L('federnd · Sprünge etwas weiter')],rainbow:[L('Regenbogenland'),'candy',L('federnd · Sprünge etwas weiter')]};
+const SURF={ice:{slide:.32,fr:2.2,t:L('Eis ist rutschig – Schnee hält besser!')},snow:{slide:.08,fr:5},sand:{pow:.94,t:L('Weicher Sand dämpft den Sprung.')},bouncy:{pow:1.07,t:L('Hier federt alles – Sprünge werden weiter!')},hot:{heat:2.2,t:L('Heiß! Bleib nicht zu lange stehen.')}};
 const BIOSURF={sand:'sand',desert:'sand',crystal:'bouncy',cloud:'bouncy',rainbow:'bouncy',lava:'hot',moon:'bouncy'};
 const menuBio=()=>BIOMES[Math.floor(G.t/10)%BIOMES.length];
 const bioAt=i=>BIOMES[Math.floor(Math.max(0,i)/BIO_N)%BIOMES.length];
@@ -1895,8 +1920,8 @@ function render(){
 
 /* ---------- Weltkarte ---------- */
 const NW=13,MW=400,SEC=1000,MH=NW*SEC+260;
-const WORLDS=[{name:'Wiesenwelt',g:['#8FD46B','#A3DE7E'],d:'tree'},{name:'Moorwald',g:['#6F9C7E','#82AE8E'],d:'reed'},{name:'Waldwelt',g:['#4E9A52','#62B066'],d:'pine'},{name:'Strandwelt',g:['#F2D79A','#F8E6BC'],d:'palm'},{name:'Wüstenwelt',g:['#E8B26E','#F2C88E'],d:'cactus'},{name:'Eiswelt',g:['#E3F2FB','#FFFFFF'],d:'snowpine'},{name:'Kristallhöhle',g:['#4B2F7A','#5E3E92'],d:'crystal'},{name:'Felsenland',g:['#A49EBD','#B8B2CE'],d:'rock'},{name:'Vulkanwelt',g:['#4A2430','#61303F'],d:'lava'},{name:'Wolkenreich',g:['#DCEBFF','#FFFFFF'],d:'cloud'},{name:'Dschungelwelt',g:['#3E9A5A','#52B06C'],d:'jungle'},{name:'Gruselwald',g:['#4A3768','#5C4680'],d:'spooky'},{name:'Mondwelt',g:['#8E92A8','#A3A7BC'],d:'moon'}];
-WORLDS.forEach((w,k)=>w.sub='Welt '+(k+1));
+const WORLDS=[{name:L('Wiesenwelt'),g:['#8FD46B','#A3DE7E'],d:'tree'},{name:L('Moorwald'),g:['#6F9C7E','#82AE8E'],d:'reed'},{name:L('Waldwelt'),g:['#4E9A52','#62B066'],d:'pine'},{name:L('Strandwelt'),g:['#F2D79A','#F8E6BC'],d:'palm'},{name:L('Wüstenwelt'),g:['#E8B26E','#F2C88E'],d:'cactus'},{name:L('Eiswelt'),g:['#E3F2FB','#FFFFFF'],d:'snowpine'},{name:L('Kristallhöhle'),g:['#4B2F7A','#5E3E92'],d:'crystal'},{name:L('Felsenland'),g:['#A49EBD','#B8B2CE'],d:'rock'},{name:L('Vulkanwelt'),g:['#4A2430','#61303F'],d:'lava'},{name:L('Wolkenreich'),g:['#DCEBFF','#FFFFFF'],d:'cloud'},{name:L('Dschungelwelt'),g:['#3E9A5A','#52B06C'],d:'jungle'},{name:L('Gruselwald'),g:['#4A3768','#5C4680'],d:'spooky'},{name:L('Mondwelt'),g:['#8E92A8','#A3A7BC'],d:'moon'}];
+WORLDS.forEach((w,k)=>w.sub=L('Welt ')+(k+1));
 const unlockedWorld=()=>Math.min(NW-1,Math.floor((Math.min(save.unlocked,LEVELS.length)-1)/10));
 const secTop=k=>MH-(k+1)*SEC;
 const NODE_P=[[200,930],[300,850],[320,750],[225,680],[110,610],[90,500],[190,430],[300,360],[310,250],[200,160]];
@@ -1923,7 +1948,7 @@ function crystal(m,x,y,s){const cs=[[0,0,14,60],[-18,6,10,40],[16,8,11,46],[-30,
 let fogDone=false;
 function fogTex(size,seed){const c=document.createElement('canvas');c.width=c.height=size;const x=c.getContext('2d');const R=rng(seed);for(let n=0;n<34;n++){const px=R()*size,py=R()*size,r=50+R()*120;for(const dx of[-size,0,size])for(const dy of[-size,0,size]){const g=x.createRadialGradient(px+dx,py+dy,0,px+dx,py+dy,r);const sh=seed>10;g.addColorStop(0,sh?'rgba(235,240,255,.75)':'rgba(255,255,255,.8)');g.addColorStop(.55,sh?'rgba(205,214,240,.4)':'rgba(255,255,255,.35)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(px+dx-r,py+dy-r,2*r,2*r);}}return c.toDataURL();}
 let curWorld='';
-function updWorld(){const sc=$('mapscroll'),s=($('mapwrap').clientWidth||400)/MW,y=(sc.scrollTop+sc.clientHeight*.55)/s;const k=Math.max(0,Math.min(NW-1,Math.floor((MH-y)/SEC))),uw=unlockedWorld(),inFog=k>uw;const key=inFog?'fog':'w'+k;if(key===curWorld)return;curWorld=key;const el=$('mWorld');el.innerHTML=inFog?'Im Nebel<small>schaffe erst '+WORLDS[uw].name+'</small>':WORLDS[k].name+'<small>Welt '+(k+1)+'</small>';el.classList.toggle('dark',inFog);el.classList.remove('boing');void el.offsetWidth;el.classList.add('boing');}
+function updWorld(){const sc=$('mapscroll'),s=($('mapwrap').clientWidth||400)/MW,y=(sc.scrollTop+sc.clientHeight*.55)/s;const k=Math.max(0,Math.min(NW-1,Math.floor((MH-y)/SEC))),uw=unlockedWorld(),inFog=k>uw;const key=inFog?'fog':'w'+k;if(key===curWorld)return;curWorld=key;const el=$('mWorld');el.innerHTML=inFog?L('Im Nebel<small>schaffe erst ')+WORLDS[uw].name+'</small>':WORLDS[k].name+L('<small>Welt ')+(k+1)+'</small>';el.classList.toggle('dark',inFog);el.classList.remove('boing');void el.offsetWidth;el.classList.add('boing');}
 function palm(m,x,y,s){m.fillStyle='rgba(120,90,40,.2)';m.beginPath();m.ellipse(x,y+2,14*s,4*s,0,0,7);m.fill();m.strokeStyle='#9C6533';m.lineWidth=5*s;m.lineCap='round';m.beginPath();m.moveTo(x,y);m.quadraticCurveTo(x+6*s,y-18*s,x+2*s,y-34*s);m.stroke();m.fillStyle='#3FAE4A';for(const a of[-2.6,-1.9,-1.2,-.5,.2]){m.save();m.translate(x+2*s,y-34*s);m.rotate(a);m.beginPath();m.ellipse(12*s,0,13*s,4*s,0,0,7);m.fill();m.restore();}m.fillStyle='#7A4C26';m.beginPath();m.arc(x+4*s,y-31*s,3*s,0,7);m.fill();}
 function cactus(m,x,y,s){m.fillStyle='rgba(120,70,30,.2)';m.beginPath();m.ellipse(x,y+2,10*s,3*s,0,0,7);m.fill();m.fillStyle='#4FA33A';m.strokeStyle='#2E6B22';m.lineWidth=2;const r=(a,b,w,h)=>{m.beginPath();m.roundRect?m.roundRect(x+a*s,y+b*s,w*s,h*s,w*s/2):m.rect(x+a*s,y+b*s,w*s,h*s);m.fill();m.stroke();};r(-4,-30,8,30);r(-13,-20,6,12);r(7,-24,6,10);m.fillStyle='#FF6FAE';m.beginPath();m.arc(x,y-30*s,2.5*s,0,7);m.fill();}
 function rock(m,x,y,s,col){m.fillStyle='rgba(40,30,60,.2)';m.beginPath();m.ellipse(x,y+2,16*s,4*s,0,0,7);m.fill();m.fillStyle=col||'#8E88A8';m.strokeStyle='#4B4562';m.lineWidth=2;m.beginPath();m.moveTo(x-15*s,y);m.lineTo(x-10*s,y-14*s);m.lineTo(x+2*s,y-20*s);m.lineTo(x+14*s,y-9*s);m.lineTo(x+16*s,y);m.closePath();m.fill();m.stroke();m.fillStyle='rgba(255,255,255,.35)';m.beginPath();m.moveTo(x-9*s,y-13*s);m.lineTo(x+1*s,y-18*s);m.lineTo(x-2*s,y-8*s);m.closePath();m.fill();}
@@ -1998,16 +2023,16 @@ function openSheet(n){
  $('sTitle').textContent=lvName(n);
  $('sStars').querySelectorAll('i').forEach((el,k)=>el.classList.toggle('on',k<st));
  $('sTip').textContent=n<10?NEWS[n]+' · '+HINTS[n]:WORLDS[Math.floor(n/10)].name+' · '+BIO[levelBio(n)][2];
- $('sInfo').textContent=(DROPCOUNT[n]?'🍓 Beeren: bis zu '+DROPCOUNT[n]+' · ':'')+'🪙 Münzen gefunden: '+(save.coinGot[n]||[]).length+' von '+COINCOUNT[n];
+ $('sInfo').textContent=(DROPCOUNT[n]?L('🍓 Beeren: bis zu ')+DROPCOUNT[n]+' · ':'')+L('🪙 Münzen gefunden: ')+(save.coinGot[n]||[]).length+L(' von ')+COINCOUNT[n];
  $('sheet').classList.add('on');
 }
 function closeSheet(){$('sheet').classList.remove('on');}
 $('mapnodes').addEventListener('click',e=>{const b=e.target.closest('.node');if(!b)return;ac();
- const n=+b.dataset.n;if(n>=save.unlocked){SFX.no();toast('Erst '+lvName(n-1)+' schaffen!');shakeEl(b);return;}
+ const n=+b.dataset.n;if(n>=save.unlocked){SFX.no();toast(L('Erst ')+lvName(n-1)+L(' schaffen!'));shakeEl(b);return;}
  SFX.boing();openSheet(n);});
 $('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet();});
 $('mapscroll').addEventListener('scroll',updWorld,{passive:true});
-$('fog').addEventListener('click',()=>{ac();SFX.no();toast('Diese Welt liegt noch im Nebel – schaffe erst die Welt davor!');});
+$('fog').addEventListener('click',()=>{ac();SFX.no();toast(L('Diese Welt liegt noch im Nebel – schaffe erst die Welt davor!'));});
 
 /* ---------- UI ---------- */
 const SCREENS=['menu','map','hud','home','ward','result','lost','pause','info','settings','design','daily','modes','duel','runres','hatch','help','streak','sick','sleepy','lboard','lbtop','ach'];
@@ -2016,7 +2041,7 @@ function shakeEl(el){el.classList.remove('shakeit');void el.offsetWidth;el.class
 let toastTO=0;function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>el.classList.remove('on'),1800);}
 function bioTagUI(force){const el=$('bioTag');const lb=!G.run&&G.mode==='play'&&G.lvl!=null?levelBio(G.lvl):null;if((!G.run||G.run.type==='duel')&&!lb){el.className='';el.dataset.b='';return;}const bk=lb||bioAt(G.lastIdx||0);if(!force&&el.dataset.b===bk)return;el.dataset.b=bk;el.querySelector('b').textContent='🌍 '+BIO[bk][0];el.querySelector('small').textContent=BIO[bk][2];el.className='';void el.offsetWidth;el.className='on';}
 function hud(hit,dropBump){bioTagUI();
- $('hLvl').textContent=G.run?(G.run.type==='duel'?'⏱ '+fmtT(Math.round(G.t*100)):(G.run.type==='daily'?'📅 Insel '+G.lastIdx:'Endlos '+G.lastIdx)):lvName(G.lvl);
+ $('hLvl').textContent=G.run?(G.run.type==='duel'?'⏱ '+fmtT(Math.round(G.t*100)):(G.run.type==='daily'?L('📅 Insel ')+G.lastIdx:L('Endlos ')+G.lastIdx)):lvName(G.lvl);
  $('hHearts').innerHTML=Array.from({length:G.maxHearts},(_,k)=>'<span class="'+(k<G.hearts?'':'off')+'">♥</span>').join('');
  $('hDrops').textContent='🍓 '+G.dropsGot;$('hCoins').textContent='🪙 '+G.coinsGot;
  const el=hit?$('hHearts'):dropBump==='c'?$('hCoins'):dropBump?$('hDrops'):null;if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
@@ -2025,35 +2050,35 @@ let hintTO=0;
 function showHint(t){const h=$('hint');h.textContent=t;h.classList.remove('hide');clearTimeout(hintTO);hintTO=setTimeout(hideHint,G.lvl===0?60000:4000);}
 function hideHint(){$('hint').classList.add('hide');}
 let wardSel=null,wardSelM=null;
-const ALBUMS=[{name:'Tagesserie 🔥',ids:['crown','champ'],reward:50},{name:'Alltag & Spaß',ids:['party','sun','bow','swim'],reward:40},{name:'Berufe',ids:['conductor','police','fire','astro'],reward:60},{name:'Abenteuer',ids:['hero','bear','winter'],reward:50}];
+const ALBUMS=[{name:L('Tagesserie 🔥'),ids:['crown','champ'],reward:50},{name:L('Alltag & Spaß'),ids:['party','sun','bow','swim'],reward:40},{name:L('Berufe'),ids:['conductor','police','fire','astro'],reward:60},{name:L('Abenteuer'),ids:['hero','bear','winter'],reward:50}];
 function jtile(id,name,own,on,sel,price,cw,ch,okTxt,lk,ex){
  const pct=Math.min(100,save.coins/price*100);
- if(ex&&!own)return '<button class="jt glass lock'+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+'</b><span class="pp lk"><em>✨ exklusiv</em></span></button>';
- if(lk&&!own)return '<button class="jt glass lock'+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+'</b><span class="pp lk"><em>🔥 '+lk+' Tage Serie</em></span></button>';
- return '<button class="jt '+(own?'own':'glass')+(on?' on':'')+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+'</b>'+(own?'<span class="pp ok"><em>'+(on?'Aktiv':okTxt)+'</em></span>':'<span class="pp"><i style="width:'+pct+'%"></i><em>'+(sel?(save.coins>=price?'Kaufen?':'Zu wenig 🪙'):save.coins>=price?price+' 🪙':save.coins+'/'+price+' 🪙')+'</em></span>')+'</button>';}
+ if(ex&&!own)return '<button class="jt glass lock'+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+L('</b><span class="pp lk"><em>✨ exklusiv</em></span></button>');
+ if(lk&&!own)return '<button class="jt glass lock'+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+'</b><span class="pp lk"><em>🔥 '+lk+L(' Tage Serie</em></span></button>');
+ return '<button class="jt '+(own?'own':'glass')+(on?' on':'')+(sel?' sel':'')+'" data-id="'+id+'"><canvas width="'+cw+'" height="'+ch+'"></canvas><b>'+name+'</b>'+(own?'<span class="pp ok"><em>'+(on?L('Aktiv'):okTxt)+'</em></span>':'<span class="pp"><i style="width:'+pct+'%"></i><em>'+(sel?(save.coins>=price?L('Kaufen?'):L('Zu wenig 🪙')):save.coins>=price?price+' 🪙':save.coins+'/'+price+' 🪙')+'</em></span>')+'</button>';}
 function ward(){
  $('wWallet').textContent='🪙 '+save.coins;
  const allIds=ALBUMS.flatMap(a=>a.ids);$('wCount').textContent=allIds.filter(i=>save.owned.includes(i)).length+'/'+allIds.length;
  $('wOff').style.display=save.costume==='none'?'none':'';
  const mn=MASC.filter(m=>save.mOwned.includes(m.id)).length;
- $('wgrid').innerHTML='<div class="asec"><h3>Maskottchen</h3><div class="abar"><i style="width:'+(mn/MASC.length*100)+'%"></i><em>'+mn+'/'+MASC.length+' · ✨ = exklusiv</em></div><div class="agrid">'+MASC.map(m=>{const own=save.mOwned.includes(m.id);return jtile(m.id,m.name,own,save.masc===m.id,wardSelM===m.id&&!own,m.price||1,152,152,'Wählen',null,m.ex).replace('<button ','<button data-m="1" ');}).join('')+'</div></div>'+ALBUMS.map(al=>{const n=al.ids.filter(i=>save.owned.includes(i)).length,done=save.albumDone.includes(al.name);
-  return '<div class="asec"><h3>'+al.name+'</h3><div class="abar"><i style="width:'+(n/al.ids.length*100)+'%"></i><em>'+n+'/'+al.ids.length+(done?' · Belohnung erhalten ✔':' · komplett: +'+al.reward+' 🪙')+'</em></div><div class="agrid">'+
-  al.ids.map(id=>{const c=COS[id];return jtile(id,c.name,save.owned.includes(id),save.costume===id,wardSel===id&&!save.owned.includes(id),c.price,152,152,'Anziehen',c.streak);}).join('')+'</div></div>';}).join('');
+ $('wgrid').innerHTML=L('<div class="asec"><h3>Maskottchen</h3><div class="abar"><i style="width:')+(mn/MASC.length*100)+'%"></i><em>'+mn+'/'+MASC.length+L(' · ✨ = exklusiv</em></div><div class="agrid">')+MASC.map(m=>{const own=save.mOwned.includes(m.id);return jtile(m.id,m.name,own,save.masc===m.id,wardSelM===m.id&&!own,m.price||1,152,152,L('Wählen'),null,m.ex).replace('<button ','<button data-m="1" ');}).join('')+'</div></div>'+ALBUMS.map(al=>{const n=al.ids.filter(i=>save.owned.includes(i)).length,done=save.albumDone.includes(albKey(al.name));
+  return '<div class="asec"><h3>'+al.name+'</h3><div class="abar"><i style="width:'+(n/al.ids.length*100)+'%"></i><em>'+n+'/'+al.ids.length+(done?L(' · Belohnung erhalten ✔'):L(' · komplett: +')+al.reward+' 🪙')+'</em></div><div class="agrid">'+
+  al.ids.map(id=>{const c=COS[id];return jtile(id,c.name,save.owned.includes(id),save.costume===id,wardSel===id&&!save.owned.includes(id),c.price,152,152,L('Anziehen'),c.streak);}).join('')+'</div></div>';}).join('');
  $('wgrid').querySelectorAll('.jt').forEach(btn=>{const cc=btn.querySelector('canvas').getContext('2d');cc.setTransform(2,0,0,2,0,0);
   drawFlumm(cc,{x:38,y:42,r:22,sq:0,air:null,expr:'happy',lookX:0,lookY:0,blink:0,cos:btn.dataset.m?'none':btn.dataset.id,masc:btn.dataset.m?btn.dataset.id:(G.prevMasc||save.masc),stage:Math.max(3,save.pet.stage),t:1,outline:true});});
 }
-function albumCheck(){for(const al of ALBUMS){if(save.albumDone.includes(al.name))continue;if(al.ids.every(i=>save.owned.includes(i))){save.albumDone.push(al.name);save.coins+=al.reward;persist();setTimeout(()=>{SFX.win();toast('Album „'+al.name+'“ komplett! +'+al.reward+' 🪙');ward();},500);}}}
+function albumCheck(){for(const al of ALBUMS){if(save.albumDone.includes(albKey(al.name)))continue;if(al.ids.every(i=>save.owned.includes(i))){save.albumDone.push(albKey(al.name));save.coins+=al.reward;persist();setTimeout(()=>{SFX.win();toast(L('Album „')+al.name+L('“ komplett! +')+al.reward+' 🪙');ward();},500);}}}
 $('wgrid').addEventListener('click',e=>{const b=e.target.closest('.jt');if(!b)return;ac();const id=b.dataset.id,c=COS[id];
  if(b.dataset.m){const m=MBY[id];
   if(save.mOwned.includes(id)){save.masc=id;wardSelM=null;persist();SFX.boing();setExpr('happy',1);B.sqV=-5;hearts(B.x,B.y-B.r,2);}
-  else if(wardSelM!==id){wardSelM=id;SFX.click();if(m.ex)toast('✨ Exklusiv: '+m.ex);}
-  else if(m.ex){toast('✨ Exklusiv: '+m.ex);SFX.no();}
+  else if(wardSelM!==id){wardSelM=id;SFX.click();if(m.ex)toast(L('✨ Exklusiv: ')+m.ex);}
+  else if(m.ex){toast(L('✨ Exklusiv: ')+m.ex);SFX.no();}
   else if(save.coins>=m.price){save.coins-=m.price;save.mOwned.push(id);save.masc=id;wardSelM=null;persist();SFX.buy();buzz(20);confetti(B.x,B.y);setExpr('happy',1.5);B.sqV=-6;}
   else{SFX.no();shakeEl(b);return;}
   G.prevMasc=wardSelM;ward();homeUI();return;}
  if(save.owned.includes(id)){save.costume=id;wardSel=null;persist();SFX.boing();setExpr('happy',1);B.sqV=-5;hearts(B.x,B.y-B.r,2);}
  else if(wardSel!==id){wardSel=id;SFX.click();}
- else if(c.streak){toast('Freischalten: '+c.streak+' Tage Tagesserie 🔥');SFX.no();}
+ else if(c.streak){toast(L('Freischalten: ')+c.streak+L(' Tage Tagesserie 🔥'));SFX.no();}
  else if(save.coins>=c.price){save.coins-=c.price;save.owned.push(id);save.costume=id;wardSel=null;persist();SFX.buy();buzz(20);confetti(B.x,B.y);setExpr('happy',1.5);B.sqV=-6;albumCheck();}
  else{SFX.no();shakeEl(b);return;}
  G.prevCos=wardSel;ward();homeUI();
@@ -2092,7 +2117,9 @@ const IC={
  design:'<svg viewBox="0 0 48 48"><path d="M24 6C13 6 5 14 5 24s8 18 17 18c3 0 4-2 4-4s-2-3-2-5 2-4 5-4h5c5 0 9-4 9-9C43 13 35 6 24 6z" fill="#FFE0B5" '+SV+'/><circle cx="14" cy="21" r="4" fill="#FF6FAE" stroke="#3A3558" stroke-width="2.5"/><circle cx="21" cy="13" r="4" fill="#FFC93C" stroke="#3A3558" stroke-width="2.5"/><circle cx="31" cy="13" r="4" fill="#4FCB8A" stroke="#3A3558" stroke-width="2.5"/><circle cx="37" cy="22" r="4" fill="#5FB8F5" stroke="#3A3558" stroke-width="2.5"/></svg>',
  shirt:'<svg viewBox="0 0 48 48"><path d="M17 7L7 12 3 23l9 3 1 15h22l1-15 9-3-4-11-10-5q-7 7-14 0z" fill="#4FCB8A" '+SV+'/><path d="M24 20l2 4.5 5 .5-3.8 3.2 1.2 4.8-4.4-2.6-4.4 2.6 1.2-4.8L17 25l5-.5z" fill="#FFC93C" stroke="#3A3558" stroke-width="2"/></svg>'
 };
-function labels(){
+function langUI(){const v=save.lang||'auto';document.querySelectorAll('#langSeg button').forEach(b=>b.classList.toggle('on',b.dataset.l===v));}
+$('langSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const v=b.dataset.l;if((save.lang||'auto')===v)return;save.lang=v;persist();SFX.click();setTimeout(()=>location.reload(),150);});
+function labels(){langUI();
  $('pSound').innerHTML=save.sound?IC.soundOn:IC.soundOff;$('pSound').classList.toggle('off',!save.sound);$('pMusic').innerHTML=save.music?IC.note:IC.noteOff;$('pMusic').classList.toggle('off',!save.music);
  $('bSound').innerHTML=save.sound?IC.soundOn:IC.soundOff;$('bMusic').innerHTML=save.music?IC.note:IC.noteOff;$('bMusic').classList.toggle('off',!save.music);$('swMusic').classList.toggle('on',!!save.music);$('bSound').classList.toggle('off',!save.sound);
  $('bAim').innerHTML=$('pAim').innerHTML=save.aim==='voll'?IC.aimV:save.aim==='aus'?IC.aimA:IC.aimN;$('bAim').classList.toggle('off',save.aim==='aus');$('pAim').classList.toggle('off',save.aim==='aus');
@@ -2101,7 +2128,7 @@ function labels(){
  $('aimN').classList.toggle('on',save.aim==='normal');$('aimV').classList.toggle('on',save.aim==='voll');$('aimA').classList.toggle('on',save.aim==='aus');
 }
 function toggleSound(){save.sound=!save.sound;persist();labels();SFX.click();}
-function toggleAim(){save.aim=save.aim==='normal'?'voll':save.aim==='voll'?'aus':'normal';persist();labels();SFX.click();toast('Zielhilfe: '+(save.aim==='voll'?'voll (ganze Flugbahn)':save.aim==='aus'?'aus (nur Kraftring)':'normal'));}
+function toggleAim(){save.aim=save.aim==='normal'?'voll':save.aim==='voll'?'aus':'normal';persist();labels();SFX.click();toast(L('Zielhilfe: ')+(save.aim==='voll'?L('voll (ganze Flugbahn)'):save.aim==='aus'?L('aus (nur Kraftring)'):'normal'));}
 document.querySelectorAll('[data-ic]').forEach(e=>{e.innerHTML=IC[e.dataset.ic]||'';});document.querySelectorAll('.pl:not([data-ic])').forEach(e=>e.innerHTML=IC.play);
 on('lHome',()=>{SFX.click();G.run=null;setupHome();});on('hX',()=>{SFX.click();setupMenu();show('menu');});
 $('bSet').innerHTML=IC.gear;$('goMenu').innerHTML=IC.burger;$('mMenu').innerHTML=IC.burger;
@@ -2110,20 +2137,20 @@ on('goMenu',toMain);on('mMenu',toMain);on('pMain',toMain);on('rMain',toMain);on(
 function toggleMusic(){save.music=!save.music;persist();labels();SFX.click();if(save.music)musicAuto();else musicStop();}$('plIcon').innerHTML=IC.play;$('icHome').innerHTML=IC.home;$('icDesign').innerHTML=IC.design;$('icShirt').innerHTML=IC.shirt;
 $('setVer').textContent='FLUMM v'+VERSION+' · Build '+BUILD;
 /* Gestalten */
-const BGS=[{id:'day',name:'Sonnentag',price:0},{id:'sunset',name:'Abendrot',price:25},{id:'snow',name:'Winterzauber',price:35},{id:'night',name:'Sternennacht',price:35},{id:'candy',name:'Bonbonland',price:50},{id:'jungle',name:'Dschungel',price:40},{id:'spooky',name:'Gruselnacht',price:50},{id:'moon',name:'Mondlandschaft',price:60},{id:'aurora',name:'Polarlicht',price:0,streak:14}];
+const BGS=[{id:'day',name:L('Sonnentag'),price:0},{id:'sunset',name:L('Abendrot'),price:25},{id:'snow',name:L('Winterzauber'),price:35},{id:'night',name:L('Sternennacht'),price:35},{id:'candy',name:L('Bonbonland'),price:50},{id:'jungle',name:L('Dschungel'),price:40},{id:'spooky',name:L('Gruselnacht'),price:50},{id:'moon',name:L('Mondlandschaft'),price:60},{id:'aurora',name:L('Polarlicht'),price:0,streak:14}];
 px(BGS);
-const HSS=[{id:'house',name:'Haus',price:0},{id:'h_blue',name:'Haus Blau',price:10},{id:'h_green',name:'Haus Grün',price:10},{id:'h_yellow',name:'Haus Gelb',price:10},{id:'h_purple',name:'Haus Lila',price:10},{id:'tent',name:'Zelt',price:15},{id:'igloo',name:'Iglu',price:25},{id:'yurt',name:'Jurte',price:30},{id:'shroom',name:'Pilzhaus',price:35},{id:'castle',name:'Burg',price:60}];
+const HSS=[{id:'house',name:L('Haus'),price:0},{id:'h_blue',name:L('Haus Blau'),price:10},{id:'h_green',name:L('Haus Grün'),price:10},{id:'h_yellow',name:L('Haus Gelb'),price:10},{id:'h_purple',name:L('Haus Lila'),price:10},{id:'tent',name:L('Zelt'),price:15},{id:'igloo',name:L('Iglu'),price:25},{id:'yurt',name:L('Jurte'),price:30},{id:'shroom',name:L('Pilzhaus'),price:35},{id:'castle',name:L('Burg'),price:60}];
 px(HSS);
-const PLS=[{id:'grass',name:'Grasinsel',price:0},{id:'stone',name:'Stein',price:15},{id:'wood',name:'Holzfloß',price:20},{id:'sand',name:'Sand',price:20},{id:'log',name:'Baumstamm',price:25},{id:'cloud',name:'Wolke',price:25},{id:'moss',name:'Moos',price:30},{id:'ice',name:'Eisscholle',price:30},{id:'shroom',name:'Pilz',price:30},{id:'desert',name:'Wüste',price:35},{id:'ruin',name:'Ruine',price:40},{id:'donut',name:'Donut',price:40},{id:'metal',name:'Metall',price:45},{id:'honey',name:'Honig',price:45},{id:'crystal',name:'Kristall',price:50},{id:'lava',name:'Lava',price:60},{id:'rainbow',name:'Regenbogen',price:75},{id:'jungle',name:'Dschungel',price:45},{id:'spooky',name:'Gruselinsel',price:55},{id:'moon',name:'Mondgestein',price:65},{id:'gold',name:'Goldinsel',price:0,streak:7}];px(PLS);
+const PLS=[{id:'grass',name:L('Grasinsel'),price:0},{id:'stone',name:L('Stein'),price:15},{id:'wood',name:L('Holzfloß'),price:20},{id:'sand',name:L('Sand'),price:20},{id:'log',name:L('Baumstamm'),price:25},{id:'cloud',name:L('Wolke'),price:25},{id:'moss',name:L('Moos'),price:30},{id:'ice',name:L('Eisscholle'),price:30},{id:'shroom',name:L('Pilz'),price:30},{id:'desert',name:L('Wüste'),price:35},{id:'ruin',name:L('Ruine'),price:40},{id:'donut',name:L('Donut'),price:40},{id:'metal',name:L('Metall'),price:45},{id:'honey',name:L('Honig'),price:45},{id:'crystal',name:L('Kristall'),price:50},{id:'lava',name:L('Lava'),price:60},{id:'rainbow',name:L('Regenbogen'),price:75},{id:'jungle',name:L('Dschungel'),price:45},{id:'spooky',name:L('Gruselinsel'),price:55},{id:'moon',name:L('Mondgestein'),price:65},{id:'gold',name:L('Goldinsel'),price:0,streak:7}];px(PLS);
 let dTab='bg',dSel=null;
 let dCat='bg';
 function design(){
  $('dWallet').textContent='🪙 '+save.coins;
- const secs=[{cat:'bg',name:'Hintergründe',list:BGS,owned:save.ownedBg,cur:save.bg,reward:30},{cat:'pl',name:'Plattformen',list:PLS,owned:save.ownedPl,cur:save.pl,reward:30},{cat:'hs',name:'Häuser',list:HSS,owned:save.ownedHs,cur:save.house,reward:30}];
+ const secs=[{cat:'bg',name:L('Hintergründe'),list:BGS,owned:save.ownedBg,cur:save.bg,reward:30},{cat:'pl',name:L('Plattformen'),list:PLS,owned:save.ownedPl,cur:save.pl,reward:30},{cat:'hs',name:L('Häuser'),list:HSS,owned:save.ownedHs,cur:save.house,reward:30}];
  $('dCount').textContent=(save.ownedBg.length+save.ownedPl.length+save.ownedHs.length)+'/'+(BGS.length+PLS.length+HSS.length);
- $('dgrid').innerHTML=secs.map(sc=>{const n=sc.list.filter(i=>sc.owned.includes(i.id)).length,done=save.albumDone.includes(sc.name);
-  return '<div class="asec"><h3>'+sc.name+'</h3><div class="abar"><i style="width:'+(n/sc.list.length*100)+'%"></i><em>'+n+'/'+sc.list.length+(done?' · Belohnung erhalten ✔':' · komplett: +'+sc.reward+' 🪙')+'</em></div><div class="agrid">'+
-  sc.list.map(it=>{const own=sc.owned.includes(it.id),on=sc.cur===it.id,sel=dSel===it.id&&dCat===sc.cat&&!own;return jtile(it.id,it.name,own,on,sel,it.price||1,188,128,'Benutzen',it.streak).replace('<button ','<button data-cat="'+sc.cat+'" ');}).join('')+'</div></div>';}).join('');
+ $('dgrid').innerHTML=secs.map(sc=>{const n=sc.list.filter(i=>sc.owned.includes(i.id)).length,done=save.albumDone.includes(albKey(sc.name));
+  return '<div class="asec"><h3>'+sc.name+'</h3><div class="abar"><i style="width:'+(n/sc.list.length*100)+'%"></i><em>'+n+'/'+sc.list.length+(done?L(' · Belohnung erhalten ✔'):L(' · komplett: +')+sc.reward+' 🪙')+'</em></div><div class="agrid">'+
+  sc.list.map(it=>{const own=sc.owned.includes(it.id),on=sc.cur===it.id,sel=dSel===it.id&&dCat===sc.cat&&!own;return jtile(it.id,it.name,own,on,sel,it.price||1,188,128,L('Benutzen'),it.streak).replace('<button ','<button data-cat="'+sc.cat+'" ');}).join('')+'</div></div>';}).join('');
  $('dgrid').querySelectorAll('.jt').forEach(btn=>{const c=btn.querySelector('canvas').getContext('2d');c.setTransform(2.14,0,0,2.14,0,0);const id=btn.dataset.id;
   if(btn.dataset.cat==='bg'){const P=SKY[id];const g=c.createLinearGradient(0,0,0,60);g.addColorStop(0,P.g[0]);g.addColorStop(.6,P.g[1]);g.addColorStop(1,P.g[2]);c.fillStyle=g;c.fillRect(0,0,88,60);
    if(P.stars){c.fillStyle='#fff';for(let i=0;i<14;i++){c.beginPath();c.arc((i*37)%88,(i*23)%36,.9,0,7);c.fill();}}
@@ -2145,45 +2172,45 @@ function applyTheme(id){const t=THEMES[id]||THEMES.day,r=document.documentElemen
 $('dgrid').addEventListener('click',e=>{const b=e.target.closest('.jt');if(!b)return;ac();const id=b.dataset.id,cat=b.dataset.cat,CT={bg:[BGS,'ownedBg','bg'],pl:[PLS,'ownedPl','pl'],hs:[HSS,'ownedHs','house']}[cat],list=CT[0],it=list.find(x=>x.id===id),owned=save[CT[1]];
  if(owned.includes(id)){save[CT[2]]=id;dSel=null;dCat=cat;persist();SFX.boing();B.sqV=-5;setExpr('happy',1);}
  else if(dSel!==id||dCat!==cat){dSel=id;dCat=cat;SFX.click();}
- else if(it.streak){toast('Freischalten: '+it.streak+' Tage Tagesserie 🔥');SFX.no();}
+ else if(it.streak){toast(L('Freischalten: ')+it.streak+L(' Tage Tagesserie 🔥'));SFX.no();}
  else if(save.coins>=it.price){save.coins-=it.price;owned.push(id);save[CT[2]]=id;dSel=null;persist();SFX.buy();buzz(20);confetti(B.x,B.y);setExpr('happy',1.5);B.sqV=-6;
-  for(const [nm,l,o] of [['Hintergründe',BGS,save.ownedBg],['Plattformen',PLS,save.ownedPl],['Häuser',HSS,save.ownedHs]]){if(!save.albumDone.includes(nm)&&l.every(x=>o.includes(x.id))){save.albumDone.push(nm);save.coins+=30;persist();setTimeout(()=>{SFX.win();toast('Album „'+nm+'“ komplett! +30 🪙');design();},500);}}}
+  for(const [nm,l,o] of [[L('Hintergründe'),BGS,save.ownedBg],[L('Plattformen'),PLS,save.ownedPl],[L('Häuser'),HSS,save.ownedHs]]){if(!save.albumDone.includes(albKey(nm))&&l.every(x=>o.includes(x.id))){save.albumDone.push(albKey(nm));save.coins+=30;persist();setTimeout(()=>{SFX.win();toast(L('Album „')+nm+L('“ komplett! +30 🪙'));design();},500);}}}
  else{SFX.no();shakeEl(b);return;}
  setPreview();design();});
 on('dBack',()=>{SFX.click();dSel=null;setPreview();show('menu');});
 on('bDesign',()=>{SFX.click();dSel=null;dCat='bg';setPreview();design();show('design');});
 on('bWardM',()=>{SFX.click();wardFrom='menu';wardSel=null;G.prevCos=null;ward();show('ward');});
-on('bSet',()=>{SFX.click();resetArm=false;$('bReset').textContent='Löschen';labels();show('settings');});
+on('bSet',()=>{SFX.click();resetArm=false;$('bReset').textContent=L('Löschen');labels();show('settings');});
 on('setBack',()=>{SFX.click();show('menu');});
 on('swSound',toggleSound);on('swVib',()=>{save.vib=save.vib===false;persist();labels();SFX.click();buzz(30);});
 on('aimN',()=>{save.aim='normal';persist();labels();SFX.click();});on('aimV',()=>{save.aim='voll';persist();labels();SFX.click();});on('aimA',()=>{save.aim='aus';persist();labels();SFX.click();});
 let resetArm=false;
-on('bReset',()=>{if(!resetArm){resetArm=true;$('bReset').textContent='Wirklich?';SFX.no();return;}
- const keep={sound:save.sound,vib:save.vib,music:save.music};save=Object.assign(DEFAULTS(),keep);fixSave();save.hatched=false;save.tutDone=false;save.seenVer=VERSION;persist();resetArm=false;$('bReset').textContent='Löschen';labels();applyTheme(save.bg);SFX.click();toast('Spielstand gelöscht');startFlow();});
+on('bReset',()=>{if(!resetArm){resetArm=true;$('bReset').textContent=L('Wirklich?');SFX.no();return;}
+ const keep={sound:save.sound,vib:save.vib,music:save.music};save=Object.assign(DEFAULTS(),keep);fixSave();save.hatched=false;save.tutDone=false;save.seenVer=VERSION;persist();resetArm=false;$('bReset').textContent=L('Löschen');labels();applyTheme(save.bg);SFX.click();toast(L('Spielstand gelöscht'));startFlow();});
 $('ver').textContent='v'+VERSION+' · Build '+BUILD;
-$('log').innerHTML=CHANGELOG.map(c=>'<p><b>v'+c[0]+' · Build '+c[1]+'</b></p><ul>'+c[2].map(x=>'<li>'+x+'</li>').join('')+'</ul>').join('');
+$('log').innerHTML=(LANG==='en'?CHANGELOG_EN:CHANGELOG).map(c=>'<p><b>v'+c[0]+' · Build '+c[1]+'</b></p><ul>'+c[2].map(x=>'<li>'+x+'</li>').join('')+'</ul>').join('');
 const toMap=()=>{SFX.click();setupMenu();openMap();};
 const toModes=()=>{if(sickBlock())return;SFX.click();lbCount();setupMenu();modesUI();show('modes');};
 on('bPlay',toModes);
-on('mdBack',()=>{SFX.click();show('menu');});on('adDblR',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+' 🪙 extra!');$('adDblR').dataset.used='1';confetti(B.x,B.y);}));
-on('adDblL',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+' 🪙 extra!');$('adDblL').dataset.used='1';confetti(B.x,B.y);}));
-on('adMed',()=>adReward(()=>{const P=save.pet;P.sick=false;P.hp=Math.max(P.hp,80);P.low={e:0,s:0,m:0,d:0};persist();toast('Wieder gesund – danke!');toMain();}));
-on('adCont',()=>adReward(()=>{const r=G.run;if(!r)return;r.cont=true;$('adCont').dataset.used='1';G.coinsGot=0;G.dropsGot=0;G.hearts=1;G.mode='play';G.deadT=0;show('hud');respawn();hud();showHint('Weiter geht’s – letztes Herz!');}));
-on('adPriv',async()=>{try{await ADS.A.showPrivacyOptionsForm();}catch(e){toast('Nicht verfügbar');}});
+on('mdBack',()=>{SFX.click();show('menu');});on('adDblR',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+L(' 🪙 extra!'));$('adDblR').dataset.used='1';confetti(B.x,B.y);}));
+on('adDblL',()=>adReward(()=>{save.coins+=G.lastGain||0;persist();toast('+'+(G.lastGain||0)+L(' 🪙 extra!'));$('adDblL').dataset.used='1';confetti(B.x,B.y);}));
+on('adMed',()=>adReward(()=>{const P=save.pet;P.sick=false;P.hp=Math.max(P.hp,80);P.low={e:0,s:0,m:0,d:0};persist();toast(L('Wieder gesund – danke!'));toMain();}));
+on('adCont',()=>adReward(()=>{const r=G.run;if(!r)return;r.cont=true;$('adCont').dataset.used='1';G.coinsGot=0;G.dropsGot=0;G.hearts=1;G.mode='play';G.deadT=0;show('hud');respawn();hud();showHint(L('Weiter geht’s – letztes Herz!'));}));
+on('adPriv',async()=>{try{await ADS.A.showPrivacyOptionsForm();}catch(e){toast(L('Nicht verfügbar'));}});
 on('mdAch',()=>{SFX.click();achCheck();achUI();show('ach');});on('achBack',()=>{SFX.click();modesUI();show('modes');});
 on('mdLb',()=>{SFX.click();lbUI();show('lboard');});on('lbBack',()=>{SFX.click();modesUI();show('modes');});on('rrLb',()=>{SFX.click();const t=G.run&&G.run.type;if(t==='daily'||t==='endless')lbTop(t);else lbShow('duel');});
 $('lbList').addEventListener('click',e=>{const b=e.target.closest('[data-lb]');if(!b)return;ac();SFX.click();const k=b.dataset.lb;if(k==='duel')lbShow(k).then(lbUI);else lbTop(k);});
 $('lbtTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;SFX.click();lbTop(lbtKind,b.dataset.s);});
 on('lbtBack',()=>{SFX.click();lbUI();show('lboard');});
-on('slBack',()=>{SFX.click();toMain();});on('slHome',()=>{SFX.click();$('bHome').click();});on('slWake',()=>{const P=save.pet;if(P.sleep){const mins=(Date.now()-P.sleep)/6e4;sleepToggle();if(mins<20){P.mood=Math.max(0,P.mood-5);persist();}}toast(save.pet.sick?'Flumm ist wach – aber noch krank':'Flumm ist wach – los geht’s!');toMain();});
-on('skBack',()=>{SFX.click();toMain();});on('skHome',()=>{SFX.click();$('bHome').click();});on('skMed',()=>{if(save.coins<25){toast('Medizin kostet 25 🪙');SFX.no();return;}medicine();toast('Wieder gesund – los geht’s!');toMain();});
+on('slBack',()=>{SFX.click();toMain();});on('slHome',()=>{SFX.click();$('bHome').click();});on('slWake',()=>{const P=save.pet;if(P.sleep){const mins=(Date.now()-P.sleep)/6e4;sleepToggle();if(mins<20){P.mood=Math.max(0,P.mood-5);persist();}}toast(save.pet.sick?L('Flumm ist wach – aber noch krank'):L('Flumm ist wach – los geht’s!'));toMain();});
+on('skBack',()=>{SFX.click();toMain();});on('skHome',()=>{SFX.click();$('bHome').click();});on('skMed',()=>{if(save.coins<25){toast(L('Medizin kostet 25 🪙'));SFX.no();return;}medicine();toast(L('Wieder gesund – los geht’s!'));toMain();});
 on('mnStreak',()=>{SFX.click();streakUI();show('streak');});on('stBack',()=>{SFX.click();toMain();});on('mdAdv',toMap);on('mdEnd',()=>{SFX.boing();startRun('endless');});on('mdDay',()=>{SFX.boing();startRun('daily');});
 on('mdDuel',()=>{SFX.click();$('pName').value=save.name||'';$('duInfo').textContent='';show('duel');});
 on('duBack',()=>{SFX.click();show('modes');});
 $('pName').addEventListener('input',()=>{save.name=$('pName').value.trim().slice(0,12);persist();});
-on('duNew',()=>{if(!save.name){$('pName').focus();toast('Gib zuerst deinen Namen ein');shakeEl($('pName'));return;}SFX.boing();startRun('duel');});
-on('duGo',()=>{const o=readCode($('duCode').value);if(!o){SFX.no();$('duInfo').textContent='Der Code ist ungültig.';shakeEl($('duCode'));return;}if(!save.name){$('pName').focus();toast('Gib zuerst deinen Namen ein');return;}SFX.boing();$('duCode').value='';startRun('duel',{seed:o.s,ghost:o});});
-on('rrCopy',()=>{const t=$('rrCodeTxt');t.select();let ok=false;try{navigator.clipboard.writeText(t.value).then(()=>toast('Code kopiert!'),()=>toast('Markiert – jetzt kopieren'));ok=true;}catch(e){}if(!ok)toast('Markiert – jetzt kopieren');});
+on('duNew',()=>{if(!save.name){$('pName').focus();toast(L('Gib zuerst deinen Namen ein'));shakeEl($('pName'));return;}SFX.boing();startRun('duel');});
+on('duGo',()=>{const o=readCode($('duCode').value);if(!o){SFX.no();$('duInfo').textContent=L('Der Code ist ungültig.');shakeEl($('duCode'));return;}if(!save.name){$('pName').focus();toast(L('Gib zuerst deinen Namen ein'));return;}SFX.boing();$('duCode').value='';startRun('duel',{seed:o.s,ghost:o});});
+on('rrCopy',()=>{const t=$('rrCodeTxt');t.select();let ok=false;try{navigator.clipboard.writeText(t.value).then(()=>toast(L('Code kopiert!')),()=>toast(L('Markiert – jetzt kopieren')));ok=true;}catch(e){}if(!ok)toast(L('Markiert – jetzt kopieren'));});
 on('rrAgain',()=>{const r=G.run;if(!r)return;if(r.type==='duel'&&r.ghost)startRun('duel',{seed:r.seed,ghost:r.ghost});else if(r.type==='duel')startRun('duel',{seed:r.seed});else startRun(r.type);});
 on('rrModes',toModes);on('rrHome',()=>{SFX.click();setupHome();});
 on('bHome',()=>{SFX.click();setupHome();});
@@ -2198,7 +2225,7 @@ let wardFrom='home';
 on('wBack',()=>{SFX.click();wardSel=null;G.prevCos=null;wardSelM=null;G.prevMasc=null;if(wardFrom==='home'){show('home');homeUI();}else{show('menu');menuUI();}});on('wOff',()=>{save.costume='none';persist();SFX.boing();ward();});
 on('bSound',toggleSound);on('pMusic',toggleMusic);on('bMusic',toggleMusic);on('swMusic',toggleMusic);on('bWash',washFlumm);on('bBall',playBall);on('dGet',claimDaily);on('pSound',toggleSound);on('bAim',toggleAim);on('pAim',toggleAim);
 on('bInfo',()=>{SFX.click();save.seenVer=VERSION;persist();labels();show('info');});on('iBack',()=>{SFX.click();show('menu');});
-on('bPause',()=>{if(G.mode==='play'){G.mode='pause';B.charging=false;G.held=false;$('icPMenu').innerHTML=G.run?IC.modes:IC.mapI;$('lbPMenu').textContent=G.run?'Modi':'Karte';show('pause');}});
+on('bPause',()=>{if(G.mode==='play'){G.mode='pause';B.charging=false;G.held=false;$('icPMenu').innerHTML=G.run?IC.modes:IC.mapI;$('lbPMenu').textContent=G.run?L('Modi'):L('Karte');show('pause');}});
 on('pGo',()=>{G.mode='play';show('hud');});
 on('pRetry',()=>{if(G.run)$('rrAgain').click();else startLevel(G.lvl);});on('pMenu',()=>{if(G.run)toModes();else toMap();});
 on('rNext',()=>startLevel(G.lvl+1));on('rRetry',()=>startLevel(G.lvl));on('rMenu',toMap);on('rHome',()=>{SFX.click();setupHome();});
@@ -2212,11 +2239,11 @@ function press(e){ac();G.held=true;
  if(G.mode==='menu'&&!save.hatched){tapEgg();return;}
  if(G.mode==='play'&&B.ground&&G.deadT<=0){B.charging=true;B.charge=0;B.cdir=1;}
  else if(G.mode==='home'&&e&&e.clientX!=null){const wx=e.clientX/SC/G.zoom+G.cam.x,wy=e.clientY/SC/G.zoom+G.cam.y;if(Math.hypot(wx-B.x,wy-B.y)<B.r*2)petFlumm();}
- else if(G.mode==='menu'&&B.ground){if(save.pet.sleep){popup('Zzz…',B.x,B.y-46,'#fff',20);return;}B.vy=-460;B.vx=0;B.ground=null;B.sqV=7;SFX.jump(.5);setExpr('joy',.8);}
+ else if(G.mode==='menu'&&B.ground){if(save.pet.sleep){popup(L('Zzz…'),B.x,B.y-46,'#fff',20);return;}B.vy=-460;B.vx=0;B.ground=null;B.sqV=7;SFX.jump(.5);setExpr('joy',.8);}
 }
 function release(){G.held=false;
  if(B.charging&&B.ground&&G.mode==='play'){
-  if(!G.lastRefuse&&Math.random()<G.fx.refuse){G.lastRefuse=true;B.charging=false;B.charge=0;B.sqV=-3;setExpr('sad',1.1);SFX.no();buzz(40);popup(save.pet.sick?'Mir ist schlecht…':'Nö!',B.x,B.y-46,'#FF8FB8',24);return;}
+  if(!G.lastRefuse&&Math.random()<G.fx.refuse){G.lastRefuse=true;B.charging=false;B.charge=0;B.sqV=-3;setExpr('sad',1.1);SFX.no();buzz(40);popup(save.pet.sick?L('Mir ist schlecht…'):L('Nö!'),B.x,B.y-46,'#FF8FB8',24);return;}
   G.lastRefuse=false;jump();}
  else B.charging=false;}
 cv.addEventListener('pointerdown',e=>{e.preventDefault();press(e);});
@@ -2241,35 +2268,35 @@ function drawEgg(x,yb){const k=EGG.taps,w=EGG.wob,a=Math.sin(G.t*22)*.22*w+Math.
  if(k>=2){ctx.beginPath();ctx.moveTo(-24,-26);ctx.lineTo(-16,-30);ctx.lineTo(-9,-25);ctx.lineTo(-2,-30);ctx.lineTo(5,-25);ctx.lineTo(13,-30);ctx.lineTo(21,-25);ctx.stroke();}
  ctx.restore();}
 function tapEgg(){if(EGG.done)return;EGG.taps++;EGG.wob=1;SFX.crack();buzz(25);burst(B.x,B.y-10,6,['#FFEFD0','#8FE8CF','#fff'],200,4,700);
- $('hatchSay').textContent=EGG.taps===1?'Es wackelt! Nochmal!':'Gleich ist es so weit!';
+ $('hatchSay').textContent=EGG.taps===1?L('Es wackelt! Nochmal!'):L('Gleich ist es so weit!');
  if(EGG.taps>=3){EGG.done=true;setTimeout(hatchNow,250);}}
 function hatchNow(){save.hatched=true;save.pet.born=Date.now();save.pet.ts=Date.now();persist();
- burst(B.x,B.y,26,['#FFEFD0','#8FE8CF','#fff'],380,6,800);confetti(B.x,B.y);SFX.win();buzz([20,40,20]);B.sq=-.6;B.sqV=10;setExpr('happy',2.5);popup('Hallo!',B.x,B.y-50,'#FFE066',30);
- $('hatchSay').textContent='Ein Baby-Flumm!';setTimeout(()=>{$('hatchSay').style.display='none';$('hatchName').style.display='';$('hName').value=save.petName||'Flumm';},1400);}
+ burst(B.x,B.y,26,['#FFEFD0','#8FE8CF','#fff'],380,6,800);confetti(B.x,B.y);SFX.win();buzz([20,40,20]);B.sq=-.6;B.sqV=10;setExpr('happy',2.5);popup(L('Hallo!'),B.x,B.y-50,'#FFE066',30);
+ $('hatchSay').textContent=L('Ein Baby-Flumm!');setTimeout(()=>{$('hatchSay').style.display='none';$('hatchName').style.display='';$('hName').value=save.petName||'Flumm';},1400);}
 function startFlow(){
- if(!save.hatched){setupMenu();EGG.taps=0;EGG.wob=0;EGG.done=false;$('hatchSay').style.display='';$('hatchSay').textContent='Ein Ei! Tippe es an.';$('hatchName').style.display='none';show('hatch');return;}
+ if(!save.hatched){setupMenu();EGG.taps=0;EGG.wob=0;EGG.done=false;$('hatchSay').style.display='';$('hatchSay').textContent=L('Ein Ei! Tippe es an.');$('hatchName').style.display='none';show('hatch');return;}
  setupMenu();show('menu');
  if(!save.tutDone){setTimeout(startTut,500);return;}
  setTimeout(()=>{checkDaily();},400);}
 on('hGo',()=>{save.petName=($('hName').value.trim()||'Flumm').slice(0,12);persist();SFX.boing();menuUI();show('menu');setTimeout(startTut,500);});
 const TUT=[
- {t:()=>'Hallo! Ich bin '+esc(save.petName)+'. Ich liebe es zu springen – und ich brauche dich!'},
- {sel:'#petBub',t:()=>'Hier siehst du, wie alt ich bin und wie es mir gerade geht.'},
- {sel:'#bPlay',t:()=>'Spielen: Abenteuer, Endlos, Tageslauf oder Duell gegen Freunde.'},
- {t:()=>'So spielst du:<div class="tl"><span style="font-size:22px">🚩</span><span>Spring von Insel zu Insel bis zur <b>Fahne</b>.</span></div><div class="tl"><span style="font-size:20px">❤️</span><span>Fällst du runter, kostet das ein <b>Herz</b>. Keine Herzen mehr = Game Over.</span></div><div class="tl"><span style="font-size:20px">⭐</span><span>Bis zu <b>3 Sterne</b>: Ziel erreicht, ohne Sturz, genug PERFEKT.</span></div>'},
- {t:()=>'So springst du:<div class="tl"><span class="tg" style="background:#5FB8F5">gedrückt halten</span>→ Kraftring lädt auf</div><div class="tl"><span class="tg" style="background:#4FCB8A">loslassen</span>→ Sprung!</div><div class="tl"><span class="tg" style="background:#F5A623">helle Mitte</span>→ PERFEKT</div>'},
- {t:()=>'Die Inseln:'+[['grass','<b>Normal</b> – hier stehst du sicher'],['glide','<b>Flügel-Insel</b> – fliegt hin und her'],['lift','<b>Antrieb-Insel</b> – fährt hoch und runter'],['crack','<b>Bröckel</b> – zerfällt kurz nach der Landung, schnell weiter!'],['spring','<b>Glibber-Polster</b> – Extra-Schwung für den nächsten Sprung']].map(r=>'<div class="tl"><img class="tpi" src="'+platThumb(r[0])+'" alt=""><span>'+r[1]+'</span></div>').join('')+'<small>In Endlos und Tageslauf wechselt alle 12 Inseln die Welt – und es wird immer kniffliger.</small>'},
- {t:()=>'<div class="tl">'+IC.berry+'<span><b>Erdbeeren</b> schweben zwischen den Inseln. Sie sind mein <b>Futter</b> – im Zuhause füttern macht mich satt. Du behältst sie auch bei Game Over.</span></div><div class="tl"><span style="font-size:24px">🍽️</span><span>Ohne Erdbeeren werde ich hungrig: weniger Sprungkraft, und auf Dauer werde ich krank.</span></div>'},
- {t:()=>'<div class="tl"><span style="font-size:24px">🪙</span><span><b>Münzen</b> liegen auf den Inseln. Extra-Münzen gibt es für neue Sterne, Rekorde, Duelle und das Tagesgeschenk.</span></div><div class="tl"><span style="font-size:24px">🛍️</span><span>Ausgeben für <b>Kostüme</b>, neue <b>Inseln &amp; Hintergründe</b> und <b>Medizin</b> (25 🪙), wenn ich krank bin.</span></div>'},
- {sel:'#bHome',t:()=>'Im Zuhause kannst du mich füttern, waschen, mit mir Ball spielen und ins Bett bringen.'},
- {t:()=>'Wenn du dich nicht um mich kümmerst:<div class="tl">'+IC.berry+'<span class="tg" style="background:#D97A12">hungrig</span>→ weniger Sprungkraft</div><div class="tl">'+IC.bolt+'<span class="tg" style="background:#7B6FB0">müde</span>→ lädt langsamer</div><div class="tl">'+IC.heart+'<span class="tg" style="background:#D9485F">traurig</span>→ sagt manchmal „Nö!“</div><div class="tl">'+IC.pill+'<span class="tg" style="background:#3E8E3A">krank</span>→ dann kann ich nicht spielen! Medizin, Schlaf, Essen und Streicheln helfen</div>Achte auf die grüne <b>Gesundheit</b>!'},
- {t:()=>'Mit guter Pflege und etwas Zeit wachse ich:<div class="stg"><span class="tg" style="background:#8FD3FF">Baby</span>→<span class="tg" style="background:#4FCB8A">Kind</span>→<span class="tg" style="background:#B58CFF">Teen</span>→<span class="tg" style="background:#F5A623">Super</span></div>Jede Stufe bringt dir einen Vorteil!'},
- {sel:'.tiles',t:()=>'Gestalten und Kostüme: Mach mein Zuhause und mich richtig schick!'},
- {sel:'.topicons',t:()=>'Oben: Ton, Musik, Zielhilfe und Neuigkeiten – rechts Hilfe und Einstellungen. Viel Spaß!'}];
+ {t:()=>L('Hallo! Ich bin ')+esc(save.petName)+L('. Ich liebe es zu springen – und ich brauche dich!')},
+ {sel:'#petBub',t:()=>L('Hier siehst du, wie alt ich bin und wie es mir gerade geht.')},
+ {sel:'#bPlay',t:()=>L('Spielen: Abenteuer, Endlos, Tageslauf oder Duell gegen Freunde.')},
+ {t:()=>L('So spielst du:<div class="tl"><span style="font-size:22px">🚩</span><span>Spring von Insel zu Insel bis zur <b>Fahne</b>.</span></div><div class="tl"><span style="font-size:20px">❤️</span><span>Fällst du runter, kostet das ein <b>Herz</b>. Keine Herzen mehr = Game Over.</span></div><div class="tl"><span style="font-size:20px">⭐</span><span>Bis zu <b>3 Sterne</b>: Ziel erreicht, ohne Sturz, genug PERFEKT.</span></div>')},
+ {t:()=>L('So springst du:<div class="tl"><span class="tg" style="background:#5FB8F5">gedrückt halten</span>→ Kraftring lädt auf</div><div class="tl"><span class="tg" style="background:#4FCB8A">loslassen</span>→ Sprung!</div><div class="tl"><span class="tg" style="background:#F5A623">helle Mitte</span>→ PERFEKT</div>')},
+ {t:()=>L('Die Inseln:')+[['grass',L('<b>Normal</b> – hier stehst du sicher')],['glide',L('<b>Flügel-Insel</b> – fliegt hin und her')],['lift',L('<b>Antrieb-Insel</b> – fährt hoch und runter')],['crack',L('<b>Bröckel</b> – zerfällt kurz nach der Landung, schnell weiter!')],['spring',L('<b>Glibber-Polster</b> – Extra-Schwung für den nächsten Sprung')]].map(r=>'<div class="tl"><img class="tpi" src="'+platThumb(r[0])+'" alt=""><span>'+r[1]+'</span></div>').join('')+L('<small>In Endlos und Tageslauf wechselt alle 12 Inseln die Welt – und es wird immer kniffliger.</small>')},
+ {t:()=>'<div class="tl">'+IC.berry+L('<span><b>Erdbeeren</b> schweben zwischen den Inseln. Sie sind mein <b>Futter</b> – im Zuhause füttern macht mich satt. Du behältst sie auch bei Game Over.</span></div><div class="tl"><span style="font-size:24px">🍽️</span><span>Ohne Erdbeeren werde ich hungrig: weniger Sprungkraft, und auf Dauer werde ich krank.</span></div>')},
+ {t:()=>L('<div class="tl"><span style="font-size:24px">🪙</span><span><b>Münzen</b> liegen auf den Inseln. Extra-Münzen gibt es für neue Sterne, Rekorde, Duelle und das Tagesgeschenk.</span></div><div class="tl"><span style="font-size:24px">🛍️</span><span>Ausgeben für <b>Kostüme</b>, neue <b>Inseln &amp; Hintergründe</b> und <b>Medizin</b> (25 🪙), wenn ich krank bin.</span></div>')},
+ {sel:'#bHome',t:()=>L('Im Zuhause kannst du mich füttern, waschen, mit mir Ball spielen und ins Bett bringen.')},
+ {t:()=>L('Wenn du dich nicht um mich kümmerst:<div class="tl">')+IC.berry+L('<span class="tg" style="background:#D97A12">hungrig</span>→ weniger Sprungkraft</div><div class="tl">')+IC.bolt+L('<span class="tg" style="background:#7B6FB0">müde</span>→ lädt langsamer</div><div class="tl">')+IC.heart+L('<span class="tg" style="background:#D9485F">traurig</span>→ sagt manchmal „Nö!“</div><div class="tl">')+IC.pill+L('<span class="tg" style="background:#3E8E3A">krank</span>→ dann kann ich nicht spielen! Medizin, Schlaf, Essen und Streicheln helfen</div>Achte auf die grüne <b>Gesundheit</b>!')},
+ {t:()=>L('Mit guter Pflege und etwas Zeit wachse ich:<div class="stg"><span class="tg" style="background:#8FD3FF">Baby</span>→<span class="tg" style="background:#4FCB8A">Kind</span>→<span class="tg" style="background:#B58CFF">Teen</span>→<span class="tg" style="background:#F5A623">Super</span></div>Jede Stufe bringt dir einen Vorteil!')},
+ {sel:'.tiles',t:()=>L('Gestalten und Kostüme: Mach mein Zuhause und mich richtig schick!')},
+ {sel:'.topicons',t:()=>L('Oben: Ton, Musik, Zielhilfe und Neuigkeiten – rechts Hilfe und Einstellungen. Viel Spaß!')}];
 let tutI=0;
 function startTut(){tutI=0;show('menu');$('tut').classList.add('on');tutStep();}
 function tutStep(){const st=TUT[tutI],sp=$('tutSpot'),bx=$('tutBox');$('tutTxt').innerHTML=st.t();$('tutDots').innerHTML=TUT.map((_,i)=>'<i class="'+(i===tutI?'on':'')+'"></i>').join('');
- $('tutNext').textContent=tutI===TUT.length-1?'Fertig':'Weiter';
+ $('tutNext').textContent=tutI===TUT.length-1?L('Fertig'):L('Weiter');
  let r=null;if(st.sel){const el=document.querySelector(st.sel);if(el){r=el.getBoundingClientRect();if(!r.width)r=null;}}
  if(r){const pd=8;sp.style.left=(r.left-pd)+'px';sp.style.top=(r.top-pd)+'px';sp.style.width=(r.width+pd*2)+'px';sp.style.height=(r.height+pd*2)+'px';sp.style.opacity=1;}
  else{sp.style.left='50%';sp.style.top='45%';sp.style.width='0px';sp.style.height='0px';sp.style.opacity=.99;}

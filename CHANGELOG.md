@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.27.0 · Build 55
+- Flumm spricht jetzt auch Englisch: Die App nutzt die Systemsprache (deutschsprachige Geräte = Deutsch, alle anderen = Englisch)
+- In den Einstellungen lässt sich die Sprache umschalten: Automatisch, Deutsch oder English
+
 ## v0.26.0 · Build 54
 - Neu: Erfolge – 21 Erfolge mit Bronze-, Silber- und Gold-Medaille und Münz-Belohnungen (unter Spielen → 🎖️ Erfolge)
 - Bisherige Fortschritte zählen sofort mit

@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.26.0 (Build 54)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.27.0 (Build 55)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.26.0-build54`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.27.0-build55`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -90,3 +90,9 @@ Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht 
 - Plugin `@capawesome/capacitor-app-update`. Gibt es bei Google Play eine neuere Version, zeigt das Hauptmenü „Neue Version verfügbar – Aktualisieren“ (flexibles Update im Hintergrund, danach „Neu starten“). Mit ✕ pro Version ausblendbar.
 - Funktioniert nur bei Installationen aus Google Play (auch geschlossener/interner Test), nicht bei der Debug-APK.
 - iOS: vorbereitet, aktiv sobald `IOS_APP_ID` in `index.html` eingetragen ist (öffnet den App-Store-Eintrag).
+
+
+## Sprache
+- Die App nutzt die Systemsprache: Geräte mit Deutsch (de-DE, de-AT, de-CH …) → Deutsch, alle anderen → Englisch.
+- Umschalter in den Einstellungen: Auto / DE / EN (Spiel lädt kurz neu).
+- Übersetzungen: `EN` (Texte im Code, Schlüssel = deutscher Text), `EN_H` (feste Texte im HTML), `HELP_EN` (Hilfe), `CHANGELOG_EN`. Neue Texte im Code mit `L('…')` umschließen und in `EN` ergänzen.
