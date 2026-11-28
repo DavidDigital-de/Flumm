@@ -1,5 +1,8 @@
 # Changelog – FLUMM
 
+## v0.27.2 · Build 57
+- Fehler behoben: Bei bestimmten Spielständen startete das Spiel nicht richtig (leeres Hauptmenü) – Ursache war ein Namenskonflikt in der neuen Übersetzung
+
 ## v0.27.1 · Build 56
 - Fehler behoben: Auf manchen Handys blieb das Hauptmenü nach dem Start leer (kein Flumm, keine Insel)
 - Das Spiel läuft jetzt auch nach einem einzelnen Zeichenfehler weiter

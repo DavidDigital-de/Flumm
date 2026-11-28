@@ -1,6 +1,6 @@
 # FLUMM als Android- und iOS-App
 
-Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.27.1 (Build 56)**.
+Die App ist eine Capacitor-Hülle um `index.html`. App-ID: **de.daviddigital.flumm** · Version **0.27.2 (Build 57)**.
 
 ## Wie die Builds entstehen
 Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps bauen“) automatisch:
@@ -16,7 +16,7 @@ Bei jedem Push auf `main` baut GitHub Actions (Reiter **Actions** → „Apps ba
 **Direkter Download der neuesten APK (auch am Handy):**
 https://github.com/DavidDigital-de/Flumm/releases/latest/download/FLUMM.apk
 
-Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.27.1-build56`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
+Jeder Push auf `main` erstellt automatisch ein Release (z. B. `v0.27.2-build57`) mit allen Dateien. Zusätzlich liegen sie unter Actions → Lauf → **Artifacts** (nur angemeldet).
 
 ## Android-Signatur einrichten (einmalig)
 1. Keystore erstellen (gut aufbewahren – ohne ihn keine Updates im Play Store!):
@@ -95,4 +95,4 @@ Test-APK ist jetzt immer mit `android/app/flumm-debug.keystore` signiert (nicht 
 ## Sprache
 - Die App nutzt die Systemsprache: Geräte mit Deutsch (de-DE, de-AT, de-CH …) → Deutsch, alle anderen → Englisch.
 - Umschalter in den Einstellungen: Auto / DE / EN (Spiel lädt kurz neu).
-- Übersetzungen: `EN` (Texte im Code, Schlüssel = deutscher Text), `EN_H` (feste Texte im HTML), `HELP_EN` (Hilfe), `CHANGELOG_EN`. Neue Texte im Code mit `L('…')` umschließen und in `EN` ergänzen.
+- Übersetzungen: `EN` (Texte im Code, Schlüssel = deutscher Text), `EN_H` (feste Texte im HTML), `HELP_EN` (Hilfe), `CHANGELOG_EN`. Neue Texte im Code mit `T_('…')` umschließen und in `EN` ergänzen.
