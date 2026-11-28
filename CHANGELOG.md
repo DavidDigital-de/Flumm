@@ -1,5 +1,9 @@
 # Changelog – FLUMM
 
+## v0.27.1 · Build 56
+- Fehler behoben: Auf manchen Handys blieb das Hauptmenü nach dem Start leer (kein Flumm, keine Insel)
+- Das Spiel läuft jetzt auch nach einem einzelnen Zeichenfehler weiter
+
 ## v0.27.0 · Build 55
 - Flumm spricht jetzt auch Englisch: Die App nutzt die Systemsprache (deutschsprachige Geräte = Deutsch, alle anderen = Englisch)
 - In den Einstellungen lässt sich die Sprache umschalten: Automatisch, Deutsch oder English

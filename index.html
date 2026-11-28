@@ -643,8 +643,9 @@ function i18nDom(){if(LANG!=='en')return;document.documentElement.lang='en';
  document.querySelectorAll('[aria-label],[title],[placeholder]').forEach(e=>{for(const at of ['aria-label','title','placeholder']){const v=e.getAttribute(at);if(v&&EN_H[v.trim()]!=null)e.setAttribute(at,EN_H[v.trim()]);}});}
 i18nDom();
 
-const VERSION='0.27.0', BUILD=55;
+const VERSION='0.27.1', BUILD=56;
 const CHANGELOG=[
+ ['0.27.1','56',['Fehler behoben: Auf manchen Handys blieb das Hauptmenü nach dem Start leer (kein Flumm, keine Insel)','Das Spiel läuft jetzt auch nach einem einzelnen Zeichenfehler weiter']],
  ['0.27.0','55',['Flumm spricht jetzt auch Englisch: Die App nutzt die Systemsprache (deutschsprachige Geräte = Deutsch, alle anderen = Englisch)','In den Einstellungen lässt sich die Sprache umschalten: Automatisch, Deutsch oder English']],
  ['0.26.0','54',['Neu: Erfolge – 21 Erfolge mit Bronze-, Silber- und Gold-Medaille und Münz-Belohnungen (unter Spielen → 🎖️ Erfolge)','Bisherige Fortschritte zählen sofort mit']],
  ['0.25.0','53',['Neue Entwicklungsstufen: Mega-Flumm (ab Tag 14, Krone, +1 weiteres Herz) und Legenden-Flumm (ab Tag 30, Heiligenschein, Regenbogen-Schimmer, +50 % Münzen, Regenbogen-Sprungspur)']],
@@ -701,14 +702,14 @@ const CHANGELOG=[
  ['0.2.0','2',['Zielhilfe mit langer Flugbahn und Landepunkt','Flumm-Zuhause: füttern, streicheln, wachsen','Kleiderschrank mit 11 Kostümen','Tropfen-Geldbeutel']],
  ['0.1.0','1',['Erster spielbarer Prototyp mit 10 Leveln']]
 ];
-const CHANGELOG_EN=[['0.27.0','55',['Flumm now speaks English! The app follows your system language (German-speaking devices = German, all others = English).','Switch the language any time in the settings: Automatic, Deutsch or English.']],
+const CHANGELOG_EN=[['0.27.1','56',['Fixed: on some phones the main menu stayed empty after starting (no Flumm, no island).']],['0.27.0','55',['Flumm now speaks English! The app follows your system language (German-speaking devices = German, all others = English).','Switch the language any time in the settings: Automatic, Deutsch or English.']],
  ['0.26.0','54',['Achievements: 21 achievements with bronze, silver and gold medals and coin rewards.']],
  ['0.25.0','53',['Two new growth stages: Mega Flumm and Legendary Flumm.']],
  ['0.24.0','51',['Animal mascots (cat, dog, bunny, horse, lion, unicorn) and houses (tent, igloo, yurt, mushroom house, castle and more).']]];
 const $=id=>document.getElementById(id);
 const cv=$('c');let ctx=cv.getContext('2d');
 let W=0,H=0,DPR=1,SC=1,VW=460,VHe=720;
-function resize(){try{PB.w=0;}catch(e){}DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);SC=Math.min(H/720,W/460);VW=W/SC;VHe=H/SC;if(G&&G.mode==='map')openMap(true);}
+function resize(){try{PB.w=0;}catch(e){}if(!(innerWidth>0&&innerHeight>0)){setTimeout(resize,100);return;}DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);SC=Math.min(H/720,W/460);VW=W/SC;VHe=H/SC;if(G&&G.mode==='map')openMap(true);}
 let G=null;
 
 /* ---------- Spielstand ---------- */
@@ -1584,6 +1585,7 @@ function drawSky(){
  if(k<1&&G.skyPrev!==id){
   // alter Himmel: halbe Auflösung, nur jedes 3. Bild neu gezeichnet → Übergang kostet kaum mehr als ein normaler Himmel
   const ow=Math.ceil(VW*SKO_S),oh=Math.ceil(VHe*SKO_S);
+  if(!(ow>=1&&oh>=1)){drawSkyP(SKY[id]);return;}
   if(SKO.width!==ow||SKO.height!==oh){SKO.width=ow;SKO.height=oh;SKO.n=0;}
   if(SKO.id!==G.skyPrev||!(SKO.n++%3)){SKO.id=G.skyPrev;const m=ctx;ctx=SKX;ctx.setTransform(SKO_S,0,0,SKO_S,0,0);try{drawSkyP(SKY[G.skyPrev]);}finally{ctx=m;}}
   ctx.drawImage(SKO,0,0,VW,VHe);ctx.globalAlpha=k;drawSkyP(SKY[id],k);ctx.globalAlpha=1;
@@ -2135,7 +2137,7 @@ $('bSet').innerHTML=IC.gear;$('goMenu').innerHTML=IC.burger;$('mMenu').innerHTML
 const toMain=()=>{SFX.click();G.run=null;GH=null;closeSheet();setupMenu();show('menu');};
 on('goMenu',toMain);on('mMenu',toMain);on('pMain',toMain);on('rMain',toMain);on('lMain',toMain);on('rrMain',toMain);$('bHelp').innerHTML=IC.help;$('miAdv').innerHTML=IC.mapI;$('miEnd').innerHTML=IC.inf;$('miDay').innerHTML=IC.cal;$('miDuel').innerHTML=IC.vs;$('icSat').innerHTML=IC.berry;$('icHp').innerHTML=IC.pill;$('icMood').innerHTML=IC.heart;$('icEn').innerHTML=IC.bolt;$('icGrow').innerHTML=IC.sprout;$('aFeed').innerHTML=IC.berry;$('aWash').innerHTML=IC.soap;$('aBall').innerHTML=IC.ball;$('aSleep').innerHTML=IC.moon;$('aMed').innerHTML=IC.pill;$('aWard').innerHTML=IC.shirt;
 function toggleMusic(){save.music=!save.music;persist();labels();SFX.click();if(save.music)musicAuto();else musicStop();}$('plIcon').innerHTML=IC.play;$('icHome').innerHTML=IC.home;$('icDesign').innerHTML=IC.design;$('icShirt').innerHTML=IC.shirt;
-$('setVer').textContent='FLUMM v'+VERSION+' · Build '+BUILD;
+$('setVer').textContent='FLUMM v'+VERSION+' · Build '+BUILD+(save.lastErr?' · ⚠ '+save.lastErr:'');
 /* Gestalten */
 const BGS=[{id:'day',name:L('Sonnentag'),price:0},{id:'sunset',name:L('Abendrot'),price:25},{id:'snow',name:L('Winterzauber'),price:35},{id:'night',name:L('Sternennacht'),price:35},{id:'candy',name:L('Bonbonland'),price:50},{id:'jungle',name:L('Dschungel'),price:40},{id:'spooky',name:L('Gruselnacht'),price:50},{id:'moon',name:L('Mondlandschaft'),price:60},{id:'aurora',name:L('Polarlicht'),price:0,streak:14}];
 px(BGS);
@@ -2337,7 +2339,10 @@ applyTheme(save.bg);labels();startFlow();
   toMain();});
 })();
 let last=performance.now();
-function loop(now){let dt=(now-last)/1000;last=now;if(dt>.05)dt=.05;if(dt<0)dt=0;if(G.mode!=='pause'&&G.mode!=='map'){update(dt);render();placeBubble();}requestAnimationFrame(loop);}
+let LOOP_ERR=0;
+function loop(now){requestAnimationFrame(loop);let dt=(now-last)/1000;last=now;if(!(dt>0))dt=0;if(dt>.05)dt=.05;
+ try{if(G.mode!=='pause'&&G.mode!=='map'){update(dt);render();placeBubble();}}
+ catch(e){try{ctx=cv.getContext('2d');ctx.restore();}catch(_){}if(!LOOP_ERR++){console.error(e);try{save.lastErr=String(e&&e.message||e).slice(0,140)+' @'+VERSION;persist();}catch(_){}}}}
 requestAnimationFrame(loop);
 }
 </script>
